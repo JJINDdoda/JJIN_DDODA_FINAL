@@ -59,7 +59,7 @@ public class RequireStoreLogic implements RequireStore {
 	public int adminDeleteRequire(int requireNo) {
 		return sqlSession.delete("RequireMapper.adminDeleteRequire", requireNo);
 	}
-	
+
 	@Override
 	public int adminRequireStatus(int requireNo) {
 		return sqlSession.update("RequireMapper.adminRequieStatus", requireNo);

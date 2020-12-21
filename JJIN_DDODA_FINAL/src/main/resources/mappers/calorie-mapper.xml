@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="CalorieMapper">
+	<resultMap type="Calorie" id="calorieResultMap">
+		<result property="calorieNo" column="CALORIE_NO"/>
+	</resultMap>
+	<select id="getCalorieListCount" resultType="int">
+		SELECT COUNT(*) FROM CALORIE
+	</select>
+	<select id="adminCalorieList" resultMap="calorieResultMap">
+		SELECT * FROM CALORIE
+	</select>
+	<select id="adminSelectCalorie" resultMap="calorieResultMap">
+		SELECT * FROM CALORIE
+		WHERE CALORIE_NO = #{calorieNo}
+	</select>
+	<insert id="adminCalorieInsert">
+		INSERT INTO CALORIE
+		VALUES (SEQ_CALORIE.NEXTVAL, #{foodName}, #{kcal}, #{protein}, #{carbo}, #{fat}, #{natrium}, #{sacCharide})
+	</insert>
+	<update id="adminUpdateCalorie">
+		UPDATE CALORIE
+		<set>
+			<if test="foodName != ''">FOODNAME = #{foodName},</if>
+			<if test="kcal != ''">KCAL = #{kcal},</if>
+			<if test="protein != ''">PROTEIN = #{protein},</if>
+			<if test="carbo != ''">CARBO = #{carbo},</if>
+			<if test="fat != ''">FAT = #{fat},</if>
+			<if test="natrium != ''">NATRIUM = #{natrium},</if>
+			<if test="sacCharide != ''">SACCHARIDE = #{sacCharide}</if>
+		</set>
+		WHERE CALORIE_NO = #{calorieNo}
+	</update>
+	<delete id="adminDeleteCalorie">
+		DELETE FROM CALORIE
+		WHERE CALORIE_NO = #{calorieNo}
+	</delete>
+</mapper>

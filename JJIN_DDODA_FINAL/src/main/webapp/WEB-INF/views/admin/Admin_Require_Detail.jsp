@@ -57,25 +57,8 @@
 
 	<!-- content -->	
 	<div class="content">
-		<div class="menub">
-			<ul>
-				<li class="dropdowns"><a href="#">커뮤니티</a>
-					<ul class="dropdown-contents" style="text-align: center;">
-						<li><a href="#">요청사항</a></li>
-						<li><a href="#">공지사항</a></li>
-						<li><a href="#">채팅</a></li>
-					</ul>
-				</li>
-				<li><a href="#">운동시설</a></li>
-				<li><a href="#">음식칼로리</a></li>
-				<li class="dropdowns"><a href="#">회원관리</a>
-					<ul class="dropdown-contents" style="text-align: center;">
-						<li><a href="#">상세보기</a></li>
-						<li><a href="#">탈퇴결정</a></li>
-					</ul>
-				</li>
-			</ul>
-		</div>
+		<jsp:include page="/WEB-INF/views/common/admin_menubar.jsp"/>
+		<div class="main">
 		<div style="width:450px; height:100%; border:1px solid red; float:left; margin-right:30px;">
 			<div class="card text-dark bg-light mb-3" style="width: 100%; height: 100%;">
 			  <div class="card-header">제목 : ${require.requireTitle }</div>
@@ -110,13 +93,14 @@
 				</div>
 			</div>
 			<c:if test="${empty reply.rComTitle }">
-				<button type="submit" class="insert btn btn-primary" style="float: right; margin-top: 20px; margin-right: 35px;">답변올리기</button>
-				<a onclick="location.href='adminRequireList.doa';" class="insert btn btn-primary" style="float: right; margin-top: 20px; margin-right: 20px;">목록으로</a>
-			</c:if>
-		</form>
+			<button type="submit" class="insert btn btn-primary" style="float: right; margin-top: 20px; margin-right: 35px;">답변올리기</button>
+			<a onclick="location.href='adminRequireList.doa';" class="insert btn btn-primary" style="float: right; margin-top: 20px; margin-right: 20px;">목록으로</a>
+		</c:if>
 		<c:if test="${!empty reply.rComTitle }">
 			<button onclick="location.href='adminRequireList.doa';" class="insert btn btn-primary" style="float: right; margin-top: 20px; margin-right: 35px;">목록으로</button>
 		</c:if>
+		</form>
+		</div>
 	</div>
 	<!-- end content -->
 	

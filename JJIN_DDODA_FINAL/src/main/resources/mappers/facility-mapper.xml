@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ExerciseMapper">
+	<resultMap type="Facility" id="facilityResultMap">
+		<result property="facilityNo" column="FACILITY_NO"/>
+		<result property="facilityField" column="FACILITY_FIELD"/>
+		<result property="facilityName" column="FACILITY_NAME"/>
+		<result property="facilityAddr" column="FACILITY_ADDR"/>
+		<result property="facilityKinds" column="FACILITY_KINDS"/>
+		<result property="facilityBlog" column="FACILITY_BLOG"/>
+		<result property="facilityPhone" column="FACILITY_PHONE"/>
+		<result property="termsOfUse" column="TERMS_OF_USE"/>
+		<result property="latiLong" column="LATI_LONG"/>
+		<result property="termsYn" column="termsYn"/>
+	</resultMap>
+	<select id="getFacilityListCount" resultType="int">
+		SELECT COUNT(*) FROM EXERCISE_FACILITY
+	</select>
+	<select id="adminSelectList" resultType="Facility">
+		SELECT FACILITY_NO as facilityNo, FACILITY_FIELD as facilityField, FACILITY_NAME as facilityName, TERMS_YN as termsYn
+		FROM EXERCISE_FACILITY
+	</select>
+	<select id="adminSelectFacility" resultMap="facilityResultMap">
+		SELECT * FROM EXERCISE_FACILITY
+		WHERE FACILITY_NO = #{facilityNo}
+	</select>
+</mapper>

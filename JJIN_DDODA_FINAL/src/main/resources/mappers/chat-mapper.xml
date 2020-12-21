@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ChatMapper">
+	<resultMap type="Mate" id="mateResultMap">
+		<result property="mateNo"	column="MATE_NO"/>
+		<result property="mateTitle"	column="MATE_TITLE"/>
+		<result property="mateContents"	column="MATE_CONTENTS"/>
+		<result property="mateDate"	column="MATE_DATE"/>
+		<result property="mateModifyDate"	column="MATE_MODIFY_DATE"/>
+		<result property="mateRequireNo"	column="MATE_REQUIRENO"/>
+		<result property="matePlace"	column="MATE_PLACE"/>
+		<result property="mateViews" column="MATE_VIEWS"/>
+		<result property="detailAddr"	column="MATE_DETAILADDR"/>
+		<result property="roadAddr"	column="MATE_ROADADDR"/>
+		<result property="sido"	column="MATE_SIDO"/>
+		<result property="latLong"	column="MATE_LATLONG"/>
+		<result property="mateEnd"	column="MATE_END"/>
+		<result property="userId"	column="USERID"/>
+	</resultMap>
+	<select id="getChatListCount" resultType="int">
+		SELECT COUNT(*) FROM MATE
+		WHERE MATE_END = 'Y'
+	</select>
+	<select id="adminChatList" resultMap="mateResultMap">
+		SELECT * FROM MATE 
+		WHERE MATE_END = 'Y'
+		ORDER BY MATE_DATE
+	</select>
+	<select id="adminSelectChat" resultMap="mateResultMap">
+		SELECT * FROM MATE
+		WHERE MATE_NO = #{mateNo}
+	</select>
+	<select id="adminSelectUser" resultMap="mateResultMap">
+		SELECT * FROM MYMATE
+		WHERE MATE_NO = #{mateNo}
+	</select>
+	<update id="adminModifyChat">
+		UPDATE MYMATE SET MATE_STATUS = 'Y'
+		WHERE MATE_NO = #{mateNo}
+	</update>
+</mapper>
