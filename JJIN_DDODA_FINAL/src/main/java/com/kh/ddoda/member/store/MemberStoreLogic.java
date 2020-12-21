@@ -25,8 +25,7 @@ public class MemberStoreLogic implements MemberStore{
 
 	@Override
 	public int deleteMember(String userId) {
-		// TODO Auto-generated method stub
-		return 0;
+		return sqlSession.update("memberMapper.deleteMember", userId );
 	}
 
 	@Override
@@ -44,41 +43,40 @@ public class MemberStoreLogic implements MemberStore{
 
 	@Override
 	public int idCheck(String userId) {
-		/*
-		 * int result = sqlSession.selectOne("memberMapper.idCheck",userId); return
-		 * result;
-		 */
-		return 0;
+		
+		return sqlSession.selectOne("memberMapper.checkId",userId);
 	}
 
 	@Override
 	public int emailCheck(String email) {
-		// TODO Auto-generated method stub
-		return 0;
+		System.out.println(email);
+		return sqlSession.selectOne("memberMapper.checkEmail",email);
 	}
 
 	@Override
 	public int phoneCheck(String phone) {
 		// TODO Auto-generated method stub
-		return 0;
+		System.out.println(phone);
+		return sqlSession.selectOne("memberMapper.checkPhone",phone);
 	}
 
-	@Override
-	public Member FindPw(String userId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Member FindId(String email) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 
 	@Override
 	public Member selectOne(String userId) {
-		
 		return sqlSession.selectOne("memberMapper.selectOne", userId );
+	}
+
+	@Override
+	public Member FindPw(Member member) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("memberMapper.findPwd", member);
+	}
+
+	@Override
+	public Member FindId(Member member) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	@Override

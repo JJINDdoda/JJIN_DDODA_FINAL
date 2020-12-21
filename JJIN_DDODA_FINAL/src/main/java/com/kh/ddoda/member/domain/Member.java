@@ -12,24 +12,27 @@ public class Member {
 	private String userField;
 	
 	public Member() {
-		super();
 		// TODO Auto-generated constructor stub
 		
 		
 		
 	}
 
+	//email을 받을 수 있는도록 생성자 만들어주기
+	//아이디찾기는 이름. 이메일만 있으면 되고
+	
+	//비밀번호는 아이디, 이메일
+	//public Member(String userId, String passWord) {
+		//this.userId = userId;
+		//this.passWord = passWord;
+	//}
 
-	public Member(String userId, String passWord) {
-		super();
-		this.userId = userId;
-		this.passWord = passWord;
-	}
 
+	
+	//Member member = new Member("hihi", "123456");//로그인
 
 	public Member(String userId, String passWord, String userName, String gender, String email, String phone,
 			String memStatus, String userField) {
-		super();
 		this.userId = userId;
 		this.passWord = passWord;
 		this.userName = userName;

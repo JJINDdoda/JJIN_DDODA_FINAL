@@ -13,7 +13,7 @@
 SELECT * FROM MEMBER
 WHERE USERID = #{userId}
 AND PASSWORD = #{passWord}
-AND MEM_STATUS = 'Y'
+AND MEM_STATUS = 'N'
 
 
 </select>
@@ -21,24 +21,56 @@ AND MEM_STATUS = 'Y'
 <!-- 회원가입 -->
  <insert id="insertMember" parameterType="Member">
 INSERT INTO MEMBER
-VALUES (#{userId}, #{passWord}, #{userName}, #{gender}, #{email}, #{phone}, 'N')
+VALUES (#{userId}, #{passWord}, #{userName}, #{gender}, #{email}, #{phone}, 'N',#{userField})
 </insert>
 
 <!-- 회원정보수정 -->
 <update id="updateMember">
  UPDATE MEMBER
- SET GENDER = #{gender}, EMAIL = #{email}, PHONE = #{phone}
+ SET PASSWORD= #{passWord},GENDER = #{gender}, EMAIL = #{email}, PHONE = #{phone}
  WHERE USERID = #{userId}
 </update>
 
+<!-- 회원정보 불러오기 -->
+<select id="selectOne" resultMap="memberResultMap">
+
+SELECT * FROM MEMBER
+WHERE USERID = #{userId}
+</select>
+
+
+<!-- 회원탈퇴 -->
+<update id="deleteMember">
+ UPDATE MEMBER SET MEM_STATUS = 'Y'
+ WHERE USERID = #{userId}
+</update>
 
 <!-- 회원가입 중 아이디 중복검사 -->
 
-<!-- <select id="idCheck" resultType="int">
+ <select id="checkId" resultType="int">
   SELECT COUNT(*) FROM MEMBER
-  WHERE USERID = # {userId}
-</select> -->
+  WHERE USERID = #{userId}
+</select>
+
+<!-- 회원가입 중 핸드폰번호 중복검사 -->
+
+<select id="checkPhone" resultType="int">
+ SELECT COUNT(*) FROM MEMBER 
+ WHERE PHONE = #{phone}
+</select>
+
+<!-- 회원가입중 이메일 중복검사 -->
+
+<select id="checkEmail" resultType="int">
+SELECT COUNT(*) FROM MEMBER
+WHERE EMAIL =#{email}
+</select>
  
+ <!-- 비밀번호찾기 -->
+<select id="findPwd" resultMap="memberResultMap">
+SELECT * FROM MEMBER
+WHERE EMAIL = #{email} AND USERID = #{userId}
+</select>
 	<select id="getMemberListCount" resultType="int">
 		SELECT COUNT(*) FROM MEMBER
 	</select>

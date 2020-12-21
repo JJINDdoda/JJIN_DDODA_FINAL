@@ -26,7 +26,7 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public int deleteMember(String userId) {
 		// TODO Auto-generated method stub
-		return 0;
+		return store.deleteMember(userId);
 	}
 
 	@Override
@@ -44,36 +44,38 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public int idCheck(String userId) {
 		// TODO Auto-generated method stub
-		return  0; /*store.idCheck(userId);*/
+		return store.idCheck(userId);
 	}
 
 	@Override
 	public int emailCheck(String email) {
+		System.out.println(email);
 		// TODO Auto-generated method stub
-		return 0;
+		return store.emailCheck(email);
 	}
 
 	@Override
 	public int phoneCheck(String phone) {
+		System.out.println(phone);
 		// TODO Auto-generated method stub
-		return 0;
+		return store.phoneCheck(phone);
+	}
+
+	
+	@Override
+	public Member FindPw(Member member) {
+		// TODO Auto-generated method stub
+		return store.FindPw(member);
 	}
 
 	@Override
-	public Member FindPw(String userId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Member FindId(String email) {
+	public Member FindId(Member member) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Member selectOne(String userId) {
-	
 		return store.selectOne(userId);
 	}
 	
