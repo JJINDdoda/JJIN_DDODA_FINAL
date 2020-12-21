@@ -15,8 +15,9 @@
 	.file {background : white;}
 	textarea{width:100%;resize:none;background:#f6f6f6;border:none;}
 	#fileList {border : 1px solid black;}
-	#uploadfile{width:30%;float:left;height:20px;}
+	#uploadfile{width:100%;float:left;height:20px;}
 	.file-group {height : 23px;}
+	.btn {}
 </style>
 </head>
 <body>
@@ -53,9 +54,11 @@
 				</td> -->
 				<td>
 					<div class="form-group" id="file-list">
-                            <button type="button" onclick="addFile()">파일추가</button>
-                            <div class="file-group" >
-                                 <input type="file" name="fileImg" id="uploadfile">
+                            <div class="btn-group" style="width:100%;text-align:left;" ><button type="button" onclick="addFile()">파일추가</button></div>
+                            <div class="file-group" style="width:100%;">
+                                 <div style="width:50%;margin-right:0px;float:left;"><input type="file" name="fileImg" id="uploadfile"></div>
+                                 <div style="width:45%;margin-right:0px;float:left;text-align:left;margin-left:10px;">
+                                 대표사진 선택 : <input type="checkbox" name="imgMainYn" value="0" style="width:20px;height:20px;margin:0px;"  onclick='checkMain(this);'></div>
                             </div>
                     </div>
 				</td>
@@ -83,6 +86,21 @@
 		function intaddBtn() {
 			alert("작동중"); 
 		}
+		function checkMain(chk) {
+			/* var obj = chk.val(); */
+			/* if(obj > 1) {
+				alert("1이상");
+				$("input[name='imgMainYn']:checked").attr("checked", true);
+				$("input[name='imgMainYn']").attr("checked", false);
+			} */
+			var obj = document.getElementsByName("imgMainYn");
+			for ( var i = 0 ;i <obj.length ; i ++) {
+				if(obj[i] != chk) {
+					obj[i].checked = false;
+				}
+			}
+		}
+		
 		$(document).ready(function() {
 			/* var add = 'ADD'; */
 			var remove = 'REMOVE';
@@ -90,8 +108,6 @@
 	               e.preventDefault();
 	               deleteFile($(this));
 	           });
-			
-			 
 			/* $("#uploadfile").change(function() {
 				fileName = "";
 				fileName += "<div>"+ fileList +"<button type='button' id='remove'>" +remove+ "</button></div>";
@@ -114,17 +130,41 @@
 				}
 				console.log(fileList[i].name +", "+fileLimit); */
 			/* }); */
+			
+			/* var fCount = $("input[name='fileImg']").files.length;
+				
+			var fileImgs = new Array(fCount);
+			var i;
+			for (i = 0; i< fCount ; i++) {
+				fileImg[i] = $("input[name='fileImg']").eq(i).val();
+				console.log(fileImg[i]);
+				console.log(divCount);
+			}  */
 		}); 
 		
+		function returnOpenList() {
+			var answer = confirm("일기작성을 그만두시겠습니까?");
+			if(answer) {
+				location.href="opendiaryList.doa";
+			}
+		}
 		
+		var fCount = 0
 		function addFile() {
+			fCount++;
 			var divCount = $(".file-group").length;
 			
 	          	if (divCount > 4) {
 	          		alert("5개까지만 업로드 가능합니다.");
 	          		return false;
 	          	}
-	           var str = "<div class='file-group'><input type='file' name='fileImg' id='uploadfile'><a href='#this' class='btn' name='file-delete'>삭제</a></div>";
+	           var str = "<div class='file-group' style='width:100%;'>" +
+	           			 "<div style='width:50%;margin-right:0px;float:left;'><input type='file' name='fileImg' id='uploadfile'></div>" +
+	           			 "<div style='width:25%;margin-right:0px;float:left;text-align:left;margin-left:10px;'>대표사진 선택 : " +
+	           			 "<input type='checkbox' name='imgMainYn' value='"+fCount+"' style='width:20px;height:20px;margin:0px;' onclick='checkMain(this);'></div>" +
+	           			 "<div style='width:10%;margin-right:0px;float:left;'>" +
+	           			 "<a href='#this' class='btn' name='file-delete' style='padding-top : 0px;padding-bottom : 0px;'>삭제</a></div>" + 
+	           			 "</div>";
 	           $("#file-list").append(str);
 	           $("a[name='file-delete']").on("click", function(e) {
 	               e.preventDefault();
@@ -133,20 +173,20 @@
 	       }
 		
 	       function deleteFile(obj) {
-	           obj.parent().remove();
+	           obj.parent().parent().remove();
 	       }
-	
-		function returnOpenList() {
-			var answer = confirm("일기작성을 그만두시겠습니까?");
-			if(answer) {
-				location.href="opendiaryList.doa";
-			}
-		}
-		
 		
 		function checkvalue() {
 			/* var odInfo = document.opendiaryForm; */
 			var divCount = $(".file-group").length;
+			var chek = $("input[name='imgMainYn']:checked").val();
+				
+			/* var temp = $("input:checkbox[name='imgMainYn']:checked").val();
+			var tempArray = new Array();
+			$("input:checkbox[name='imgMainYn']:checked").each(function() {
+				tempArray.push(this.value);
+			});
+			alert(tempArray); */
 			/*
 			if(!odInfo.opendiaryTitle.value){
 				alert("제목을 입력해주세요");
@@ -160,26 +200,32 @@
 				alert("내용을 입력해주세요");
 				return false; 
 			} */
-				var opendiaryTitle = $('#opendiaryTitle').val();
-				var opendiaryContents = $('#opendiaryContents').val();
-				/* var fCount = $("input[name='fileImg']").files.length;
-				
-				var fileImg = new Array(fCount);
-				var i;
-				for (i = 0; i< fCount ; i++) {
-					fileImg[i] = $("input[name='fileImg']").eq(i).val();
-					console.log(fileImg[i]);
-					console.log(divCount);
-				} */
-				
-				
-				if(opendiaryTitle == "" || opendiaryContents == "") {
-					alert("모두 작성해주세요");
+			var opendiaryTitle = $('#opendiaryTitle').val();
+			var opendiaryContents = $('#opendiaryContents').val();
+			var objchk = $("input[name='imgMainYn']:checked").val();
+			
+			if(opendiaryTitle == "" || opendiaryContents == "") {
+				alert("내용을 모두 입력해주세요");
+				return false;
+			}  else if(chek == null) {
+				var ask = confirm("업로드할 사진은 없으신가요?");
+				if(ask){
+					return true;
+				}else {
+					alert("업로드할 사진과 대표사진을 선택해주세요");
 					return false;
 				}
-				return false;
+			} else {
+				var quest = confirm("공유일기를 작성하시겠습니까?");
+				if(quest){
+					return true;
+				}else {
+					return false;
+				}
+			} 
 			
 		}
+		
 	</script>
 </body>
 </html>

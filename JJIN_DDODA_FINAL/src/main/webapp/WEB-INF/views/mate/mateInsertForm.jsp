@@ -42,6 +42,17 @@
 				<td><input type="text" name="userId" value="admin" readonly></td>
 			</tr>	
 			<tr>
+				<td>운동 종류</td>
+				<td>
+				<select id="category" name="category">
+					<option value="health">헬스</option>
+					<option value="diet">다이어트</option>
+					<option value="dance">줌바댄스</option>
+					<option value="etc">기타</option>
+				</select>
+				</td>
+			</tr>
+			<tr>
 				<td>장소</td>
 				<td>
 					<input type="text" id="matePlace" name="matePlace" placeholder="장소를 검색해주세요" value="${address }" readonly >  <!-- 검색한 단어 -->
@@ -68,7 +79,7 @@
 				</td>
 			<tr>
 				<td>내용</td>
-				<td><textarea cols="50" rows="7" name="mateContents" style="color:gray;"></textarea></td>
+				<td><textarea cols="50" rows="7" name="mateContents" id="mateContents" style="color:gray;"></textarea></td>
 			</tr>
 			<tr>
 				<td colspan="2" align="center">
@@ -214,8 +225,11 @@
 				alert("모집 인원을 선택해주세요");
 				return false;
 			} else if ($('#mateContents').val() == ''){
-				alert("내용을 검색해주세요");
+				alert("내용을 입력해주세요.");
 				$('input[name="mateContents"]').focus();
+				return false;
+			} else if ($("#category option:selected").val() == ''){
+				alert("메이트 모집 분류를 설정해주세요");
 				return false;
 			}  else {
 				var confirm = confirm("작성 완료하시겠습니까?");

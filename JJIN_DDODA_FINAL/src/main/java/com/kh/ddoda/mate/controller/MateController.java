@@ -2,6 +2,7 @@ package com.kh.ddoda.mate.controller;
 
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,11 +22,13 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.kh.ddoda.common.PageInfo;
 import com.kh.ddoda.common.Pagination;
+import com.kh.ddoda.common.Search;
 import com.kh.ddoda.mate.domain.Mate;
 import com.kh.ddoda.mate.domain.MateComment;
 import com.kh.ddoda.mate.domain.Mymate;
 import com.kh.ddoda.mate.service.MateService;
 import com.kh.ddoda.member.domain.Member;
+import com.kh.ddoda.require.domain.Require;
 
 @Controller
 public class MateController {
@@ -40,21 +43,26 @@ public class MateController {
 	
 	//모이트 모집 게시판
 	@RequestMapping(value="mateList.doa", method=RequestMethod.GET)
-	public ModelAndView mateList(ModelAndView mv, @RequestParam(value="page", required=false)Integer page) {
+	public ModelAndView mateList(ModelAndView mv, String category,
+							@RequestParam(value="page", required=false)Integer page) {
 		int currentPage = (page != null) ? page : 1;
 		int listCount = mService.getListCount();
-		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
-		ArrayList<Mate> mateList = mService.mateList(pi);
-		System.out.println(mateList);
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount); 
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("category", category);
+		ArrayList<Mate> mateList = mService.mateList(map, pi);
+//		System.out.println(mateList);
 		if(!mateList.isEmpty()) {
 //			System.out.println(currentPage+", "+listCount);
-			mv.addObject("mateList", mateList);
-			mv.addObject("pi", pi);
-			mv.setViewName("mate/mateList");
+			mv.addObject("mateList", mateList)
+				.addObject("pi", pi)
+				.addObject("category", category)
+				.setViewName("mate/mateList");
 		} else {
-			mv.addObject("mateList", mateList);
-			mv.addObject("pi", pi);
-			mv.setViewName("mate/mateList");
+			mv.addObject("mateList", mateList)
+				.addObject("pi", pi)
+				.addObject("category", category)
+				.setViewName("mate/mateList");
 		}
 		return mv;
 	}
@@ -63,6 +71,7 @@ public class MateController {
 	//메이트모집 글 등록
 	@RequestMapping(value="mateInsert.doa", method=RequestMethod.POST)
 	public String insertMate(Mate mate, HttpServletRequest request, Model model,
+				@RequestParam(value="category") String category,
 				@RequestParam(value="mateTitle") String mateTitle,
 				@RequestParam(value="userId") String userId,
 				@RequestParam(value="matePlace") String matePlace,
@@ -119,14 +128,23 @@ public class MateController {
 	
 	//메이트 댓글 리스트
 	@RequestMapping(value="mateComList.doa", method=RequestMethod.GET)
-	public void mateComList(HttpServletResponse response, int mateNo) throws Exception {
-		ArrayList<MateComment> mateComList = mService.selectMateCom(mateNo);
+	public void mateComList(HttpServletResponse response, int mateNo,
+					@RequestParam(value="page", required=false)Integer page) throws Exception {
+		int currentPage = (page != null) ? page : 1;
+		int listCount = mService.getListCount();
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+		
+//		HashMap<String, Object> map =  new HashMap<String, Object>();
+//		map.put("pi", pi);
+//		map.put("mateNo", mateNo);
+		//아직 댓글 페이징 처리 안함
+		ArrayList<MateComment> mateComList = mService.selectMateCom(mateNo, pi);
 		for(MateComment mateCom : mateComList) {
 			mateCom.setMateComContents(URLEncoder.encode(mateCom.getMateComContents(), "utf-8"));
 		}
 		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 		gson.toJson(mateComList, response.getWriter());
-		System.out.println(mateComList);
+		System.out.println(pi +","+currentPage);
 	}
 	
 	//메이틑 대댓글 등록
@@ -148,14 +166,43 @@ public class MateController {
 		@RequestMapping(value="mateComReplyList.doa", method=RequestMethod.GET)
 		public void mateComReply(HttpServletResponse response, @RequestParam("mateNo") int mateNo, 
 							@RequestParam("mateComRefNo") int mateComRefNo) throws Exception {
-			ArrayList<MateComment> mateComReplyList = mService.selectMateComReply(mateComRefNo);
+			HashMap<String, Object> map = new HashMap<String, Object>();
+			map.put("mateNo", mateNo);
+			map.put("mateComRefNo", mateComRefNo);
+			ArrayList<MateComment> mateComReplyList = mService.selectMateComReply(map);
 			for(MateComment mateCom : mateComReplyList) {
 				mateCom.setMateComContents(URLEncoder.encode(mateCom.getMateComContents(), "utf-8"));
 			}
 			Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 			gson.toJson(mateComReplyList, response.getWriter());
-			System.out.println(mateComReplyList);
+			System.out.println("대댓글 리스트 " + mateComReplyList);
 		}
+		
+	//댓글 삭제 
+	@ResponseBody
+	@RequestMapping(value="deleteMateCom.doa", method=RequestMethod.GET)
+	public String deleteMateCom (@RequestParam("mateComNo") int mateComNo) {
+		int result = mService.deleteMateCom(mateComNo);
+		System.out.println("controller의 result : "+ result);
+		if(result >0) {
+			return "success";
+		} else {
+			return "fail";
+		}
+	}
+	
+	//대댓글 삭제
+	@ResponseBody
+	@RequestMapping(value="deleteMateComReply.doa", method=RequestMethod.GET) 
+	public String deleteMateComReply(@RequestParam("mateComNo") int mateComNo) {
+		int result = mService.deleteMateComReply(mateComNo);
+		System.out.println("대댓글 controller의 result : "+ result);
+		if(result >0) {
+			return "success";
+		} else {
+			return "fail";
+		}
+	}
 	
 	//참여
 	@ResponseBody
@@ -222,10 +269,11 @@ public class MateController {
 			mService.deleteAllmyMate(mateNo);
 		}
 		//댓글 리스트 삭제
-		ArrayList<MateComment> mateCommentList = mService.selectMateCom(mateNo);
+		ArrayList<MateComment> mateCommentList = mService.selectMateComNo(mateNo);
 		if(!mateCommentList.isEmpty()) {
 			mService.deleteAllMateCom(mateNo);
 		}
+		//모집글을 삭제해도 모집 파티는 사라지지 않음
 		int result = mService.deleteMate(mateNo);
 		if(result > 0) {
 			return "redirect:mateList.doa";
@@ -234,4 +282,104 @@ public class MateController {
 			return "common/errorPage";
 		}
 	}
+	
+	//메이트 모집글 검색
+		@RequestMapping(value="mateSearch.doa", method=RequestMethod.GET)
+		public ModelAndView mateSearch(ModelAndView mv, Search search, Model model
+				, @RequestParam(value="page", required=false)Integer page) {
+			int currentPage = (page != null) ? page : 1;
+			int listCount = mService.getListCount();
+			PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+			ArrayList<Mate> searchList = mService.selectSearchList(search, pi);
+			if(! searchList.isEmpty()) {
+				mv.addObject("mateList", searchList)
+					.addObject("search", search)
+					.addObject("pi", pi)
+					.setViewName("mate/mateList");
+			}else {
+				mv.addObject("mateList", searchList)
+				.addObject("search", search)
+				.addObject("pi", pi)
+				.setViewName("mate/mateList");
+			}
+			return mv;
+	 	}
+		
+	//메이트 모집완료 시 
+		@ResponseBody
+		@RequestMapping(value="askFinish.doa", method=RequestMethod.GET)
+		public String askFinish(int mateNo, HttpSession session) {
+			int result = mService.finishMate(mateNo);
+			if(result >0) {
+				System.out.println("메이트 모집오나료 : "+ result);
+				return "success";
+			} else {
+				return "fail";
+			}
+		}
+		
+	//마이페이지 메이트 리스트
+		@RequestMapping(value="myMateAttendList.doa", method=RequestMethod.GET)
+		public ModelAndView myMateAttendList(ModelAndView mv, 
+											@RequestParam(value="userId", required=true)String userId,
+											@RequestParam(value="page", required=false)Integer page) {
+			System.out.println(userId);
+			int currentPage = (page != null) ? page : 1;
+			int listCount = mService.getListCount();
+			PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+			
+			ArrayList<Mate> mateAttendList = mService.myMateAttendList(userId, pi);
+//			System.out.println("mateAttendList : "+ mateAttendList);
+			System.out.println("controller : "+mateAttendList);
+			if(!mateAttendList.isEmpty()) {
+				mv.addObject("mateAttendList", mateAttendList);
+				mv.addObject("pi", pi);
+				mv.setViewName("myPage/myMate");
+			} else {
+				mv.addObject("mateAttendList", mateAttendList);
+				mv.addObject("pi", pi);
+				mv.setViewName("myPage/myMate");
+			}
+			return mv;
+		}
+		
+		
+	//마이메이트 나가기
+	@ResponseBody
+	@RequestMapping(value="mymateOut.doa", method=RequestMethod.POST)
+	public String mymateOut( @RequestParam("mateNo") int mateNo,
+							@RequestParam("userId") String userId,
+							HttpSession session) {
+		Mymate mymate = new Mymate();
+		mymate.setMateNo(mateNo);
+		mymate.setUserId(userId);
+		int result = mService.mymateOut(mymate);
+		if(result > 0) {
+			return "success";
+		} else {
+			return "fail";
+		}
+	}
+	
+	//마이페이지 내가쓴 글
+	@RequestMapping(value="mateContentsList.doa", method=RequestMethod.GET)
+	public ModelAndView myContentsList(ModelAndView mv, @RequestParam(value="userId", required=false)String userId,
+							@RequestParam(value="page", required=false)Integer page) {
+		int currentPage = (page != null) ? page : 1;
+		int listCount = mService.getListCount();
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+		ArrayList<Mate> myContentsList = mService.myContentsList(userId, pi);
+		System.out.println("myContentsList : " + myContentsList);
+		if( !myContentsList.isEmpty()) {
+			mv.addObject("myContentsList", myContentsList)
+				.addObject("pi", pi)
+				.setViewName("myPage/myContents");
+		} else {
+			mv.addObject("myContentsList", myContentsList)
+				.addObject("pi", pi)
+				.setViewName("myPage/myContents");
+		}
+		return mv;
+	}
+	
 }

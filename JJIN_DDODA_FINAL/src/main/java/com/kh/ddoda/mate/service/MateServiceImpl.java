@@ -1,6 +1,7 @@
 package com.kh.ddoda.mate.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,122 +21,131 @@ public class MateServiceImpl implements MateService{
 	
 	@Override
 	public int getListCount() {
-		// TODO Auto-generated method stub
 		return mStore.getListCount();
 	}
 
 	@Override
-	public ArrayList<Mate> mateList(PageInfo pi) {
-		// TODO Auto-generated method stub
-		return mStore.mateList(pi);
+	public ArrayList<Mate> mateList(HashMap<String, String> map, PageInfo pi) {
+		return mStore.mateList(map, pi);
 	}
 
 	@Override
 	public Mate selectOneMate(int mateNo) {
-		// TODO Auto-generated method stub
 		return mStore.selectOneMate(mateNo);
 	}
 
 	@Override
 	public int addViewCount(int mateNo) {
-		// TODO Auto-generated method stub
 		return mStore.addViewCount(mateNo);
 	}
 
 	@Override
 	public int insertMate(Mate mate) {
-		// TODO Auto-generated method stub
 		return mStore.insertMate(mate);
 	}
 
 	@Override
 	public int updateMate(Mate mate) {
-		// TODO Auto-generated method stub
 		return mStore.updateMate(mate);
 	}
 
 	@Override
 	public int deleteMate(int mateNo) {
-		// TODO Auto-generated method stub
 		return mStore.deleteMate(mateNo);
 	}
 
 	@Override
 	public int finishMate(int mateNo) {
-		// TODO Auto-generated method stub
-		return 0;
+		return mStore.finishMate(mateNo);
 	}
 
 	@Override
 	public int insertMymate(Mymate myMate) {
-		// TODO Auto-generated method stub
 		return mStore.insertMymate(myMate);
 	}
 
 	@Override
 	public int deleteMymate(String userId) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public ArrayList<Mymate> selectMymate(int mymateNo) {
-		// TODO Auto-generated method stub
 		return mStore.selectMymate(mymateNo);
 	}
 
 	@Override
 	public int insertMateCom(MateComment mateCom) {
-		// TODO Auto-generated method stub
 		return mStore.insertMateCom(mateCom);
 	}
 
 	@Override
 	public int updateMateCom(MateComment mateCom) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public int deleteMateCom(int mateComNo) {
-		// TODO Auto-generated method stub
-		return 0;
+		return mStore.deleteMateCom(mateComNo);
 	}
 
 	@Override
-	public ArrayList<Mate> selectSearchList(Search search) {
-		// TODO Auto-generated method stub
-		return null;
+	public ArrayList<Mate> selectSearchList(Search search, PageInfo pi) {
+		return mStore.selectSearchList(search, pi);
 	}
 
 	@Override
-	public ArrayList<MateComment> selectMateCom(int mateNo) {
-		// TODO Auto-generated method stub
-		return mStore.selectMateCom(mateNo);
+	public ArrayList<MateComment> selectMateCom(int mateNo, PageInfo pi) {
+		return mStore.selectMateCom(mateNo, pi);
 	}
 
 	@Override
 	public int deleteAllmyMate(int mateNo) {
-		// TODO Auto-generated method stub
 		return mStore.deleteAllmyMate(mateNo);
 	}
 
 	@Override
 	public int deleteAllMateCom(int mateNo) {
-		// TODO Auto-generated method stub
 		return mStore.deleteAllMateCom(mateNo);
 	}
 
 	@Override
 	public int insertMateComReply(MateComment mateCom) {
-		// TODO Auto-generated method stub
 		return mStore.insertMateComReply(mateCom);
 	}
 
 	@Override
-	public ArrayList<MateComment> selectMateComReply(int mateComRefNo) {
-		// TODO Auto-generated method stub
-		return mStore.selectMateComReply(mateComRefNo);
+	public ArrayList<MateComment> selectMateComReply(HashMap<String, Object> map) {
+		return mStore.selectMateComReply(map);
 	}
+
+	@Override
+	public ArrayList<MateComment> selectMateComNo(int mateNo) {
+		return mStore.selectMateComNo(mateNo);
+	}
+
+	@Override
+	public int deleteMateComReply(int mateComeNo) {
+		return mStore.deleteMateComReply(mateComeNo);
+	}
+
+	@Override
+	public ArrayList<Mate> myMateAttendList(String userId, PageInfo pi) {
+		ArrayList<Mate> myMateAttendList = mStore.myMateAttendList(userId, pi);
+//		System.out.println("serviceImpl : "+myMateAttendList);
+		return myMateAttendList;
+	}
+
+	@Override
+	public int mymateOut(Mymate mymate) {
+		return mStore.mymateOut(mymate);
+	}
+
+	@Override
+	public ArrayList<Mate> myContentsList(String userId, PageInfo pi) {
+		return mStore.myContentsList(userId, pi);
+	}
+
+	
 
 }

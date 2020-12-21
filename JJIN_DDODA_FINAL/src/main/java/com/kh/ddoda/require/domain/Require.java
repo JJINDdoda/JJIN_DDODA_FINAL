@@ -13,8 +13,8 @@ public class Require {
 	private Date requireModifyDate;
 	private String requireContents;
 	private String requireYN;
-	private String requireOriginalFilename;
-	private String requireRenameFilename;
+	private String originalFilename;
+	private String renameFilename;
 	private int rCount;
 	private String menuName;
 	
@@ -23,8 +23,8 @@ public class Require {
 	}
 
 	public Require(int requireNo, String userId, String requireTitle, Date requireDate, Date requireModifyDate,
-			String requireContents, String requireYN, String requireOriginalFilename, String requireRenameFilename,
-			int rCount, String menuName) {
+			String requireContents, String requireYN, String originalFilename, String renameFilename, int rCount,
+			String menuName) {
 		super();
 		this.requireNo = requireNo;
 		this.userId = userId;
@@ -33,8 +33,8 @@ public class Require {
 		this.requireModifyDate = requireModifyDate;
 		this.requireContents = requireContents;
 		this.requireYN = requireYN;
-		this.requireOriginalFilename = requireOriginalFilename;
-		this.requireRenameFilename = requireRenameFilename;
+		this.originalFilename = originalFilename;
+		this.renameFilename = renameFilename;
 		this.rCount = rCount;
 		this.menuName = menuName;
 	}
@@ -95,20 +95,20 @@ public class Require {
 		this.requireYN = requireYN;
 	}
 
-	public String getRequireOriginalFilename() {
-		return requireOriginalFilename;
+	public String getOriginalFilename() {
+		return originalFilename;
 	}
 
-	public void setRequireOriginalFilename(String requireOriginalFilename) {
-		this.requireOriginalFilename = requireOriginalFilename;
+	public void setOriginalFilename(String originalFilename) {
+		this.originalFilename = originalFilename;
 	}
 
-	public String getRequireRenameFilename() {
-		return requireRenameFilename;
+	public String getRenameFilename() {
+		return renameFilename;
 	}
 
-	public void setRequireRenameFilename(String requireRenameFilename) {
-		this.requireRenameFilename = requireRenameFilename;
+	public void setRenameFilename(String renameFilename) {
+		this.renameFilename = renameFilename;
 	}
 
 	public int getrCount() {
@@ -131,8 +131,8 @@ public class Require {
 	public String toString() {
 		return "Require [requireNo=" + requireNo + ", userId=" + userId + ", requireTitle=" + requireTitle
 				+ ", requireDate=" + requireDate + ", requireModifyDate=" + requireModifyDate + ", requireContents="
-				+ requireContents + ", requireYN=" + requireYN + ", requireOriginalFilename=" + requireOriginalFilename
-				+ ", requireRenameFilename=" + requireRenameFilename + ", rCount=" + rCount + ", menuName=" + menuName
-				+ "]";
+				+ requireContents + ", requireYN=" + requireYN + ", originalFilename=" + originalFilename
+				+ ", renameFilename=" + renameFilename + ", rCount=" + rCount + ", menuName=" + menuName + "]";
 	}
+	
 }

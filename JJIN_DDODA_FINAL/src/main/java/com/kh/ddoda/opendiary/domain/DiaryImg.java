@@ -7,16 +7,21 @@ public class DiaryImg {
 	private String imgRenamePath;
 	private int diaryNo;
 	private int opendiaryNo;
+	private int folderNo;
+	private String imgMainYn;
 	
 	public DiaryImg() {}
 
-	public DiaryImg(String userId, String imgPath, String imgRenamePath, int diaryNo, int opendiaryNo) {
+	public DiaryImg(String userId, String imgPath, String imgRenamePath, int diaryNo, int opendiaryNo, int folderNo,
+			String imgMainYn) {
 		super();
 		this.userId = userId;
 		this.imgPath = imgPath;
 		this.imgRenamePath = imgRenamePath;
 		this.diaryNo = diaryNo;
 		this.opendiaryNo = opendiaryNo;
+		this.folderNo = folderNo;
+		this.imgMainYn = imgMainYn;
 	}
 
 	public String getUserId() {
@@ -59,10 +64,27 @@ public class DiaryImg {
 		this.opendiaryNo = opendiaryNo;
 	}
 
+	public int getFolderNo() {
+		return folderNo;
+	}
+
+	public void setFolderNo(int folderNo) {
+		this.folderNo = folderNo;
+	}
+
+	public String getImgMainYn() {
+		return imgMainYn;
+	}
+
+	public void setImgMainYn(String imgMainYn) {
+		this.imgMainYn = imgMainYn;
+	}
+
 	@Override
 	public String toString() {
 		return "DiaryImg [userId=" + userId + ", imgPath=" + imgPath + ", imgRenamePath=" + imgRenamePath + ", diaryNo="
-				+ diaryNo + ", opendiaryNo=" + opendiaryNo + "]";
+				+ diaryNo + ", opendiaryNo=" + opendiaryNo + ", folderNo=" + folderNo + ", imgMainYn=" + imgMainYn
+				+ "]";
 	}
 
 }

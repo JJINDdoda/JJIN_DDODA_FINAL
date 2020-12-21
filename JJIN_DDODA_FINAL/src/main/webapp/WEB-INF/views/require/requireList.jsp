@@ -108,10 +108,10 @@
 											<c:param name="page" value="${pi.currentPage +1 }"></c:param>
 										</c:url>
 										<a href="${after }"> > </a>
+									</c:if>
+								</td>
+							</tr>
 						</tbody>
-					</c:if>
-					</td>
-					</tr>
 					</c:if>
 				</table>
 			</div>
@@ -129,8 +129,8 @@
 						<option value="content"
 							<c:if test="${search.searchCondition =='content' }">selected</c:if>>내용</option>
 					</select> <input type="text" name="searchValue"
-						value="${search.searchValue }"> <input type="submit"
-						value="검색">
+						value="${search.searchValue }">
+					<input type="submit" value="검색">
 
 				</form>
 			</div>

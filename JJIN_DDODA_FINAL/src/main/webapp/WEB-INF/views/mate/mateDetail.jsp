@@ -9,6 +9,10 @@
 <title>메이트 모집 상세보기</title>
 <link rel="stylesheet" type="text/css" href="/resources/css/basicStyle.css">
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=310fc683ebc82542a03a51f91a654846&libraries=services,clusterer,drawing"></script>
+<style>
+.table-wrap {height:450px;}
+textarea {resize:none;}
+</style>
 </head>
 <body>
 <!-- header -->
@@ -17,11 +21,11 @@
 	<!-- end header -->
 	
 	<!-- content -->
-	<div class="content" style="height:800px;">
+	<div class="content" style="height:1000px;">
 	<div class="menub">
 		<ul>
-			<li><a href="mateList.doa">메이트 커뮤니티</a></li>
 			<li><a href="opendiaryList.doa">공유일기 게시판</a></li>
+			<li><a href="mateList.doa">메이트 커뮤니티</a></li>
 		</ul>
 	</div>
 
@@ -30,7 +34,7 @@
 			<h2 class="main-name-h2">${mateOne.mateNo }번 글 상세보기</h2>
 		</div>
 		<div class="table-wrap">
-			<table align="center" cellpadding="10" cellspacing="0" border="1" width="500" class="table">
+			<table align="center" cellpadding="10" cellspacing="0" border="1" width="500" class="table" id="mymate">
 				<!-- 최대최소 모집 인원 -->
 				<c:set var="requireNumber" value="${mateOne.mateRequireNo }"/>
 				<c:set var="min" value="${ fn:substring(requireNumber,0,1) }"/>
@@ -40,7 +44,11 @@
 				<c:set var="llat" value="${ fn:substringBefore(position, '_')}" />
 				<c:set var="llng" value="${ fn:substringAfter(position, '_')}" />
 				
-				<c:set var="loginUserId" value="${loginUser.userId }" />
+				<input type="hidden" id="loginUserId" value="${loginUser.userId }"> 
+				<input type="hidden" id="mateUser" value="${mateOne.userId }"> 
+				<input type="hidden" id="mateNo" value="${mateOne.mateNo }"> 
+				<input type="hidden" id="search" value="${mateOne.matePlace }" >
+				<input type="hidden" is="mateEnd" value="${mateOne.mateEnd }">
 					
 				<tr align="center" valign="middle"> <!-- valign : 수직 가운데 -->
 					<td height="15" width="70">제목</td>
@@ -56,7 +64,7 @@
 				</tr>
 				<tr>
 					<td>모집 인원</td>
-					<td>최소인원 : ${ min }, 최대인원 ${max }</td>
+					<td>최소인원 : ${ min }, 최대인원 : ${max }</td>
 				</tr>
 				<c:if test="${ mateOne.detailAddr != null}">
 					<tr>
@@ -91,36 +99,51 @@
 					<c:param name="page" value="${currentPage }"></c:param>
 				</c:url>
 					<c:if test="${ loginUser.userId == mateOne.userId}">
-						<button tpye="button" onclick="askUpdate()">수정하기</button>
-						<button tpye="button" onclick="askDelete()">삭제하기</button>
+						<button type="button" onclick="askUpdate()">수정하기</button>
+						<button type="button" onclick="askDelete()">삭제하기</button>
+					
+						<c:if test="${mateOne.mateEnd == 'N'}">
+						<input type="button" id="askFinish" name="askFinish" class="btn-primary" value="모집 완료하기">
+						</c:if>
+						
 					</c:if>
+						<c:if test="${mateOne.mateEnd == 'Y'}">
+						<c:if test="${ loginUser.userId == mateOne.userId}">
+						<input type="button" id="askFinish" name="askFinish" class="btn-primary" value="모집완료" disabled="disabled">
+						</c:if>
+						<c:if test="${ loginUser.userId == mateOne.userId}">
+						<input type="button" id="openChat" name="openChat" class="btn-primary" value="채팅방 오픈">
+						</c:if>
+						</c:if>
 					<a href="${mateList }">목록으로</a>
 				</tr>
 			</table>
 		</div>
-		</div>
-		<br><br><br><br><br><br><br><br><br>
+		<hr>
 		<c:if test="${ !empty sessionScope.loginUser }">
-		<c:if test="${ loginUser.userId != mateOne.userId }">
-			<div style="width:80px;float:left;">
-				<input type="button" name="attendBtn" value="참여하기" class="btn btn-primary" >
-			</div>
+			<c:if test="${ loginUser.userId != mateOne.userId }">
+				<div style="width:10%;float:left;">
+					<input type="button" name="attendBtn" value="참여하기" class="btn btn-primary" >
+				</div>
+			</c:if>
 		</c:if>
-		</c:if>
+		<div style="width:90%;float:left;">
 		<c:if test="${ empty sessionScope.loginUser  }">
-		<div style="width:80px;float:left;">
-			<input type="button"value="참여하기" class="btn btn-primary" onclick="loginquest()">
-		</div>
+			
 		</c:if>
-			<table align="center" id="mymateTb" style="width:80%;margin-left:0px;margin-right:0px;">
+			<table align="center" id="mymateTb" style="width:100%;margin-left:0px;margin-right:0px;">
+				<thead>
+					<tr><td style="text-align:left;"><b>[ 참여자 리스트 ]</b></td></tr>
+				</thead>
 				<tbody>
 					<tr>
 						<td></td>
 					</tr>
 				</tbody>
 			</table>
-		<br>
-		<hr>
+		</div>
+		<br><hr>
+		<div>
 		<!-- 댓글 등록 -->
 		<table align="center">
 			<tr>
@@ -129,13 +152,13 @@
 			</tr>
 			<tr>
 				<c:if test="${ !empty sessionScope.loginUser }">
-				<td><textarea rows="3" cols="55" id="mateComContents" placeholder="내용을 입력해주세요" ></textarea></td>
+				<td><textarea rows="3" cols="145" id="mateComContents" placeholder="댓글 내용을 입력해주세요" ></textarea></td>
 				<td>
 					<button id="mateSubmit" >등록하기</button>
 				</td>
 				</c:if>
 				<c:if test="${ empty sessionScope.loginUser }">
-				<td><textarea rows="3" cols="55" id="mateComContents" placeholder="로그인 후 이용해주세요" readonly ></textarea></td>
+				<td><textarea rows="3" cols="145" id="mateComContents" placeholder="로그인 후 이용해주세요" readonly ></textarea></td>
 				</c:if>
 			</tr>
 		</table>
@@ -154,13 +177,20 @@
 				<table align="center" width="500" border="1" cellspacing="0" id="mateComReplyInsertTb">
 						<tr><td></td></tr>
 				</table>
+				<table align="center" width="500" border="1" cellspacing="0" id="mateComReplyTb">
+						<tr>
+							<td colspan="5"><b id="mateComReplyCount"></b></td>
+						</tr>
+						<tr><td></td></tr>
+				</table>
 				</tr>
+				
 			</tbody>
 		</table>
-		<table align="center" width="500" border="1" cellspacing="0" id="mateComReplyTb">
-				<tr><td></td></tr>
-		</table>
-	
+		
+		</div>
+	</div>
+	</div>
 		<!-- end content -->
 
 	<!-- footer -->
@@ -169,6 +199,14 @@
 	<!-- end footer -->
 	
 	<script>
+	/* if(${sessionScope.loginUser eq null}) {
+		var loginUserId = null;		
+	} else {
+		var loginUserId = ${loginUserId};
+	} */
+	var sessionId = $("#loginUserId").val();
+	var mateId = $("#mateUser").val();
+	
 	//--------게시글 수정하기 
 	function askUpdate() {
 		var askUpdate = confirm("수정하시겠습니까?");
@@ -194,9 +232,10 @@
 	}
 	$(function() {
 		myMateList();
-		setInterval(function() {
+		mateComList();
+		/* setInterval(function() {
 			myMateList();
-		}, 5000);
+		}, 5000); */
 		
 		$('input[name="attendBtn"]').on("click", function() {
 			var really = confirm("정말로 참여하시겠습니까?");
@@ -214,7 +253,6 @@
 							$('input[name="attendBtn"]').attr('value', '참여 중');
 							$('input[name="attendBtn"]').css('background-color', "gray");
 							myMateList();
-							
 						}else {
 							alert("모임 참여에 실패했습니다.");
 						}
@@ -225,9 +263,13 @@
 			}
 		});
 	});
+	/* var id = ${mateOne.userId}; */
 	//--------참여자 목록
 	function myMateList() {
 		var mateNo = ${mateOne.mateNo};
+		var max = ${max };
+		var min = ${min};
+		
 		$.ajax({
 			url : "myMateList.doa",
 			type : "get",
@@ -236,18 +278,25 @@
 			success : function(data) {
 				$tableBody = $("#mymateTb tbody");
 				$tableBody.html("");
+				$openchat = $("#mymate");
 				
 				var $tr;
 				var $userId;
+				var $openchatBtn;
+				var mymateId = null;
 				if(data.length > 0) {
 					for(var i in data) {
+						mymateId = data[i].userId;
 						$tr = $("<tr  style='float:left;'>");
 						$userId = $("<td width='80' height='10'>").text(decodeURIComponent(data[i].userId));
 						$tr.append($userId);
 						$tableBody.append($tr);
-						/* if(data[i].userId ==) */
+						
+						if(sessionId == mymateId) {
+							console.log("참여리스트세션아이디와 참여한 아이디가 같다");
+							$('input[name="attendBtn"]').attr('value', '참여 중');
+						}
 					}
-					
 				} else {
 					$tr =$("<tr>");	
 					$userId = $("<td width='80' height='10'>").text("참여한 메이트가 없습니다.");
@@ -255,22 +304,64 @@
 					$tr.append($userId); 
 					$tableBody.append($tr);
 				}
-				console.log(data);
+				if(data.length == max) {
+					$('input[name="attendBtn"]').attr('disabled', true);
+					$('input[name="attendBtn"]').attr('value', '모집인원 충족');
+					$('input[name="attendBtn"]').css('background-color', "gray");
+				}
+				if(sessionId == mymateId) {
+					$('input[name="attendBtn"]').attr('disabled', true);
+					$('input[name="attendBtn"]').attr('value', '참여 중');
+					$('input[name="attendBtn"]').css('background-color', "gray");
+				}
+				
+				/* if(data.length > min && ) */
+				$("#askFinish").on("click", function(e) {
+		               e.preventDefault();
+		               askFinish(data);
+		        });
 			}
 			
 		});
+	}
+	//--------메이트 게시판 완료하기
+	function askFinish(obj) {
+		var mateNo = ${mateOne.mateNo};
+		var max = ${max };
+		var min = ${min};
+		if(obj.length >= min) {
+			var ask = confirm("메이트 모집을 완료하시겠습니까?");
+			if(ask) {
+				$.ajax({
+					url : "askFinish.doa",
+					type : "get",
+					data : {"mateNo" : mateNo},
+					success : function(data) {
+						alert("메이트 모집이 완료되었습니다.");
+						$('#askFinish').attr('value', '모집완료');
+						$('#askFinish').attr('diasbled', true);
+					}
+				});
+			} else {
+				return false;
+			}
+		} else {
+			alert("최소정원 이상의 참여자가 필요합니다.");
+		}
 	}
 	
 	//--------댓글등록
 	$(function() {
 		mateComList();
-		setInterval(function() {
+		/* setInterval(function() {
 			console.log("동작중");
-		}, 5000);
+		}, 5000); */
 		
 		$("#mateSubmit").on("click", function() {
 			var mateComContents = $("#mateComContents").val();
 			var mateNo = ${mateOne.mateNo};
+			var ask = confirm("댓글을 등록하시겠습니까?");
+			if (ask){
 			$.ajax({
 				url : "addMateComments.doa",
 				type : "post",
@@ -284,12 +375,14 @@
 					}
 				}
 			});
+			}
 		});
 	});
-	
 	//---------댓글 리스트
 	function mateComList() {
 		var mateNo = ${mateOne.mateNo};
+		var mateCommentNo;
+		
 		$.ajax({
 			url : "mateComList.doa",
 			type : "get",
@@ -305,27 +398,90 @@
 				var $mateComDate;
 				var $modifyCom;
 				var $mateComReply;
+				var $btn;
+				var $td;
 				$("#mateComCount").text("댓글(" + data.length + ")");
 				if(data.length >0) {
 					for(var i in data) {
-						var mateComRefNo = data[i].mateComNo;
-						console.log(mateComRefNo);
+						mateCommentNo = data[i].mateComNo;
+						console.log(mateCommentNo);
+						var mateComId = data[i].userId;
 						
-						$tr = $("<tr>");
+						$tr = $("<tr style='font-weight:bolder;'>");
 						$userId = $("<td width='100'>").text(data[i].userId);
-						$mateComContents = $("<td>").text(decodeURIComponent(data[i].mateComContents).replace(/\+/g, " "));
-						$mateComDate = $("<td width='100'>").text(data[i].mateComDate);
-						$modifyCom = $("<td width='100'>")
-						.append("<button type='button' id='mateComReply' onclick='mateComReplyView(" +data[i].mateComNo+ ")'>답변달기</button>"
-						 +"<button type='button' onclick='mateComDelete()'>삭제</button>");
 						
-						$tr.append($userId);
-						$tr.append($mateComContents);
-						$tr.append($mateComDate);
-						$tr.append($modifyCom);
+						if(sessionId == "") {
+							$mateComContents = $("<td  width='400' colspan='3'>").text(decodeURIComponent(data[i].mateComContents).replace(/\+/g, " "));
+							$mateComDate = $("<td width='100'>").text(data[i].mateComDate);
+							$tr.append($userId);
+							$tr.append($mateComContents);
+							$tr.append($mateComDate);
+						} else {
+							$mateComContents = $("<td  width='400'>").text(decodeURIComponent(data[i].mateComContents).replace(/\+/g, " "));
+							$mateComDate = $("<td width='100'>").text(data[i].mateComDate);
+							$modifyCom = $("<td width='100'>")
+							.append("<button type='button' id='mateComReply' onclick='mateComReplyView(this," +data[i].mateComNo+ ")'>답변달기</button>");
+							
+							$tr.append($userId);
+							$tr.append($mateComContents);
+							$tr.append($mateComDate);
+							$tr.append($modifyCom);
+						}
+						if(sessionId == mateComId) {
+							$btn = $("<td width='100'>").append("<button type='button' onclick='mateComDelete("+ data[i].mateComNo +")'>삭제</button>");
+							$tr.append($btn);
+						}
+						
 						$tableBody.append($tr);
 						
-						
+						$.ajax({
+							url : "mateComReplyList.doa",
+							async: false,
+							type : "get",
+							data : {"mateNo":mateNo, "mateComRefNo" : mateCommentNo },
+							dataType : "json",
+							success: function(element) {
+								console.log("1element" + element + mateNo +mateCommentNo );
+								$replyBody = $("#mateComReplyTb");
+								$replyBody.html("");
+								
+								var $trr;
+								/* var $position; */
+								var $replyUserId;
+								var $replyContents;
+								var $replyDate;
+								var $replyDelete;
+								if(element.length >0) {
+									for(var j in element) {
+										var mateComReplyId = element[j].userId;
+										
+										$trr = $("<tr colspan='4'>");
+										$replyUserId = $("<td >").text("-->  " + decodeURIComponent(element[j].userId));
+										/* $position = $("<td width='100' colspan='2'>").text("->"); */
+										if(sessionId == mateComReplyId) {
+											$replyContents = $("<td width='100'>").text(decodeURIComponent(element[j].mateComContents));
+											$replyDate = $("<td>").text(element[j].mateComDate);
+											
+											$trr.append($replyUserId);
+											$trr.append($replyContents);
+											$trr.append($replyDate);
+											$replyDelete = $("<td colspan='2'>")
+											.append("<button type='button' id='mateComReply' onclick='mateComeReplyDelete("+element[j].mateComNo+")'>삭제</button>");
+											$trr.append($replyDelete);
+										} else {
+											$replyContents = $("<td width='100' colspan='3'>").text(decodeURIComponent(element[j].mateComContents));
+											$replyDate = $("<td>").text(element[j].mateComDate);
+											$trr.append($replyUserId);
+											$trr.append($replyContents);
+											$trr.append($replyDate);
+										}
+										$tr.after($trr);
+										
+										console.log("2element"+element);
+									}
+								}
+							}
+						});
 					}
 				} else {
 					$tr =$("<tr>");
@@ -336,77 +492,115 @@
 			}
 		})
 	}
+	//--------댓글 삭제 시 입력자가 아니면 삭제 못하게 하기
+	function mateComDelete(mateComNo) {
+		var ask = confirm("댓글을 정말로 삭제하시겠습니까? 삭제 시 해당 댓글의 대댓글들도 모두 삭제됩니다.");
+		if(ask) {
+		$.ajax({
+			url : "deleteMateCom.doa",
+			type : "get",
+			data : { "mateComNo":mateComNo },
+			success : function(data) {
+				if(data == "success") {
+					$.ajax({
+						url:"deleteMateComReply.doa",
+						type : "get",
+						data : {"mateComNo" : mateComNo},
+						success : function(element) {
+							if(element == "success") {
+								mateComList();
+							}else {
+								alert("대댓글 삭제에 실패했습니다.");
+							}
+						}
+					});
+					alert("댓글 삭제 및 대댓글 삭제에 성공했습니다.");
+				}else {
+					alert("댓글 삭제에 실패했습니다.");
+				}
+			}
+		});
+		} else {
+			return false;
+		}
+	}
+	//대댓글 삭제
+	function mateComeReplyDelete(mateComNo) {
+		var ask = confirm("대댓글을 삭제하시겠습니까?");
+		if(ask) {
+		$.ajax({
+			url:"deleteMateComReply.doa",
+			type : "get",
+			data : {"mateComNo" : mateComNo},
+			success : function(element) {
+				if(element == "success") {
+					mateComList();
+				}else {
+					alert("대댓글 삭제에 실패했습니다.");
+				}
+			}
+		});
+		} else {
+			return false;
+		}
+	}
 	
-	//--------대댓글
-	function mateComReplyView(mateComNo) {
-		var rCount = 1;
+	var rCount = 1;
+	//--------대댓글 입력
+	function mateComReplyView(e, mateComNo) {
 		$replyTableBody = $("#mateComReplyInsertTb");
 		$replyTableBody.html("");
 		if (rCount > 1) {
 			return false;
 		} else {
 			rCount++;
-			var replyTextArea = $('#mateComReplyInsertTb');
-			replyTextArea.append("<tr colspan='4'><td><div>"+mateComNo+ "번 댓글에 답변달기</div><textarea rows='3' cols='55' id='mateComReplyCon' placeholder='내용을 입력해주세요' resize:none;float:left;'></textarea>");
-			replyTextArea.append("<button type='button' id='mateComReply' onclick='mateComReplyInsert("+mateComNo+")'>답글등록</button><td></tr>");
-			rCount = 1;
+			var replyTextArea = $(e).parent().parent();
+			replyTextArea.after("<tr colspan='5'><td colspan='5'><div>"+mateComNo+ 
+					"번 댓글에 답변달기</div><textarea rows='3' cols='165' id='mateComReplyCon' placeholder='내용을 입력해주세요'></textarea>" +
+					"<button type='button' id='mateComReply' onclick='mateComReplyInsert("+mateComNo+")'>답글등록</button>"+
+					"<button type='button' id='mateComReply' >취소</button></td></tr>");
+			console.log("view : "+mateComNo);
+			return false;
+			$("#mateComReply").on("click", function(e) {
+	               e.preventDefault();
+	               removeReply($(this));
+	        });
 		}
 	}
+	function removeReply(obj) {
+		obj.parent().parent().remove();
+	}
+	//--------대댓글 등록
 	function mateComReplyInsert(mateComNo) {
+		mateComList();
 			var mateComReplyCon = $('#mateComReplyCon').val();
-			var mateNo = ${mateOne.mateNo};
-			var mateRefNo = mateComNo;
-			console.log(mateRefNo);
-			console.log(mateNo);
+			var mateNo = $("#mateNo").val();
+			var ask = confirm("대댓글 등록을 완료하시겠습니까?");
+			if(ask) {
+			if(mateComReplyCon != "") {
 			$.ajax({
 				url : "addMateComReply.doa",
 				type : "post",
-				data : { "mateComContents" : mateComReplyCon, "mateNo" : mateNo, "mateComRefNo" : mateRefNo },
+				data : { "mateComContents" : mateComReplyCon, "mateNo" : mateNo, "mateComRefNo" : mateComNo },
 				success : function(data) {
 					if(data == "success") {
 						$("#mateComReplyCon").val("");
+						/* $("#mateComReplyInsertTb").remove(); */
+						mateComList();
+						console.log("대댓글 성공");
 					}else {
 						alert("댓글 등록에 실패했습니다.");
 					}
 				}
 			}); 
-	}
-	function mateComReplyList() {
-		$.ajax({
-			url : "mateComReplyList.doa",
-			type : "get",
-			data : {"mateNo" : mateNo},
-			dataType : "json",
-			success : function (data2) {
-				$table = $("#mateComReplyTb");
-				$table.html("");
-				
-				var $rtr;
-				var $rId;
-				var $rContents;
-				var $rDate;
-				var $rBtn;
-				if(data.length >0) {
-					for(var i in data) {
-						var mateComRefNo = data2[i].mateComNo;
-						console.log(mateComRefNo);
-						
-						$rtr = $("<tr>");
-						$rId = $("<td width='100'>").text(data2[i].userId);
-						$rContents = $("<td>").text(decodeURIComponent(data2[i].mateComContents).replace(/\+/g, " "));
-						$rDate = $("<td width='100'>").text(data2[i].mateComDate);
-						$rBtn = $("<td width='100'>")
-						.append("<button type='button' id='mateComReply' onclick='mateComReplyView(" +data2[i].mateComNo+ ")'>답변달기</button>"
-						 +"<button type='button' onclick='mateComDelete()'>삭제</button>");
-						
-						$tr.append($userId);
-						$tr.append($mateComContents);
-						$tr.append($mateComDate);
-						$tr.append($modifyCom);
-						$table.append($tr);
+			} else {
+				alert("답글 내용을 입력해주세요");
+				return false;
+			}
 			} 
-		)} 
+			return true;
 	}
+	
 	
 	//--------지도 
 	var mapContainer = document.getElementById('map'), // 지도를 표시할 div
@@ -437,7 +631,7 @@
 	    // 좌표로 법정동 상세 주소 정보를 요청합니다
 	    geocoder.coord2Address(marker.getPosition().getLng(), marker.getPosition().getLat(), callback);
 	}
-	
+	var search = $("#search").val();
 	// 마커에 마우스오버 이벤트를 등록합니다
 	kakao.maps.event.addListener(marker, 'mouseover', function() {
 		searchDetailAddrFromCoords(marker, function(result, status) {

@@ -21,71 +21,130 @@ public class OpendiaryServiceImpl implements OpendiaryService{
 	
 	@Override
 	public int getListCount() {
-		// TODO Auto-generated method stub
 		return odStore.getListCount();
 	}
 
 	@Override
 	public ArrayList<Opendiary> opendList(PageInfo pi) {
-		// TODO Auto-generated method stub
 		return odStore.opendList(pi);
 	}
-
+	
 	@Override
-	public Opendiary selectOndOpend(int opendiaryNo) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public int insertOpend(Map<String, Object> parameters) {
-		// TODO Auto-generated method stub
-		return odStore.insertOpend(parameters);
+	public ArrayList<DiaryImg> diaryImgList() {
+		return odStore.diaryImgList();
 	}
 
 	@Override
-	public int updateOpend(Opendiary opendiary) {
-		// TODO Auto-generated method stub
-		return 0;
+	public Opendiary selectOneOpend(int opendiaryNo) {
+		return odStore.selectOneOpend(opendiaryNo);
 	}
 
 	@Override
-	public int deleteOpend(int opendiaryNo) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int insertOpend(Opendiary opendiary) {
+		return odStore.insertOpend(opendiary);
 	}
-
-	@Override
-	public int insertOpendCom(OpendiaryComment opendiaryCom) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int updateOpendCom(OpendiaryComment opendiaryCom) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int deleteOpendCom(int opendiaryNo) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public ArrayList<Opendiary> selectSearchList(Search search) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-	//다이어리에 넣어준다.
-	public int insertDiary(Opendiary opendiary) {
-		return odStore.insertDiary(opendiary);
-	}
+	
 	//사진을 넣어준다.
 	public int insertfileImg(HashMap<String, String> imgfile) {
 		return odStore.insertfileImg(imgfile);
 	}
+
+	@Override
+	public int updateOpend(Opendiary opendiary) {
+		return odStore.updateOpend(opendiary);
+	}
+
+	@Override
+	public int deleteOpend(int opendiaryNo) {
+		return odStore.deleteOpend(opendiaryNo);
+	}
+
+	@Override
+	public int insertOpendCom(OpendiaryComment opendiaryComment) {
+		return odStore.insertOpendCom(opendiaryComment);
+	}
+
+	@Override
+	public int updateOpendCom(OpendiaryComment opendiaryCom) {
+		return 0;
+	}
+
+	@Override
+	public int deleteOpendCom(int openComNo) {
+		return odStore.deleteOpendCom(openComNo);
+	}
+
+	@Override
+	public ArrayList<Opendiary> selectSearchList(Search search, PageInfo pi) {
+		return odStore.selectSearchList(search, pi);
+	}
+
+	@Override
+	public int addViewCount(int opendiaryNo) {
+		return odStore.addViewCount(opendiaryNo);
+	}
+
+	@Override
+	public ArrayList<DiaryImg> selectDiaryImgList(int opendiaryNo) {
+		return odStore.selectDiaryImgList(opendiaryNo);
+	}
+
+	@Override
+	public int deleteFile(HashMap<String, Object> map) {
+		return odStore.deleteFile(map);
+	}
+
+	@Override
+	public int deleteAllFile(int opendiaryNo) {
+		return odStore.deleteAllFile(opendiaryNo);
+	}
+
+	@Override
+	public int insertfileImgUpdate(HashMap<String, Object> imgfile) {
+		return odStore.insertfileImgUpdate(imgfile);
+	}
+
+	@Override
+	public DiaryImg diaryImgListNo(int opendiaryNo) {
+		return odStore.diaryImgListNo(opendiaryNo);
+	}
+
+	@Override
+	public int updateMainImg(int opendiaryNo) {
+		return odStore.updateMainImg(opendiaryNo);
+	}
+
+	@Override
+	public ArrayList<OpendiaryComment> opendiaryComList(HashMap<String, Object> map) {
+		return odStore.opendiaryComList(map);
+	}
+
+	@Override
+	public int insertOpenComReply(OpendiaryComment opendiaryCom) {
+		return odStore.insertOpenComReply(opendiaryCom);
+	}
+
+	@Override
+	public ArrayList<OpendiaryComment> opendiaryComReplyList(HashMap<String, Object> map) {
+		return odStore.opendiaryComReplyList(map);
+	}
+
+
+	@Override
+	public int updateOpendImage(HashMap<String, Object> imgupdate) {
+		return odStore.updateOpendImage(imgupdate);
+	}
+
+	@Override
+	public ArrayList<Opendiary> openContentsList(String userId, PageInfo pi) {
+		return odStore.openContentsList(userId, pi);
+	}
+
+
+//	@Override
+//	public int selectOneOpendiaryNo() {
+//		// TODO Auto-generated method stub
+//		return odStore.selectOneOpendiaryNo();
+//	}
+
 }

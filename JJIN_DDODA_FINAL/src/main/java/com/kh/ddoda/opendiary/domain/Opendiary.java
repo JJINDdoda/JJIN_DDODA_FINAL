@@ -11,11 +11,12 @@ public class Opendiary {
 	private Date opendiaryModifyDate;
 	private int opendiaryViews;
 	private String userId;
+	private String mainImagePath;
 	
 	public Opendiary() {}
 
 	public Opendiary(int opendiaryNo, String opendiaryTitle, String opendiaryContents, Date opendiaryDate,
-			Date opendiaryModifyDate, int opendiaryViews, String userId) {
+			Date opendiaryModifyDate, int opendiaryViews, String userId, String mainImagePath) {
 		super();
 		this.opendiaryNo = opendiaryNo;
 		this.opendiaryTitle = opendiaryTitle;
@@ -24,6 +25,7 @@ public class Opendiary {
 		this.opendiaryModifyDate = opendiaryModifyDate;
 		this.opendiaryViews = opendiaryViews;
 		this.userId = userId;
+		this.mainImagePath = mainImagePath;
 	}
 
 	public int getOpendiaryNo() {
@@ -82,12 +84,20 @@ public class Opendiary {
 		this.userId = userId;
 	}
 
+	public String getMainImagePath() {
+		return mainImagePath;
+	}
+
+	public void setMainImagePath(String mainImagePath) {
+		this.mainImagePath = mainImagePath;
+	}
+
 	@Override
 	public String toString() {
 		return "Opendiary [opendiaryNo=" + opendiaryNo + ", opendiaryTitle=" + opendiaryTitle + ", opendiaryContents="
 				+ opendiaryContents + ", opendiaryDate=" + opendiaryDate + ", opendiaryModifyDate="
-				+ opendiaryModifyDate + ", opendiaryViews=" + opendiaryViews + ", userId=" + userId + "]";
+				+ opendiaryModifyDate + ", opendiaryViews=" + opendiaryViews + ", userId=" + userId + ", mainImagePath="
+				+ mainImagePath + "]";
 	}
-	
 	
 }

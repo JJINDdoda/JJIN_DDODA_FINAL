@@ -1,6 +1,7 @@
 package com.kh.ddoda.mate.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.kh.ddoda.common.PageInfo;
 import com.kh.ddoda.common.Search;
@@ -21,7 +22,7 @@ public interface MateService {
 	 * @param pi
 	 * @return
 	 */
-	public ArrayList<Mate> mateList(PageInfo pi);
+	public ArrayList<Mate> mateList(HashMap<String, String> map, PageInfo pi);
 	/**
 	 * 메이트 상세 조회
 	 * @param mateNo
@@ -105,13 +106,14 @@ public interface MateService {
 	 * @param mateNo
 	 * @return
 	 */
-	public ArrayList<MateComment> selectMateCom(int mateNo);
+	public ArrayList<MateComment> selectMateComNo(int mateNo);
+	public ArrayList<MateComment> selectMateCom(int mateNo, PageInfo pi);
 	/**
 	 * 메이트 대댓글 리스트
 	 * @param mateRefNo
 	 * @return
 	 */
-	public ArrayList<MateComment> selectMateComReply(int mateComRefNo);
+	public ArrayList<MateComment> selectMateComReply(HashMap<String, Object>map);
 	/**
 	 * 메이트 댓글 수정
 	 * @param mateCom
@@ -125,9 +127,35 @@ public interface MateService {
 	 */
 	public int deleteMateCom(int mateComNo);
 	/**
+	 * 메이트 댓글 삭제
+	 * @param mateComRefNo
+	 * @return
+	 */
+	public int deleteMateComReply(int mateComNo);
+	/**
 	 * 메이트 글 검색하기
 	 * @param search
 	 * @return
 	 */
-	public ArrayList<Mate> selectSearchList(Search search);
+	public ArrayList<Mate> selectSearchList(Search search, PageInfo pi);
+	/**
+	 * 마이페이지 메이트 검색하기
+	 * @param userId, pi
+	 * @return ArrayList
+	 */
+	public ArrayList<Mate> myMateAttendList(String userId, PageInfo pi);
+	/**
+	 * 마이메이트 나가기
+	 * @param userId
+	 * @return int
+	 */
+	public int mymateOut(Mymate mymate);
+	/**
+	 * 내 모든 쓴 글 찾아보기
+	 * @param userId
+	 * @return
+	 */
+	public ArrayList<Mate> myContentsList(String userId, PageInfo pi);
+	
+	
 }

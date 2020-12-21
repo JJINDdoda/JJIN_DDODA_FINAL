@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.ddoda.common.PageInfo;
+import com.kh.ddoda.common.Search;
 import com.kh.ddoda.require.domain.Reply;
 import com.kh.ddoda.require.domain.Require;
 
@@ -64,11 +65,10 @@ public class RequireStoreLogic implements RequireStore {
 		return sqlSession.update("RequireMapper.adminRequieStatus", requireNo);
 	}
 	
-	
+
 	@Override
 	public int getListCount() {
-		// TODO Auto-generated method stub
-		return sqlSession.selectOne("RequireMapper.getRequireListCount");
+		return sqlSession.selectOne("RequireMapper.getListCount");
 	}
 
 	@Override
@@ -82,7 +82,6 @@ public class RequireStoreLogic implements RequireStore {
 
 	@Override
 	public Require selectOneRequire(int requireNo) {
-		// TODO Auto-generated method stub
 		return sqlSession.selectOne("RequireMapper.selectOneRequire", requireNo);
 	}
 
@@ -94,19 +93,17 @@ public class RequireStoreLogic implements RequireStore {
 
 	@Override
 	public int deleteRequire(int requireNo) {
-		// TODO Auto-generated method stub
 		return sqlSession.delete("RequireMapper.deleteRequire", requireNo);
 	}
 
 	@Override
 	public int updateRequire(Require require) {
-		// TODO Auto-generated method stub
 		return sqlSession.update("RequireMapper.updateRequire", require);
 	}
 
 	@Override
 	public ArrayList<Require> selectSearchList(Search search, PageInfo pi) {
-		int offset = (pi.getCurrentPage()-1 * pi.getBoardLimit());
+		int offset = (pi.getCurrentPage()-1) * pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		ArrayList<Require> rList = (ArrayList)sqlSession.selectList("RequireMapper.searchList", search, rowBounds);
 		return rList;
@@ -114,7 +111,13 @@ public class RequireStoreLogic implements RequireStore {
 
 	@Override
 	public int addReadCount(int requireNo) {
-		// TODO Auto-generated method stub
 		return sqlSession.update("RequireMapper.updateCount", requireNo);
+	}
+
+	@Override
+	public ArrayList<Require> requireContentsList(String userId, PageInfo pi) {
+		int offset = (pi.getCurrentPage()-1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return (ArrayList)sqlSession.selectList("RequireMapper.requireContentsList", userId, rowBounds);
 	}
 }

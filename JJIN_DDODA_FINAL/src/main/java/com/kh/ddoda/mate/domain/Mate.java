@@ -2,6 +2,10 @@ package com.kh.ddoda.mate.domain;
 
 import java.sql.Date;
 
+import com.kh.ddoda.opendiary.domain.DiaryImg;
+import com.kh.ddoda.opendiary.domain.Opendiary;
+import com.kh.ddoda.require.domain.Require;
+
 public class Mate {
 
 	private int mateNo;
@@ -18,8 +22,40 @@ public class Mate {
 	private int mateView;
 	private String mateEnd;
 	private String userId;
+	private String category;
+	
+	private Mymate mymate;
+	private Opendiary opendiary;
+	private DiaryImg diaryImg;
+	private Require require;
 	
 	public Mate() {}
+
+	public Mate(int mateNo, String mateTitle, String mateContents, Date mateDate, Date mateModifyDate,
+			String mateRequireNo, String matePlace, String detailAddr, String roadAddr, String sido, String latLong,
+			int mateView, String mateEnd, String userId, String category, Mymate mymate, Opendiary opendiary,
+			DiaryImg diaryImg, Require require) {
+		super();
+		this.mateNo = mateNo;
+		this.mateTitle = mateTitle;
+		this.mateContents = mateContents;
+		this.mateDate = mateDate;
+		this.mateModifyDate = mateModifyDate;
+		this.mateRequireNo = mateRequireNo;
+		this.matePlace = matePlace;
+		this.detailAddr = detailAddr;
+		this.roadAddr = roadAddr;
+		this.sido = sido;
+		this.latLong = latLong;
+		this.mateView = mateView;
+		this.mateEnd = mateEnd;
+		this.userId = userId;
+		this.category = category;
+		this.mymate = mymate;
+		this.opendiary = opendiary;
+		this.diaryImg = diaryImg;
+		this.require = require;
+	}
 
 	public int getMateNo() {
 		return mateNo;
@@ -133,12 +169,57 @@ public class Mate {
 		this.userId = userId;
 	}
 
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
+	public Mymate getMymate() {
+		return mymate;
+	}
+
+	public void setMymate(Mymate mymate) {
+		this.mymate = mymate;
+	}
+
+	public Opendiary getOpendiary() {
+		return opendiary;
+	}
+
+	public void setOpendiary(Opendiary opendiary) {
+		this.opendiary = opendiary;
+	}
+
+	public DiaryImg getDiaryImg() {
+		return diaryImg;
+	}
+
+	public void setDiaryImg(DiaryImg diaryImg) {
+		this.diaryImg = diaryImg;
+	}
+
+	public Require getRequire() {
+		return require;
+	}
+
+	public void setRequire(Require require) {
+		this.require = require;
+	}
+
 	@Override
 	public String toString() {
 		return "Mate [mateNo=" + mateNo + ", mateTitle=" + mateTitle + ", mateContents=" + mateContents + ", mateDate="
 				+ mateDate + ", mateModifyDate=" + mateModifyDate + ", mateRequireNo=" + mateRequireNo + ", matePlace="
 				+ matePlace + ", detailAddr=" + detailAddr + ", roadAddr=" + roadAddr + ", sido=" + sido + ", latLong="
-				+ latLong + ", mateView=" + mateView + ", mateEnd=" + mateEnd + ", userId=" + userId + "]";
+				+ latLong + ", mateView=" + mateView + ", mateEnd=" + mateEnd + ", userId=" + userId + ", category="
+				+ category + ", mymate=" + mymate + ", opendiary=" + opendiary + ", diaryImg=" + diaryImg + ", require="
+				+ require + "]";
 	}
+
+	
+	
 	
 }
