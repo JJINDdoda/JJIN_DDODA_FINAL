@@ -15,7 +15,12 @@
 		<typeAlias type="com.kh.ddoda.opendiary.domain.Opendiary" alias="Opendiary"/>
 		<typeAlias type="com.kh.ddoda.opendiary.domain.DiaryImg" alias="DiaryImg"/>
 		<typeAlias type="com.kh.ddoda.opendiary.domain.OpendiaryComment" alias="OpendiaryComment"/>
+		
 		<typeAlias type="com.kh.ddoda.facility.domain.ExerciseFacility" alias="Facility"/>
+		<typeAlias type="com.kh.ddoda.facility.domain.FacilityPicture" alias="FacilityPicture"/>
+		<typeAlias type="com.kh.ddoda.facility.domain.InstructorInfo" alias="InstructorInfo"/>
+		<typeAlias type="com.kh.ddoda.facility.domain.FacilityPrice" alias="FacilityPrice"/>
+		
 		<typeAlias type="com.kh.ddoda.member.domain.Member" alias="member"/>
 		<typeAlias type="com.kh.ddoda.calorie.domain.Calorie" alias="Calorie"/>
 	</typeAliases>
@@ -23,6 +28,7 @@
 		<mapper resource="mappers/mate-mapper.xml"/>
 		<mapper resource="mappers/opendiary-mapper.xml"/>
 		<mapper resource="mappers/require-mapper.xml" />
+		<mapper resource="mappers/facility-mapper.xml"/>
 		<mapper resource="mappers/member-mapper.xml" />
 		<mapper resource="mappers/notice-mapper.xml"/>
 		<mapper resource="mappers/facility-mapper.xml"/>

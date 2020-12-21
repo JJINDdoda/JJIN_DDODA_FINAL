@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="ExerciseMapper">
+<mapper namespace="FacilityMapper">
+	
 	<resultMap type="Facility" id="facilityResultMap">
-		<result property="facilityNo" column="FACILITY_NO"/>
+		<id property="facilityNo" column="FACILITY_NO"/>
 		<result property="facilityField" column="FACILITY_FIELD"/>
+		<result property="recommended" column="RECOMMENDED"/>
 		<result property="facilityName" column="FACILITY_NAME"/>
 		<result property="facilityAddr" column="FACILITY_ADDR"/>
 		<result property="facilityKinds" column="FACILITY_KINDS"/>
@@ -11,17 +13,275 @@
 		<result property="facilityPhone" column="FACILITY_PHONE"/>
 		<result property="termsOfUse" column="TERMS_OF_USE"/>
 		<result property="latiLong" column="LATI_LONG"/>
-		<result property="termsYn" column="termsYn"/>
+		<result property="termsYn" column="TERMS_YN"/>
+		<result property="userId" column="USERID"/>
 	</resultMap>
-	<select id="getFacilityListCount" resultType="int">
-		SELECT COUNT(*) FROM EXERCISE_FACILITY
-	</select>
-	<select id="adminSelectList" resultType="Facility">
-		SELECT FACILITY_NO as facilityNo, FACILITY_FIELD as facilityField, FACILITY_NAME as facilityName, TERMS_YN as termsYn
-		FROM EXERCISE_FACILITY
-	</select>
-	<select id="adminSelectFacility" resultMap="facilityResultMap">
+	
+	<resultMap type="FacilityPicture" id="PictureResultMap">
+		<result property="picturePath" column="PICTURE_PATH"/>
+		<result property="pictureRename" column="PICTURE_RENAME"/>
+		<result property="facilityNo" column="FACILITY_NO"/>
+	</resultMap>
+	
+	<resultMap type="InstructorInfo" id="InstructorInfoResultMap">
+		<result property="instructorName" column="INSTRUCTOR_NAME"/>
+		<result property="carrer" column="CARRER"/>
+		<result property="promise" column="PROMISE"/>
+		<result property="instructorPicture" column="INSTRUCTOR_PICTURE"/>
+		<result property="instructorRename" column="INSTRUCTOR_RENAME"/>
+		<result property="facilityNo" column="FACILITY_NO"/>
+	</resultMap>
+	
+	
+	<select id="facilityInfo" resultMap="facilityResultMap">
 		SELECT * FROM EXERCISE_FACILITY
+		WHERE FACILITY_NO=#{facilityNo}
+	</select>
+	
+	
+	
+	<select id="markerList" resultMap="facilityResultMap">
+		<if test="kinds == 'health' and county != 'null' and city != 'null'">
+			SELECT * FROM EXERCISE_FACILITY
+			WHERE FACILITY_ADDR LIKE #{city} || '%' || #{county} || '%' AND FACILITY_FIELD='health'
+		</if>
+		<if test="kinds == 'yoga' and county != 'null' and city != 'null'">
+			SELECT * FROM EXERCISE_FACILITY
+			WHERE FACILITY_ADDR LIKE #{city} || '%' || #{county} || '%' AND FACILITY_FIELD='yoga'
+		</if>
+		<if test="kinds == 'fila' and county != 'null' and city != 'null'">
+			SELECT * FROM EXERCISE_FACILITY
+			WHERE FACILITY_ADDR LIKE #{city} || '%' || #{county} || '%' AND FACILITY_FIELD='fila'
+		</if>
+		<if test="kinds == 'health' and county == 'null' and city != 'null'">
+			SELECT * FROM EXERCISE_FACILITY
+			WHERE FACILITY_ADDR LIKE #{city} || '%' AND FACILITY_FIELD='health'
+		</if>
+		<if test="kinds == 'yoga' and county == 'null' and city != 'null'">
+			SELECT * FROM EXERCISE_FACILITY
+			WHERE FACILITY_ADDR LIKE #{city} || '%' AND FACILITY_FIELD='yoga'
+		</if>
+		<if test="kinds == 'fila' and county == 'null' and city != 'null'">
+			SELECT * FROM EXERCISE_FACILITY
+			WHERE FACILITY_ADDR LIKE #{city} || '%' AND FACILITY_FIELD='fila'
+		</if>
+		<if test="county == 'null' and city == 'null'">
+			SELECT * FROM EXERCISE_FACILITY
+		</if>
+		
+	</select>
+	
+	<select id="markerPoints" resultType="String">
+		<if test="kinds == 'health' and county != 'null' and city != 'null'">
+			SELECT LATI_LONG FROM EXERCISE_FACILITY
+			WHERE FACILITY_ADDR LIKE #{city} || '%' || #{county} || '%' AND FACILITY_FIELD='health'
+		</if>
+		<if test="kinds == 'yoga' and county != 'null' and city != 'null'">
+			SELECT LATI_LONG FROM EXERCISE_FACILITY
+			WHERE FACILITY_ADDR LIKE #{city} || '%' || #{county} || '%' AND FACILITY_FIELD='yoga'
+		</if>
+		<if test="kinds == 'fila' and county != 'null' and city != 'null'">
+			SELECT LATI_LONG FROM EXERCISE_FACILITY
+			WHERE FACILITY_ADDR LIKE #{city} || '%' || #{county} || '%' AND FACILITY_FIELD='fila'
+		</if>
+		<if test="kinds == 'health' and county == 'null' and city != 'null'">
+			SELECT LATI_LONG FROM EXERCISE_FACILITY
+			WHERE FACILITY_ADDR LIKE #{city} || '%' AND FACILITY_FIELD='health'
+		</if>
+		<if test="kinds == 'yoga' and county == 'null' and city != 'null'">
+			SELECT LATI_LONG FROM EXERCISE_FACILITY
+			WHERE FACILITY_ADDR LIKE #{city} || '%' AND FACILITY_FIELD='yoga'
+		</if>
+		<if test="kinds == 'fila' and county == 'null' and city != 'null'">
+			SELECT LATI_LONG FROM EXERCISE_FACILITY
+			WHERE FACILITY_ADDR LIKE #{city} || '%' AND FACILITY_FIELD='fila'
+		</if>
+		<if test="county == 'null' and city == 'null'">
+			SELECT LATI_LONG FROM EXERCISE_FACILITY
+		</if>
+	</select>
+	
+	<insert id="facilityRegistration">
+		INSERT INTO EXERCISE_FACILITY
+		VALUES(SEQ_EXERCISE_FACILITY.NEXTVAL, #{facilityField}, 0, #{facilityName}, #{facilityAddr}, #{facilityKinds}, #{facilityBlog}, #{facilityPhone}, #{termsOfUse}, #{latiLong}, 'N', #{userId})
+	</insert>
+	
+	<insert id="facilityPictureRegist">
+		INSERT INTO FACILITY_PICTURE
+		VALUES(#{picturePath}, #{pictureRename}, SEQ_EXERCISE_FACILITY.CURRVAL)
+	</insert>
+	
+	<insert id="facilityPriceRegist">
+		INSERT INTO FACILITY_PRICE
+		VALUES(#{months}, #{price}, #{options}, #{benefits}, SEQ_EXERCISE_FACILITY.CURRVAL)
+	</insert>
+	
+	
+	<insert id="instructorRegist">
+		INSERT INTO INSTRUCTOR_INFO
+		VALUES(#{instructorName}, #{carrer}, #{promise}, #{instructorPicture}, #{instructorRename}, SEQ_EXERCISE_FACILITY.CURRVAL)
+	</insert>
+	
+	<select id="facilityPicture" resultMap="PictureResultMap">
+		SELECT * FROM FACILITY_PICTURE WHERE FACILITY_NO = #{facilityNo}
+	</select>
+	
+	<select id="facilityList" resultMap="facilityResultMap">
+		SELECT * FROM EXERCISE_FACILITY
+		WHERE USERID=#{userId}
+	</select>
+	
+	
+	
+	<select id="facilityPrice" resultType="FacilityPrice">
+		SELECT * FROM FACILITY_PRICE
 		WHERE FACILITY_NO = #{facilityNo}
 	</select>
+	
+	<select id="instructorInfo" resultMap="InstructorInfoResultMap">
+		SELECT * FROM INSTRUCTOR_INFO
+		WHERE FACILITY_NO = #{facilityNo}
+	</select>
+	
+	<update id="updateFacilityInfo">
+		UPDATE EXERCISE_FACILITY
+		SET FACILITY_NAME = #{facilityName}, FACILITY_FIELD = #{facilityField}, FACILITY_ADDR = #{facilityAddr}, FACILITY_KINDS = #{facilityKinds}, FACILITY_BLOG = #{facilityBlog}, FACILITY_PHONE = #{facilityPhone}, TERMS_OF_USE = #{termsOfUse}
+		WHERE FACILITY_NO = #{facilityNo}
+	</update>
+	
+	<insert id="updateFacilityPicture">
+		INSERT INTO FACILITY_PICTURE
+		VALUES(#{picturePath}, #{pictureRename}, #{facilityNo})
+	</insert>
+	
+	<delete id="deleteFacilityPictureOne">
+		DELETE FROM FACILITY_PICTURE
+		WHERE PICTURE_RENAME = #{pictureRename}
+	</delete>
+	
+	<select id="selectcontentList" resultType="String">
+		<if test="kinds == 'health' and county != 'null' and city != 'null'">
+			SELECT FACILITY_NAME FROM EXERCISE_FACILITY
+			WHERE FACILITY_ADDR LIKE #{city} || '%' || #{county} || '%' AND FACILITY_FIELD='health'
+		</if>
+		<if test="kinds == 'yoga' and county != 'null' and city != 'null'">
+			SELECT FACILITY_NAME FROM EXERCISE_FACILITY
+			WHERE FACILITY_ADDR LIKE #{city} || '%' || #{county} || '%' AND FACILITY_FIELD='yoga'
+		</if>
+		<if test="kinds == 'fila' and county != 'null' and city != 'null'">
+			SELECT FACILITY_NAME FROM EXERCISE_FACILITY
+			WHERE FACILITY_ADDR LIKE #{city} || '%' || #{county} || '%' AND FACILITY_FIELD='fila'
+		</if>
+		<if test="kinds == 'health' and county == 'null' and city != 'null'">
+			SELECT FACILITY_NAME FROM EXERCISE_FACILITY
+			WHERE FACILITY_ADDR LIKE #{city} || '%' AND FACILITY_FIELD='health'
+		</if>
+		<if test="kinds == 'yoga' and county == 'null' and city != 'null'">
+			SELECT FACILITY_NAME FROM EXERCISE_FACILITY
+			WHERE FACILITY_ADDR LIKE #{city} || '%' AND FACILITY_FIELD='yoga'
+		</if>
+		<if test="kinds == 'fila' and county == 'null' and city != 'null'">
+			SELECT FACILITY_NAME FROM EXERCISE_FACILITY
+			WHERE FACILITY_ADDR LIKE #{city} || '%' AND FACILITY_FIELD='fila'
+		</if>
+		<if test="county == 'null' and city == 'null'">
+			SELECT FACILITY_NAME FROM EXERCISE_FACILITY
+		</if> 
+	</select>
+	
+	
+	
+	<delete id="deletePrices">
+		DELETE FROM FACILITY_PRICE
+		WHERE FACILITY_NO=#{facilityNo}
+	</delete>
+	
+	<insert id="facilityPriceModify">
+		INSERT INTO FACILITY_PRICE
+		VALUES(#{months}, #{price}, #{options}, #{benefits}, #{facilityNo})
+	</insert>
+	
+	<delete id="deleteFacilityInstructorOne">
+		DELETE FROM INSTRUCTOR_INFO
+		WHERE INSTRUCTOR_RENAME = #{instructorRename}
+	</delete>
+	
+	<insert id="updateFacilityInstructor">
+		INSERT INTO INSTRUCTOR_INFO
+		VALUES(#{instructorName}, #{carrer}, #{promise}, #{instructorPicture}, #{instructorRename}, #{facilityNo})
+	</insert>
+	
+	<update id="modifyFacilityInstructor">
+		UPDATE INSTRUCTOR_INFO
+		SET CARRER = #{carrer}, PROMISE = #{promise}
+		WHERE INSTRUCTOR_NAME=#{instructorName} AND FACILITY_NO=#{facilityNo}
+	</update>
+	
+	<delete id="deleteMyFacility">
+		DELETE FROM EXERCISE_FACILITY WHERE FACILITY_NO = #{facilityNo}
+	</delete>
+	
+	<select id="getMyFacilityListCount" resultType="int">
+		SELECT COUNT(*)
+		FROM EXERCISE_FACILITY
+		WHERE USERID=#{userId}
+	</select>
+	
+	<select id="getAllFacilityListCount" resultType="int">
+		SELECT COUNT(*)
+		FROM EXERCISE_FACILITY
+	</select>
+	
+	<select id="allFacilityList" resultMap="facilityResultMap">
+		SELECT * FROM EXERCISE_FACILITY
+	</select>
+	
+	<select id="termsYnSearchCount" resultType="int">
+		<if test="userId == 'none' and termsYn == 'dup'">
+			SELECT COUNT(*) FROM EXERCISE_FACILITY
+		</if>
+		<if test="userId == 'none' and termsYn != 'dup'">
+			SELECT COUNT(*) FROM EXERCISE_FACILITY
+			WHERE TERMS_YN=#{termsYn}
+		</if>
+		<if test="userId != 'none' and termsYn == 'dup'">
+			SELECT COUNT(*) FROM EXERCISE_FACILITY
+			WHERE USERID=#{userId}
+		</if>
+		<if test="userId != 'none' and termsYn != 'dup'">
+			SELECT COUNT(*) FROM EXERCISE_FACILITY
+			WHERE USERID=#{userId} AND TERMS_YN=#{termsYn}
+		</if>
+	</select>
+	
+	<select id="termsYnSearch" resultMap="facilityResultMap">
+		<if test="userId == 'none' and termsYn == 'dup'">
+			SELECT * FROM EXERCISE_FACILITY
+		</if>
+		<if test="userId == 'none' and termsYn != 'dup'">
+			SELECT * FROM EXERCISE_FACILITY
+			WHERE TERMS_YN=#{termsYn}
+		</if>
+		<if test="userId != 'none' and termsYn == 'dup'">
+			SELECT * FROM EXERCISE_FACILITY
+			WHERE USERID=#{userId}
+		</if>
+		<if test="userId != 'none' and termsYn != 'dup'">
+			SELECT * FROM EXERCISE_FACILITY
+			WHERE USERID=#{userId} AND TERMS_YN=#{termsYn}
+		</if>
+	</select>
+	
+	<update id="approvedClick">
+		UPDATE EXERCISE_FACILITY
+		SET TERMS_YN='Y'
+		WHERE FACILITY_NO=#{facilityNo}
+	</update>
+	
+	<update id="rejectClick">
+		UPDATE EXERCISE_FACILITY
+		SET TERMS_YN='R'
+		WHERE FACILITY_NO=#{facilityNo}
+	</update>
+	
 </mapper>

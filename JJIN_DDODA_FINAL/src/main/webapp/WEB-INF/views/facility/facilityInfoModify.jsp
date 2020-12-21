@@ -105,19 +105,20 @@
 			</div>
 			<br><br>
 			<div class="table-wrap">
-				<form action="facilityRegistration.doa" method="post" enctype="multipart/form-data">
+				<form action="facilityModify.doa" method="post" enctype="multipart/form-data">
+					<input type="hidden" value="${facilityNo }" name="facilityNo" id="facilityNo">
 					<table class="table" id="facilityTbl">
 						<tr>
 							<td>시설명</td>
 							<td>
-								<input type="text" name="facilityName" style="width: 800px;" required>
+								<input type="text" name="facilityName" value="${exerciseFaciliy.facilityName }" style="width: 800px;" required>
 							</td>
 							<td style="width: 100px;">시설종류</td>
 							<td>
 								<select name="facilityField" style="width: 200px; height: 25px; font-size: 12pt;" required>
-									<option value="health" selected>헬스장</option>
-									<option value="yoga">요가</option>
-									<option value="fila">필라테스</option>
+									<option value="health" <c:if test="${exerciseFaciliy.facilityField eq 'health' }">selected</c:if>>헬스장</option>
+									<option value="yoga" <c:if test="${exerciseFaciliy.facilityField eq 'yoga' }">selected</c:if>>요가</option>
+									<option value="fila" <c:if test="${exerciseFaciliy.facilityField eq 'fila' }">selected</c:if>>필라테스</option>
 								</select>
 							</td>
 						</tr>
@@ -125,8 +126,14 @@
 						<tr>
 							<td>시설주소</td>
 							<td colspan="4">
-								<input type="text" id="sample5_address" placeholder="주소" name="addr" style="width:600px;" readonly>
-								<input type="text" id="detailAddr" placeholder="상세주소" name="detailAddr" style="width:500px;" required>
+								<c:forTokens items="${exerciseFaciliy.facilityAddr }" delims="," var="address" varStatus="status">
+									<c:if test="${status.index eq 0 }">
+										<input type="text" id="sample5_address" placeholder="주소" name="addr" value="${address }" style="width:600px;" readonly>
+									</c:if>
+									<c:if test="${status.index eq 1 }">
+										<input type="text" id="detailAddr" placeholder="상세주소" name="detailAddr" value="${address }" style="width:500px;" required>
+									</c:if>
+								</c:forTokens>
 								<input type="button" onclick="sample5_execDaumPostcode()" value="주소 검색" style="width:100px;"><br>
 								<div id="map" style="width:300px;height:300px;margin-top:10px;display:none"></div>
 								<input type="hidden" value="" id="latiLong" name="latiLong">
@@ -135,25 +142,25 @@
 						<tr>
 							<td>시설상세정보</td>
 							<td colspan="4">
-								<textarea cols="50" rows="7" name="facilityKinds" required></textarea>
+								<textarea cols="50" rows="7" name="facilityKinds" required>${exerciseFaciliy.facilityKinds }</textarea>
 							</td>
 						</tr>
 						<tr>
 							<td>블로그 / 카페</td>
 							<td colspan="4">
-								<input type="text" name="facilityBlog">
+								<input type="text" name="facilityBlog" value="${exerciseFaciliy.facilityBlog }">
 							</td>
 						</tr>
 						<tr>
 							<td>전화번호</td>
 							<td colspan="4">
-								<input type="text" name="facilityPhone" required>
+								<input type="text" name="facilityPhone" value="${exerciseFaciliy.facilityPhone }" required>
 							</td>
 						</tr>
 						<tr>
 							<td>이용약관</td>
 							<td colspan="4">
-								<textarea rows="5" cols="50" name="termsOfUse"></textarea>
+								<textarea rows="5" cols="50" name="termsOfUse">${exerciseFaciliy.termsOfUse }</textarea>
 							</td>
 						</tr>
 						<tr>
@@ -163,18 +170,26 @@
 								<span>시설사진등록순서대로 첨부해주세요.</span>
 							</td>
 						 </tr>
-						 <tr>
-						 	<td style="width: 500px">
-						 		<input type="file" name="picturePath" style="width:500px; float: left">
-						 	</td>
-						 	<td colspan="3">
-						 		<a href='#this' onclick='filedelete(this)' style="width: 100px; float: left; line-height: 25px;">- 삭제</a>
-						 	</td>
-						 </tr>
+						 <c:forEach items="${facilityPicture }" var="facilityPicture" varStatus="status">
+						 	<tr>
+							 	<td style="width: 500px">
+							 		<%-- <input type="file" name="picturePath" style="width:500px; float: left"> --%>
+							 		<c:if test="${!empty facilityPicture.pictureRename }">
+										<a href="./resources/facilityFiles/facilityPicture/${facilityPicture.pictureRename}" style="float: left;" download>${facilityPicture.picturePath }</a>
+										<input type="hidden" value="${facilityPicture.pictureRename}" id="deleteFileRename">
+										<input type="hidden" value="${status.index }" id="deleteNumber">
+									</c:if>
+							 	</td>
+							 	<td colspan="3">
+							 		<a href='#this' onclick='uploadfiledelete(this)' style="width: 100px; float: left; line-height: 25px;">- 삭제</a>
+							 	</td>
+							 </tr>
+						 </c:forEach>
+						 
 						
 					</table>
 					<div align="center">
-						<input type="submit" value="등록하기" class="insert btn btn-primary"> &nbsp;
+						<input type="submit" value="등록하기" class="insert btn btn-primary" onclick="return fildDeleteSubmit()"> &nbsp;
 						<a href="javascript:returnOpenList()">목록으로</a>
 					</div>
 				</form>
@@ -252,7 +267,8 @@
 	        }).open();
 	    }
 	    
-	    var clicked = 1;
+	    var clicked = ${pictureNum};
+	    console.log(clicked);
 	    
 	    function addFile(){
 	    	if(clicked < 5){
@@ -267,7 +283,7 @@
 	    	
 	    }
 	    
-	    function filedelete(obj){
+	    function filedelete(obj){ // 삭제버튼 눌렀을때
 	    	if(clicked > 1){
 	    		var choiceRow = $(obj).parent().parent();
 				choiceRow.remove();
@@ -282,6 +298,43 @@
 	    
 	    function deleteFile(obj) {
 	        obj.parent().remove();
+	    }
+	    
+	    function uploadfiledelete(obj){ // 삭제버튼 눌렀을때
+	    	if(clicked > 1){
+	    		fileDeleteLogic();
+	    		var choiceRow = $(obj).parent().parent();
+				choiceRow.remove();
+	            deleteFile($(this));
+	            clicked--;
+	    	}
+	    	else{
+	    		alert('최소 1개이상 등록 해야합니다.');
+	    	}
+	    }
+	    
+	   
+	    var pictureFiles = [];
+	    function fileDeleteLogic(){ //hidden값 가져오기
+	    	var pictureRename = $('#deleteFileRename').val();//삭제버튼을 누른 파일이름
+	    	console.log(pictureRename);
+	    	//선택한 파일 삭제 -> ajax말고 다른거로 해야될듯
+	    	//배열에 담아서 submit했을 때 한번에 전송해야될듯
+	    	pictureFiles.push(pictureRename);
+	    	
+	    }
+	    
+	    function fildDeleteSubmit(){
+	    	console.log(pictureFiles);
+	    	$.ajax({
+	    		url : "deleteSelectFile.doa",
+	    		type : "get",
+	    		traditional : true,
+	    		data : {"pictureFiles" : pictureFiles},
+	    		success : function(data){
+	    			return true;
+	    		}
+	    	});
 	    }
 
 

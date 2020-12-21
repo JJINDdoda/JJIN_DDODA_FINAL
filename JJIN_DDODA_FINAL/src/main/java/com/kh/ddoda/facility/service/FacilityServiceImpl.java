@@ -5,12 +5,13 @@ import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.kh.ddoda.common.PageInfo;
 import com.kh.ddoda.facility.domain.ExerciseFacility;
 import com.kh.ddoda.facility.domain.FacilityPicture;
 import com.kh.ddoda.facility.domain.FacilityPrice;
 import com.kh.ddoda.facility.domain.InstructorInfo;
-import com.kh.ddoda.facility.domain.MapLocation;
 import com.kh.ddoda.facility.store.FacilityStore;
 
 @Service
@@ -23,11 +24,6 @@ public class FacilityServiceImpl implements FacilityService {
 		
 	}
 	
-	@Override
-	public ArrayList<MapLocation> locationList() {
-		return fStore.locationList();
-	}
-
 
 	@Override
 	public ExerciseFacility facilityInfo(int facilityNo) {
@@ -44,6 +40,7 @@ public class FacilityServiceImpl implements FacilityService {
 		return fStore.instructorInfo(facilityNo);
 	}
 
+
 	@Override
 	public ArrayList<ExerciseFacility> markerCountyList(HashMap<String, String> facilityInfo) {
 		return fStore.markerCountyList(facilityInfo);
@@ -55,11 +52,13 @@ public class FacilityServiceImpl implements FacilityService {
 	}
 
 	@Override
+	@Transactional
 	public int facilityRegistration(ExerciseFacility exerciseFacility) {
 		return fStore.facilityRegistration(exerciseFacility);
 	}
 
 	@Override
+	@Transactional
 	public int facilityPictureRegist(HashMap<String, String> facilityHash) {
 		System.out.println("service");
 		return fStore.facilityPictureRegist(facilityHash);
@@ -70,10 +69,6 @@ public class FacilityServiceImpl implements FacilityService {
 		return fStore.facilityPriceRegist(facilityPrice);
 	}
 
-	@Override
-	public int facilityTerms(String termsOfUse) {
-		return fStore.facilityTerms(termsOfUse);
-	}
 
 	@Override
 	public int instructorRegist(InstructorInfo instructorInfo) {
@@ -81,8 +76,8 @@ public class FacilityServiceImpl implements FacilityService {
 	}
 
 	@Override
-	public ArrayList<ExerciseFacility> FacilityList(String userId) {
-		return fStore.FacilityList(userId);
+	public ArrayList<ExerciseFacility> FacilityList(PageInfo pi, String userId) {
+		return fStore.FacilityList(pi, userId);
 	}
 
 	@Override
@@ -90,7 +85,89 @@ public class FacilityServiceImpl implements FacilityService {
 		return fStore.facilityPriceInfo(facilityNo);
 	}
 
-	
+	@Override
+	public int updateFacilityInfo(ExerciseFacility exerciseFacility) {
+		return fStore.updateFacilityInfo(exerciseFacility);
+	}
 
+	@Override
+	public int updateFacilityPicture(FacilityPicture facilityPicture) {
+		return fStore.updateFacilityPicture(facilityPicture);
+	}
+
+	@Override
+	public int deleteFacilityPictureOne(String pictureRename) {
+		return fStore.deleteFacilityPictureOne(pictureRename);
+	}
+
+	@Override
+	public ArrayList<String> contentList(HashMap<String, String> facilityInfo) {
+		return fStore.contentList(facilityInfo);
+	}
+
+	@Override
+	public int deletePrices(int facilityNo) {
+		return fStore.deletePrices(facilityNo);
+	}
+
+	@Override
+	public int facilityPriceModify(FacilityPrice facilityPrice) {
+		return fStore.facilityPriceModify(facilityPrice);
+	}
+
+	@Override
+	public int deleteFacilityInstructorOne(String instructorRename) {
+		return fStore.deleteFacilityInstructorOne(instructorRename);
+	}
+
+	@Override
+	public int updateFacilityInstructor(InstructorInfo instructorInfo) {
+		return fStore.updateFacilityInstructor(instructorInfo);
+	}
+
+	@Override
+	public int modifyFacilityInstructor(InstructorInfo instructorInfo) {
+		return fStore.modifyFacilityInstructor(instructorInfo);
+	}
+
+	@Override
+	public int deleteMyFacility(int facilityNo) {
+		return fStore.deleteMyFacility(facilityNo);
+	}
+
+	@Override
+	public int getMyFacilityListCount(String userId) {
+		return fStore.getMyFacilityListCount(userId);
+	}
+
+	@Override
+	public int getAllFacilityListCount() {
+		return fStore.getAllFacilityListCount();
+	}
+
+	@Override
+	public ArrayList<ExerciseFacility> allFacilityList(PageInfo pi) {
+		return fStore.allFacilityList(pi);
+	}
+
+	@Override
+	public int termsYnSearchCount(HashMap<String, String> termsYnHash) {
+		return fStore.termsYnSearchCount(termsYnHash);
+	}
+
+	@Override
+	public ArrayList<ExerciseFacility> termsYnSearch(PageInfo pi, HashMap<String, String> termsYnHash) {
+		return fStore.termsYnSearch(pi, termsYnHash);
+	}
+
+	@Override
+	public int approvedClick(int facilityNo) {
+		return fStore.approvedClick(facilityNo);
+	}
+
+	@Override
+	public int rejectClick(int facilityNo) {
+		return fStore.rejectClick(facilityNo);
+	}
 
 }

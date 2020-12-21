@@ -105,7 +105,8 @@
 			</div>
 			<br><br>
 			<div class="table-wrap">
-				<form id="fileForm" action="facilityPriceRegist.doa" method="post" enctype="multipart/form-data">
+				<form id="fileForm" action="facilityPriceModify.doa" method="post" enctype="multipart/form-data">
+					<input type="hidden" value="${facilityNo }" id = "facilityNo" name = "facilityNo">
 					<table class="table" id="facilityTbl">
 						<thead>
 							<tr>
@@ -115,31 +116,34 @@
 							</tr>
 						</thead>
 						<tbody id="tablebody">
-							<tr>
-								<td>개월수</td>
-								<td>
-									<input type="text" name="months" placeholder="숫자를 입력해주세요" required>개월
-								</td>
-								<td>가격</td>
-								<td>
-									<input type="text" name="price" placeholder="숫자를 입력해주세요" required>원
-								</td>
-								<td>
-									<a href="#this" onclick="deletePrice(this)">- 삭제하기</a>
-								</td>
-							</tr>
-							<tr>
-								<td>옵션가격</td>
-								<td colspan="4">
-									<textarea rows="5" cols="50" name="options" required></textarea>
-								</td>
-							</tr>
-							<tr>
-								<td>혜택</td>
-								<td colspan="4">
-									<textarea rows="5" cols="50" name="benefits" required></textarea>
-								</td>
-							</tr>
+							<c:forEach items="${facilityPriceInfo }" var="facilityPrice">
+								<tr>
+									<td>개월수</td>
+									<td>
+										<input type="text" name="months" id="months" value="${facilityPrice.months }">
+									</td>
+									<td>가격</td>
+									<td>
+										<input type="text" name="price" value="${facilityPrice.price }">
+									</td>
+									<td>
+										<a href="#this" onclick="deleteDBPrice(this)">- 삭제하기</a>
+									</td>
+								</tr>
+								<tr>
+									<td>옵션가격</td>
+									<td colspan="4">
+										<textarea rows="5" cols="50" name="options">${facilityPrice.options }</textarea>
+									</td>
+								</tr>
+								<tr>
+									<td>혜택</td>
+									<td colspan="4">
+										<textarea rows="5" cols="50" name="benefits">${facilityPrice.benefits }</textarea>
+									</td>
+								</tr>
+							</c:forEach>
+							
 						</tbody>
 					</table>
 					
@@ -162,6 +166,7 @@
 
 		
 		function facilityInfoClick(){
+			/* document.getElementById('facilityRegistor').style.background='yellow'; */
 			location.href='facilityInfoRegistView.doa';
 		}
 		
@@ -169,7 +174,8 @@
 			location.href='facilityInstructorRegistView.doa';
 		}
 		
-		var clickCnt = 1;
+		var clickCnt = ${priceNum};
+		console.log(clickCnt);
 		function addPrice(){
 			if(clickCnt < 6){
 				var str = "<tr><td>개월수</td><td><input type='text' name='months'></td><td>가격</td><td><input type ='text' name = 'price'></td><td><a href='#this' onclick='deletePrice(this)'>- 삭제하기</td></tr>" +
@@ -188,6 +194,25 @@
 		function deletePrice(obj){
 			if(clickCnt > 1){
 				clickCnt--;
+				console.log(clickCnt);
+				var choiceRow = $(obj).parent().parent();
+				var nextRow = choiceRow.next(); //nth-child()
+				var doubleRow = nextRow.next();
+				choiceRow.remove();
+				nextRow.remove();
+				doubleRow.remove();
+			}
+			else{
+				alert('최소 1개이상 등록 해야합니다.');
+			}
+		}
+
+		function deleteDBPrice(obj){
+			var month = $('#months').val();
+			console.log(month);
+			if(clickCnt > 1){
+				clickCnt--;
+				console.log(clickCnt);
 				var choiceRow = $(obj).parent().parent();
 				var nextRow = choiceRow.next(); //nth-child()
 				var doubleRow = nextRow.next();
