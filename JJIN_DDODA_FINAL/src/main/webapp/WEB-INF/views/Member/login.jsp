@@ -35,7 +35,7 @@
 				<td colspan="3">
 					<a href="enrollView.doa">회원가입</a>&nbsp;&nbsp;&nbsp;&nbsp;
 					<a href="#">아이디 찾기</a>
-					<a href="#">비밀번호 찾기</a>
+					<a href="findPwdView.doa">비밀번호 찾기</a>
 				</td>
 			</tr>
 		</table>

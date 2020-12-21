@@ -56,15 +56,14 @@ public interface MemberStore {
 	 * @param userId
 	 * @return Member
 	 */
-	public Member FindPw(String userId);
+	public Member FindPw(Member member);
 	
 	/**
 	 * 아이디찾기
 	 * @param email
 	 * @return Member
 	 */
-	public Member FindId(String email);
-	
+	public Member FindId(Member member);
 	
 	/**
 	 * 회원정보 불러오기
@@ -72,7 +71,4 @@ public interface MemberStore {
 	 * @return Member
 	 */
 	public Member selectOne(String userId);
-	
-	
-	
 }
