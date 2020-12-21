@@ -1,5 +1,7 @@
 package com.kh.ddoda.member.controller;
 
+import java.util.ArrayList;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -11,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.ddoda.common.PageInfo;
+import com.kh.ddoda.common.Pagination;
 import com.kh.ddoda.member.domain.Member;
 import com.kh.ddoda.member.service.MemberService;
 
@@ -123,4 +127,44 @@ public class MemberController {
 	 * == 0? true : false; return isUsable + ""; }
 	 */
 	
+	// 관리자 회원 전체조회
+	@RequestMapping(value="adminMemberList.doa", method=RequestMethod.GET)
+	public ModelAndView memberList(ModelAndView mv, Integer page) {
+		int currentPage = (page != null) ? page : 1;
+		int listCount = service.getMemberListCount();
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+		ArrayList<Member> mList = service.adminSelectMemberList(pi);
+		if(!mList.isEmpty()) {
+			mv.addObject("mList", mList).addObject("pi", pi).setViewName("admin/Admin_Member_List");
+		} else {
+			mv.addObject("msg", "회원 전체조회 실패!").setViewName("common/errorPage");
+		}
+		return mv;
+	}
+	
+	// 관리자 회원 상세조회
+	@RequestMapping(value="adminMemberDetail.doa", method=RequestMethod.GET)
+	public ModelAndView adminMemberDetail(ModelAndView mv, Integer page, String userId) {
+		int currentPage = page != null ? page : 1;
+		Member member = service.adminSelectMember(userId);
+		if(member != null) {
+			mv.addObject("member", member).addObject("currentPage", currentPage).setViewName("admin/Admin_Member_Detail");
+		} else {
+			mv.addObject("msg", "게시글 상세조회 실패!");
+			mv.setViewName("common/errorPage");
+		}
+		return mv;
+	}
+	
+	// 관리자 회원 탈퇴
+	@RequestMapping(value="adminMemberDelete.doa", method=RequestMethod.GET)
+	public String adminMemberDelete(String userId, Model model) {
+		int result = service.adminDeleteMember(userId);
+		if(result > 0) {
+			return "redirect:adminMemberList.doa";
+		} else {
+			model.addAttribute("msg", "회원 탈퇴시키기 실패!");
+			return "common/errorPage";
+		}
+	}
 }

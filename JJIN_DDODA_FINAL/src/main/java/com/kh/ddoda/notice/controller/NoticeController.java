@@ -15,12 +15,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.ddoda.common.PageInfo;
 import com.kh.ddoda.common.Pagination;
-import com.kh.ddoda.mate.domain.Mate;
 import com.kh.ddoda.notice.domain.Notice;
 import com.kh.ddoda.notice.domain.SelectNotice;
 import com.kh.ddoda.notice.service.NoticeService;
-import com.kh.ddoda.opendiary.domain.Opendiary;
-import com.kh.ddoda.require.domain.Require;
 
 @Controller
 public class NoticeController {
@@ -59,123 +56,52 @@ public class NoticeController {
 	// 공지사항 작성 페이지 이동
 	@RequestMapping(value="nWriteView.doa", method=RequestMethod.GET)
 	public String noticeWriteView() {
-		return null;
+		return "admin/Admin_Notice_Write";
 	}
 	
-	// 공지사항 - 요청사항 등록
+	// 공지사항 등록
 	@RequestMapping(value="noticeRequireInsert.doa", method=RequestMethod.POST)
-	public String noticeRequireInsert(Require require, Model model, HttpServletRequest request, MultipartFile uploadFile) {
-		
-		return null;
-	}
-	
-	// 공지사항 - 메이트모집 등록
-	@RequestMapping(value="noticeMateInsert.doa", method=RequestMethod.POST)
-	public String noticeMateInsert(Mate mate, Model model, HttpServletRequest request, MultipartFile uploadFile) {
-		
-		return null;
-	}
-	
-	// 공지사항 - 식단공유 등록
-	@RequestMapping(value="noticeDiaryInsert.doa", method=RequestMethod.POST)
-	public String noticeDiaryInsert(Opendiary diary, Model model, HttpServletRequest request, MultipartFile uploadFile) {
-		
-		return null;
-	}
-	
-	// 공지사항 - 요청사항 사진 저장
-	public String rsaveFile(MultipartFile file, HttpServletRequest request) {
-		
-		return null;
-	}
-	
-	// 공지사항 - 메이트모집 사진 저장
-	public String msaveFile(MultipartFile file, HttpServletRequest request) {
-		
-		return null;
-	}
-	
-	// 공지사항 - 식단공유 사진 저장
-	public String dsaveFile(MultipartFile file, HttpServletRequest request) {
-		
-		return null;
+	public String noticeRequireInsert(SelectNotice selectNotice, Model model, HttpServletRequest request) {
+		int result = nService.registerNotice(selectNotice);
+		System.out.println("result : " + result);
+		String path = null;
+		if(result > 0) {
+			path = "redirect:noticeRequireList.doa";
+		} else {
+			model.addAttribute("msg", "공지사항 등록 실패!");
+			path = "common/errorPage";
+		}
+		return path;
 	}
 	
 	// 공지사항 - 요청사항 게시글 수정화면 이동
-	@RequestMapping(value="rUpdateView.doa", method=RequestMethod.GET)
-	public ModelAndView rUpdateView(ModelAndView mv, int requireNo) {
-		
+	@RequestMapping(value="noticeUpdateView.doa", method=RequestMethod.GET)
+	public ModelAndView noticeUpdateView(ModelAndView mv, Notice notice) {
+		mv.addObject("notice", nService.selectNotice(notice)).setViewName("admin/Admin_Notice_UpdateView");
 		return mv;
 	}
 	
-	// 공지사항 - 메이트모집 게시글 수정화면 이동
-	@RequestMapping(value="mUpdateView.doa", method=RequestMethod.GET)
-	public ModelAndView mUpdateView(ModelAndView mv, int mateNo) {
-		
-		return mv;
-	}
-	
-	// 공지사항 - 식단공유 게시글 수정화면 이동
-	@RequestMapping(value="dUpdateView.doa", method=RequestMethod.GET)
-	public ModelAndView dUpdateView(ModelAndView mv, int openDiaryNo) {
-		
-		return mv;
-	}
-	
-	// 공지사항 - 요청사항 게시글 수정
+	// 공지사항 게시글 수정
 	@RequestMapping(value="noticeUpdate.doa", method=RequestMethod.POST)
-	public ModelAndView noticeUpdate(ModelAndView mv, Require require, HttpServletRequest request, MultipartFile uploadFile) {
-		
-		return mv;
+	public String noticeUpdate(Model model, SelectNotice selectNotice, Notice notice) {
+		int result = nService.modifyNotice(selectNotice);
+		if(result > 0) {
+			return "redirect:noticeRequireList.doa";
+		} else {
+			model.addAttribute("msg", "공지사항 수정 실패!");
+			return "common/errorPage";
+		}
 	}
 	
-	// 공지사항 - 메이트모집 게시글 수정
-	@RequestMapping(value="mateUpdate.doa", method=RequestMethod.POST)
-	public ModelAndView mateUpdate(ModelAndView mv, Mate mate, HttpServletRequest request, MultipartFile uploadFile) {
-		
-		return mv;
-	}
-	
-	// 공지사항 - 식단공유 게시글 수정
-	@RequestMapping(value="diaryUpdate.doa", method=RequestMethod.POST)
-	public ModelAndView diaryUpdate(ModelAndView mv, Opendiary diary, HttpServletRequest request, MultipartFile uploadFile) {
-		
-		return mv;
-	}
-	
-	// 공지사항 - 오청사항 게시글 삭제
+	// 공지사항 게시글 삭제
 	@RequestMapping(value="noticeDelete.doa", method=RequestMethod.GET)
-	public String noticeDelete(int requireNo, Model model, HttpServletRequest request) {
-		
-		return null;
-	}
-	
-	// 공지사항 - 메이트모집 게시글 삭제
-	@RequestMapping(value="mateDelete.doa", method=RequestMethod.GET)
-	public String mateDelete(int mateNo, Model model, HttpServletRequest request) {
-		
-		return null;
-	}
-	
-	// 공지사항 - 식단공유 게시글 삭제
-	@RequestMapping(value="diaryDelete.doa", method=RequestMethod.GET)
-	public String diaryDelete(int openDiaryNo, Model model, HttpServletRequest request) {
-		
-		return null;
-	}
-	
-	// 공지사항 - 요청사항 파일삭제
-	public void deleteRequireFile(String rfileName, HttpServletRequest request) {
-		
-	}
-	
-	// 공지사항 - 메이트모집 파일삭제
-	public void deleteMateFile(String mfileName, HttpServletRequest request) {
-		
-	}
-	
-	// 공지사항 - 식단공유 파일삭제
-	public void deleteDiaryFile(String dfileName, HttpServletRequest request) {
-		
+	public String noticeDelete(Notice notice, Model model, HttpServletRequest request) {
+		int result = nService.deleteNotice(notice);
+		if(result > 0) {
+			return "redirect:noticeRequireList.doa";
+		} else {
+			model.addAttribute("msg", "공지사항 삭제 실패!");
+			return "common/errorPage";
+		}
 	}
 }

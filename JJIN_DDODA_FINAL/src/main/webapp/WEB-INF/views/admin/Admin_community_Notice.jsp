@@ -46,7 +46,17 @@
 						</td>
 						<td align="center">${notice.userId }</td>
 						<td align="center">${notice.noticeDate }</td>
-						<td align="center"><a href="#">수정</a> / <a href="#">삭제</a></td>
+						<td align="center">
+							<c:url var="nUpdate" value="noticeUpdateView.doa">
+								<c:param name="noticeNo" value="${notice.noticeNo }"/>
+								<c:param name="menuName" value="${notice.menuName }"/>
+							</c:url>
+							<c:url var="nDelete" value="noticeDelete.doa">
+								<c:param name="noticeNo" value="${notice.noticeNo }"/>
+								<c:param name="menuName" value="${notice.menuName }"/>
+							</c:url>
+							<a href="${nUpdate }">수정</a> / <a href="${nDelete }">삭제</a>
+						</td>
 					</tr>
 				</c:forEach>
 				
@@ -89,6 +99,7 @@
 					</td>
 				</tr>
 			</table>
+			<button onclick="location.href='nWriteView.doa';" class="insert btn btn-primary" style="float: right;">작성하기</button>
 			</div>	
 			<br>
 		</div>

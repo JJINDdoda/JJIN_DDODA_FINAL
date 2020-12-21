@@ -22,8 +22,8 @@
 		<div class="table-wrap2">
 			<table align="center" cellpadding="10" cellspacing="0" border="1" width="300" class="table">
 				<tr align="center" valign="middle"> <!-- valign : 수직 가운데 -->
-					<td height="15" width="70">제목</td>
-					<td style="text-align: left;">${nList.sNoticeTitle }</td>
+					<td height="15" width="70">시설상호명</td>
+					<td style="text-align: left;">${facility.facilityName }</td>
 				</tr>
 				<tr>
 					<td height="15" width="70">작성자</td>

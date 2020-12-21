@@ -2,70 +2,86 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="RequireMapper">
 	<resultMap type="Require" id="requireResultMap">
-		<result property="requireNo"	column="REQUIRE_NO"/>
-		<result property="requireTitle"	column="REQUIRE_TITLE"/>
-		<result property="requireDate"	column="REQUIRE_DATE"/>
-		<result property="requireModifyDate"	column="REQUIRE_MODIFY_DATE"/>
-		<result property="requireContents"	column="REQUIRE_CONTENTS"/>
-		<result property="requireYN"	column="REQUIRE_YN"/>
-		<result property="userId"	column="USERID"/>
-		<result property="originalFilename"	column="REQUIRE_ORIGINALFILENAME"/>
-		<result property="renameFilename"	column="REQUIRE_RENAMEFILENAME"/>
-		<result property="rCount"	column="RCOUNT"/>
+		<result property="requireNo" column="REQUIRE_NO"/>
+		<result property="requireTitle" column="REQUIRE_TITLE"/>
+		<result property="requireDate" column="REQUIRE_DATE"/>
+		<result property="requireModifyDate" column="REQUIRE_MODIFY_DATE"/>
+		<result property="requireContents" column="REQUIRE_CONTENTS"/>
+		<result property="requireYN" column="REQUIRE_YN"/>
+		<result property="requireOriginalFilename" column="REQUIRE_ORIGINALFILENAME"/>
+		<result property="requireRenameFilename" column="REQUIRE_RENAMEFILENAME"/>
 	</resultMap>
-	
-	<select id="requireList" resultMap="requireResultMap">
-		SELECT * FROM REQUIRE ORDER BY REQUIRE_DATE DESC
-	</select>
-	
-	<select id="getListCount" resultType="int">
+	<resultMap type="Reply" id="replyResultMap">
+		<result property="rComNo" column="R_COM_NO"/>
+		<result property="rComDate" column="R_COM_DATE"/>
+		<result property="rComTitle" column="R_COM_TITLE"/>
+		<result property="rComModifyDate" column="R_COM_MODIFY_DATE"/>
+		<result property="rComContents" column="R_COM_CONTENTS"/>
+		<result property="requireNo" column="REQUIRE_NO"/>
+	</resultMap>
+	<select id="getRequireListCount" resultType="int">
 		SELECT COUNT(*) FROM REQUIRE
 	</select>
-	
-	<select id="selectOneRequire" resultMap="requireResultMap">
-		SELECT * FROM REQUIRE WHERE REQUIRE_NO = #{requireNo}
+	<select id="adminSelectList" resultMap="requireResultMap">
+		SELECT * FROM REQUIRE
+		ORDER BY REQUIRE_DATE DESC
 	</select>
-	
-	<insert id="insertRequire">
-		INSERT INTO REQUIRE 
-		VALUES(SEQ_REQUIRE.NEXTVAL, #{requireTitle}, SYSDATE, SYSDATE,
-		#{requireContents}, DEFAULT, #{originalFilename}, #{renameFilename}, #{userId}, DEFAULT)
+	<select id="adminSelectRequire" resultType="Require">
+		SELECT RE.REQUIRE_NO as requireNo
+		, RE.REQUIRE_TITLE as requireTitle
+      	, RE.USERID as userId
+      	, RE.REQUIRE_CONTENTS as requireContents
+     	, CO.R_COM_CONTENTS as commentContents
+   		FROM REQUIRE RE
+   		LEFT OUTER JOIN REQUIRE_COMMENTS CO
+   		ON RE.REQUIRE_NO = CO.REQUIRE_NO
+  		WHERE 1=1
+   		AND RE.REQUIRE_NO = #{requireNo}
+	</select>
+	<select id="adminSelectRequireReply" resultType="Reply">
+		SELECT RE.REQUIRE_NO as requireNo
+		, RE.REQUIRE_TITLE as requireTitle
+      	, RE.USERID as userId
+      	, RE.REQUIRE_CONTENTS as requireContents
+     	, CO.R_COM_CONTENTS as rComContents
+     	, CO.R_COM_TITLE as rComTitle
+     	, CO.USERID as userId
+   		FROM REQUIRE RE
+   		LEFT OUTER JOIN REQUIRE_COMMENTS CO
+   		ON RE.REQUIRE_NO = CO.REQUIRE_NO
+  		WHERE 1=1
+   		AND RE.REQUIRE_NO = #{requireNo}
+   		AND CO.REQUIRE_NO = #{requireNo}
+	</select>
+	<insert id="insertReply">
+		INSERT INTO REQUIRE_COMMENTS
+		VALUES (SEQ_REQUIRE_COMMENTS.NEXTVAL, SYSDATE, NULL, #{rComTitle}, #{rComContents}, #{userId}, (SELECT REQUIRE_NO FROM REQUIRE WHERE REQUIRE_NO = #{requireNo}))
 	</insert>
-	
-	<update id="updateCount">
-		UPDATE REQUIRE SET RCOUNT = RCOUNT + 1
+	<update id="adminRequieStatus">
+		UPDATE REQUIRE
+		SET REQUIRE_YN = 'Y'
 		WHERE REQUIRE_NO = #{requireNo}
 	</update>
-	
-	<update id="updateRequire">
-		UPDATE REQUIRE SET REQUIRE_TITLE = #{requireTitle}, REQUIRE_DATE = SYSDATE, REQUIRE_MODIFY_DATE=SYSDATE,
-		REQUIRE_CONTENTS = #{requireContents}, REQUIRE_ORIGINALFILENAME = #{originalFilename}, REQUIRE_RENAMEFILENAME = #{renameFilename}
+	<update id="adminModifyRequire" parameterType="Require">
+		UPDATE REQUIRE
+		<set>
+			<if test="requireTitle != ''">REQUIRE_TITLE = #{requireTitle},</if>
+			<if test="requireContents != ''">REQUIRE_CONTENTS = #{requireContents},</if>
+			REQUIRE_MODIFY_DATE = SYSDATE
+		</set>
 		WHERE REQUIRE_NO = #{requireNo}
 	</update>
-	
-	<delete id="deleteRequire">
+	<update id="adminModifyReply">
+		UPDATE REQUIRE_COMMENTS
+		<set>
+			R_COM_MODIFY_DATE = SYSDATE,
+			<if test="rComTitle != ''">R_COM_TITLE = #{rComTitle},</if>
+			<if test="rComContents != ''">R_COM_CONTENTS = #{rComContents}</if>
+		</set>  
+		WHERE REQUIRE_NO = #{requireNo}
+	</update>
+	<delete id="adminDeleteRequire">
 		DELETE FROM REQUIRE
 		WHERE REQUIRE_NO = #{requireNo}
 	</delete>
-	<select id="searchList"  resultMap="requireResultMap">
-		SELECT * FROM REQUIRE
-		<where>
-			<if test="searchCondition.toString() == 'title'">
-				REQUIRE_TITLE LIKE '%' || #{searchValue} ||'%'
-			</if>
-			<if test="searchCondition.toString() == 'writer'">
-				USERID LIKE '%' || #{searchValue} ||'%'
-			</if>
-			<if test="searchCondition.toString() == 'content'">
-				REQUIRE_CONTENTS LIKE '%' || #{searchValue} ||'%'
-			</if>
-			<if test="searchCondition.toString() == 'all'">
-				REQUIRE_TITLE LIKE '%' || #{searchValue} ||'%'
-				OR USERID LIKE '%' || #{searchValue} || '%'
-				OR REQUIRE_CONTENTS LIKE '%' || #{searchValue} || '%'
-			</if>
-		</where>
-		ORDER BY REQUIRE_DATE DESC
-	</select>
-	
 </mapper>

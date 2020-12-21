@@ -6,12 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.ddoda.common.PageInfo;
-import com.kh.ddoda.mate.domain.Mate;
 import com.kh.ddoda.notice.domain.Notice;
 import com.kh.ddoda.notice.domain.SelectNotice;
 import com.kh.ddoda.notice.store.NoticeStore;
-import com.kh.ddoda.opendiary.domain.Opendiary;
-import com.kh.ddoda.require.domain.Require;
 
 @Service
 public class NoticeServiceImpl implements NoticeService {
@@ -35,56 +32,17 @@ public class NoticeServiceImpl implements NoticeService {
 	}
 
 	@Override
-	public int registerRequire(Require require) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int registerNotice(SelectNotice selectNotice) {
+		return nStore.registerNotice(selectNotice);
 	}
 
 	@Override
-	public int registerMate(Mate mate) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int modifyNotice(SelectNotice selectNotice) {
+		return nStore.modifyNotice(selectNotice);
 	}
 
 	@Override
-	public int registerDiary(Opendiary diary) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int modifyRequire(Require require) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int modifyMate(Mate mate) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int modifyDiary(Opendiary diary) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int deleteRequire(int requireNo) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int deleteMate(int mateNo) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int deleteDiary(int openDiaryNo) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int deleteNotice(Notice notice) {
+		return nStore.deleteNotice(notice);
 	}
 }

@@ -13,17 +13,12 @@
 				<ul class="dropdown-contents" style="text-align: center;">
 					<li><a href="adminRequireList.doa">요청사항</a></li>
 					<li><a href="noticeRequireList.doa">공지사항</a></li>
-					<li><a href="#">채팅</a></li>
+					<li><a href="adminChatList.doa">채팅</a></li>
 				</ul>
 			</li>
-			<li><a href="#">운동시설</a></li>
-			<li><a href="#">음식칼로리</a></li>
-			<li class="dropdowns"><a href="#">회원관리</a>
-				<ul class="dropdown-contents" style="text-align: center;">
-					<li><a href="#">상세보기</a></li>
-					<li><a href="#">탈퇴결정</a></li>
-				</ul>
-			</li>
+			<li><a href="adminFacilityList.doa">운동시설</a></li>
+			<li><a href="adminCalorieList.doa">음식칼로리</a></li>
+			<li class="dropdowns"><a href="adminMemberList.doa">회원관리</a></li>
 		</ul>
 	</div>
 </body>

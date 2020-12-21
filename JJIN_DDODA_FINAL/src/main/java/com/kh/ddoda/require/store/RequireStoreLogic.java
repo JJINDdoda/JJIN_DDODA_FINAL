@@ -58,63 +58,9 @@ public class RequireStoreLogic implements RequireStore {
 	public int adminDeleteRequire(int requireNo) {
 		return sqlSession.delete("RequireMapper.adminDeleteRequire", requireNo);
 	}
-	
+
 	@Override
 	public int adminRequireStatus(int requireNo) {
 		return sqlSession.update("RequireMapper.adminRequieStatus", requireNo);
-	}
-	
-	
-	@Override
-	public int getListCount() {
-		// TODO Auto-generated method stub
-		return sqlSession.selectOne("RequireMapper.getRequireListCount");
-	}
-
-	@Override
-	public ArrayList<Require> requireList(PageInfo pi) {
-		int offset = (pi.getCurrentPage()-1) * pi.getBoardLimit();
-		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
-		ArrayList<Require> rList = (ArrayList)sqlSession.selectList("RequireMapper.requireList", null, rowBounds);
-		System.out.println(offset + "," +rList);
-		return rList;
-	}
-
-	@Override
-	public Require selectOneRequire(int requireNo) {
-		// TODO Auto-generated method stub
-		return sqlSession.selectOne("RequireMapper.selectOneRequire", requireNo);
-	}
-
-	@Override
-	public int insertRequire(Require require) {
-		int result = sqlSession.insert("RequireMapper.insertRequire", require);
-		return result;
-	}
-
-	@Override
-	public int deleteRequire(int requireNo) {
-		// TODO Auto-generated method stub
-		return sqlSession.delete("RequireMapper.deleteRequire", requireNo);
-	}
-
-	@Override
-	public int updateRequire(Require require) {
-		// TODO Auto-generated method stub
-		return sqlSession.update("RequireMapper.updateRequire", require);
-	}
-
-	@Override
-	public ArrayList<Require> selectSearchList(Search search, PageInfo pi) {
-		int offset = (pi.getCurrentPage()-1 * pi.getBoardLimit());
-		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
-		ArrayList<Require> rList = (ArrayList)sqlSession.selectList("RequireMapper.searchList", search, rowBounds);
-		return rList;
-	}
-
-	@Override
-	public int addReadCount(int requireNo) {
-		// TODO Auto-generated method stub
-		return sqlSession.update("RequireMapper.updateCount", requireNo);
 	}
 }

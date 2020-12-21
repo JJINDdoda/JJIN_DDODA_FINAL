@@ -7,20 +7,26 @@
 	<typeAliases>
 		<typeAlias type="com.kh.ddoda.require.domain.Require" alias="Require"/>
 		<typeAlias type="com.kh.ddoda.require.domain.Reply" alias="Reply"/>
-	
+		<typeAlias type="com.kh.ddoda.notice.domain.Notice" alias="Notice"/>
+		<typeAlias type="com.kh.ddoda.notice.domain.SelectNotice" alias="SelectNotice"/>
 		<typeAlias type="com.kh.ddoda.mate.domain.Mate" alias="Mate"/>
 		<typeAlias type="com.kh.ddoda.mate.domain.MateComment" alias="MateCom"/>
 		<typeAlias type="com.kh.ddoda.mate.domain.Mymate" alias="Mymate"/>
 		<typeAlias type="com.kh.ddoda.opendiary.domain.Opendiary" alias="Opendiary"/>
 		<typeAlias type="com.kh.ddoda.opendiary.domain.DiaryImg" alias="DiaryImg"/>
 		<typeAlias type="com.kh.ddoda.opendiary.domain.OpendiaryComment" alias="OpendiaryComment"/>
-		
+		<typeAlias type="com.kh.ddoda.facility.domain.ExerciseFacility" alias="Facility"/>
 		<typeAlias type="com.kh.ddoda.member.domain.Member" alias="member"/>
+		<typeAlias type="com.kh.ddoda.calorie.domain.Calorie" alias="Calorie"/>
 	</typeAliases>
 	<mappers>
 		<mapper resource="mappers/mate-mapper.xml"/>
 		<mapper resource="mappers/opendiary-mapper.xml"/>
 		<mapper resource="mappers/require-mapper.xml" />
 		<mapper resource="mappers/member-mapper.xml" />
+		<mapper resource="mappers/notice-mapper.xml"/>
+		<mapper resource="mappers/facility-mapper.xml"/>
+		<mapper resource="mappers/calorie-mapper.xml"/>
+		<mapper resource="mappers/chat-mapper.xml"/>
 	</mappers>
 </configuration>

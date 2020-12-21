@@ -1,9 +1,13 @@
 package com.kh.ddoda.member.store;
 
+import java.util.ArrayList;
+
+import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.ddoda.common.PageInfo;
 import com.kh.ddoda.member.domain.Member;
 
 @Repository
@@ -77,5 +81,25 @@ public class MemberStoreLogic implements MemberStore{
 		return sqlSession.selectOne("memberMapper.selectOne", userId );
 	}
 	
+	@Override
+	public int getMemberListCount() {
+		return sqlSession.selectOne("memberMapper.getMemberListCount");
+	}
 
+	@Override
+	public ArrayList<Member> adminSelectMemberList(PageInfo pi) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return (ArrayList)sqlSession.selectList("memberMapper.adminSelectMemberList", null, rowBounds);
+	}
+
+	@Override
+	public Member adminSelectMember(String userId) {
+		return sqlSession.selectOne("memberMapper.adminSelectMember", userId);
+	}
+
+	@Override
+	public int adminDeleteMember(String userId) {
+		return sqlSession.delete("memberMapper.adminDeleteMember", userId);
+	}
 }

@@ -22,23 +22,35 @@
 		<div class="table-wrap2">
 			<table align="center" cellpadding="10" cellspacing="0" border="1" width="300" class="table">
 				<tr align="center" valign="middle"> <!-- valign : 수직 가운데 -->
-					<td height="15" width="70">제목</td>
-					<td style="text-align: left;">${nList.sNoticeTitle }</td>
+					<td height="15" width="70">음식명</td>
+					<td style="text-align: left;">${calorie.foodName }</td>
 				</tr>
 				<tr>
-					<td height="15" width="70">작성자</td>
-					<td style="text-align: left;">${nList.userId }</td>
+					<td height="15" width="70">칼로리</td>
+					<td style="text-align: left;">${calorie.kcal }</td>
 				</tr>
 				<tr>
-					<td height="15" width="70">작성 날짜</td>
-					<td style="text-align: left;">${nList.sNoticeDate }</td>
+					<td height="15" width="70">단백질</td>
+					<td style="text-align: left;">${calorie.protein }</td>
 				</tr>
 				<tr>
-					<td>내용</td>
-					<td style="text-align: left;">${nList.sNoticeContents }</td>
+					<td height="15" width="70">탄수화물</td>
+					<td style="text-align: left;">${calorie.carbo }</td>
+				</tr>
+				<tr>
+					<td height="15" width="70">지방</td>
+					<td style="text-align: left;">${calorie.fat }</td>
+				</tr>
+				<tr>
+					<td height="15" width="70">나트륨</td>
+					<td style="text-align: left;">${calorie.natrium }</td>
+				</tr>
+				<tr>
+					<td height="15" width="70">당류</td>
+					<td style="text-align: left;">${calorie.sacCharide }</td>
 				</tr>
 			</table>
-			<button onclick="location.href='noticeRequireList.doa';" class="insert btn btn-primary" style="float: right;">목록으로</button>
+			<button onclick="location.href='adminCalorieList.doa';" class="insert btn btn-primary" style="float: right;">목록으로</button>
 		</div>
 		</div>
 		</div>
