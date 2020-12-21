@@ -6,7 +6,19 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+<link rel="stylesheet" type="text/css" href="/resources/css/basicStyle.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+
+<!-- 합쳐지고 최소화된 최신 CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
+<!-- 부가적인 테마 -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+
+<!-- 합쳐지고 최소화된 최신 자바스크립트 -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
 <style>
 	body {
 	  font-family: Arial;
@@ -24,16 +36,16 @@
 	/* Position the image container (needed to position the left and right arrows) */
 	.containers {
 	  position: relative;
-	  width : 1500px;
-	  height : 660px;
+	  width : 1300px;
+	  height : 600px;
 	  margin : auto;
 	}
 	
 	/* Hide the images by default */
 	.mySlides {
 	  display: none;
-	  width : 1500px;
-	  height : 600px;
+	  width : 1300px;
+	  height : 550px;
 	  margin : auto;
 	}
 	
@@ -112,107 +124,204 @@
 	}	
 	
 	#facilityInfo{
-		width : 1500px;
-		height : 660px;
+		width : 1200px;
+		height : 500px;
 		margin : auto;
-	  }
+	}
+	
+	#facilityTbl{
+		float: left;
+		width: 600px;
+		height: 500px;
+		margin-left: 50px;
+	}
+	
+	#facilityBtn{
+		width : 500px;
+		height: 30px;
+		margin : auto;
+		
+	}
+	
+	#priceInfo{
+		width : 1200px;
+		display: none;
+		margin : auto;
+	}
+	
+	#instructorInfo{
+		width : 1200px;
+		display: none;
+		margin : auto;
+	}
+	
+	#termsInfo{
+		height: 200px;
+		border: 1px solid black;
+	}
+	
+	.subBtn{
+		float: right;
+		margin-left: 10px;
+		margin-top: 30px;
+	}
+	
+	#instructorInfoWrapping{
+		width: 1200px;
+		
+	}
+	
+	#facilitytable{
+		width: 700px;
+		height: 400px;
+		font-size: 16px;
+	}
+	
+	#instructorInfoImg{
+		width: 250px;
+		height: 250px;
+		float: left;
+		border : 2px solid darkgray;
+		background: white;
+		border-radius: 50%;
+		
+	}
+	
+	#instructorInfos{
+		width: 900px;
+		height: 250px;
+		margin-left : 50px;
+		float: left;
+	}
 </style>
 </head>
 <body>
 
 	<jsp:include page="../common/header.jsp"></jsp:include>
 	
-	
-	<h2 style="text-align:center">Slideshow Gallery</h2>
+	<br><br>
+	<h2 style="text-align:center; font-weight: 900;">${facilityInfo.facilityName }</h2>
+	<br><br>
 
 	<div class="containers">
-		<div class="mySlides">
-	    	<div class="numbertext">1 / 6</div>
-	    	<img src="./resources/images/facilityInfo/marker01.png" style="width:100%; height:600px">
-	  	</div>
-	
-		<div class="mySlides">
-		  	<div class="numbertext">2 / 6</div>
-		  	<img src="./resources/images/facilityInfo/marker01.png" style="width:100px">
-		</div>
+		<c:forEach items="${facilityPicture }" var="facilityPicture">
+			<div class="mySlides">
+		    	<div class="numbertext">1 / 6</div>
+		    	<img src="resources/facilityFiles/facilityPicture/${facilityPicture.pictureRename }" style="width:100%; height:550px">
+		  	</div>
+		</c:forEach>
 		
-		<div class="mySlides">
-			<div class="numbertext">3 / 6</div>
-			<img src="http://placehold.it/500x100" style="width:100%">
-		</div>
-		  
-		<div class="mySlides">
-			<div class="numbertext">4 / 6</div>
-			<img src="http://placehold.it/500x100" style="width:100%">
-		</div>
-		
-		<div class="mySlides">
-			<div class="numbertext">5 / 6</div>
-			<img src="http://placehold.it/500x100" style="width:100%">
-		</div>
-		  
-		<div class="mySlides">
-			<div class="numbertext">6 / 6</div>
-			<img src="http://placehold.it/500x100" style="width:100%">
-		</div>
 		  
 		<a class="prev" onclick="plusSlides(-1)">❮</a>
 		<a class="next" onclick="plusSlides(1)">❯</a>
 		
+		<br>
 		<div class="row">
-			<div class="column">
-				<img class="demo cursor" src="http://placehold.it/500x100" style="width:100%" onclick="currentSlide(1)" alt="The Woods">
-			</div>
-			<div class="column">
-				<img class="demo cursor" src="http://placehold.it/500x100" style="width:100%" onclick="currentSlide(2)" alt="Trolltunga, Norway">
-			</div>
-			<div class="column">
-				<img class="demo cursor" src="http://placehold.it/500x100" style="width:100%" onclick="currentSlide(3)" alt="Mountains and fjords">
-			</div>
-			<div class="column">
-				<img class="demo cursor" src="http://placehold.it/500x100" style="width:100%" onclick="currentSlide(4)" alt="Northern Lights">
-			</div>
-			<div class="column">
-				<img class="demo cursor" src="http://placehold.it/500x100" style="width:100%" onclick="currentSlide(5)" alt="Nature and sunrise">
-			</div>    
-			<div class="column">
-				<img class="demo cursor" src="http://placehold.it/500x100" style="width:100%" onclick="currentSlide(6)" alt="Snowy Mountains">
-		    </div>
+			<c:forEach items="${facilityPicture }" var="facilityPicture" varStatus="status">
+				<div class="column">
+					<img class="demo cursor" src="resources/facilityFiles/facilityPicture/${facilityPicture.pictureRename }" style="width:100%; height: 50px;" onclick="currentSlide(${status.count})" alt="The Woods">
+				</div>
+			</c:forEach>
+			<!-- 상태형변수 -->
+			<!-- count : 1부터 시작, index : 0부터 시작, count :  -->
 		</div>
 	</div>
 	
+	<br><br><br>
 	<div id="facilityInfo">
 		<div style="width: 500px; height: 500px; float: left;">
 			<div id="map" style="width:500px; height: 500px; position:relative;overflow:hidden;"></div>
 		</div>
-		<div style="float: left; width: 500px; height: 500px;" id="infoTb">
-			<table>
+		<div id="facilityTbl">
+			<p style="font-size: 20pt;">시설정보</p>
+			<table id="facilitytable">
+				<tr>
+					<td>시설명</td>
+					<td>${facilityInfo.facilityName }</td>
+				</tr>
+				<tr>
+					<td>분야</td>
+					<td>${facilityInfo.facilityField }</td>
+				</tr>
+				<tr>
+					<td>운동시설종류</td>
+					<td>${facilityInfo.facilityKinds }</td>
+				</tr>
+				<tr>
+					<td>블로그 주소</td>
+					<td>${facilityInfo.facilityBlog }</td>
+				</tr>
+				<tr>
+					<td>전화번호</td>
+					<td>${facilityInfo.facilityPhone }</td>
+				</tr>
+				<tr>
+					<td>주소</td>
+					<td>${facilityInfo.facilityAddr}</td>
+				</tr>
+			</table>
+			<div id="facilityBtn">
+				<input type="button" value="시설가격보기" id="facilityPrice" class="subBtn" onclick="facilityPriceDisplay()">
+				<input type="hidden" value="0" id="priceValue">
+				<input type="button" value="강사정보보기" id="instructor" class="subBtn" onclick="instructorDisplay()">
+				<input type="hidden" value="0" id="instructorValue">
+			</div>
+		</div>
+		
+	</div>
+	<br><br>
+
+	<div id="priceInfo">
+		<h3>❮시설 가격보기❯</h3>
+		<br>
+		<table class="table table-bordered">
 			<thead>
-				<tr style="background-color: olive;" id="tb">
-					<th>시설명</th>
+				<tr>
+					<th width="100px">개월수</th>
+					<th width="150px">가격</th>
+					<th>옵션</th>
+					<th>혜택</th>
 				</tr>
 			</thead>
 			<tbody>
-				<tr>
-					<td>${facilityInfo.facilityName }</td>
-				</tr>
+				<c:forEach items="${facilityPrice }" var="facilityPrice">
+					<tr>
+						<td>${facilityPrice.months }</td>
+						<td>${facilityPrice.price }</td>
+						<td>${facilityPrice.options }</td>
+						<td>${facilityPrice.benefits }</td>
+					</tr>
+				</c:forEach>
 			</tbody>
 		</table>
+		<div id="termsInfo">
+			이용약관
+			${facilityInfo.termsOfUse }
 		</div>
-	</div>
-	<div id="facilityBtn">
-		<input type="button" value="시설가격보기" id="facilityPrice" onclick="">
-		<input type="hidden" value="0" id="priceValue">
-		<input type="button" value="강사정보보기" id="instructor" onclick="">
-		<input type="hidden" value="0" id="instructorValue">
-	</div>
-	<div id="priceInfo">
-		
+		<br><br>
 	</div>
 	<div id="instructorInfo">
-		
+		<h3>❮강사정보 보기❯</h3>
+		<br>
+		<c:if test="${empty instructorInfo }">
+			<p>등록된 강사정보가 없습니다.</p>
+		</c:if>
+		<c:forEach items="${instructorInfo }" var="instructorInfo">
+			<div id="instructorInfoWrapping">
+				<div style="height: 300px; width: 1200px;">
+					<div id="instructorInfoImg"><img src="resources/facilityFiles/instructorPicture/${instructorInfo.instructorRename }" style="width: 250px; height: 250px; border-radius: 50%;"></div>
+					<div id = "instructorInfos">
+						<div>강사명 : ${instructorInfo.instructorName }</div>
+						<div>경력 : ${instructorInfo.carrer }</div>
+						<div>다짐 : ${instructorInfo.promise }</div>
+					</div>
+				</div>
+			</div>
+		</c:forEach>
 	</div>
-	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=키넣기&libraries=services"></script>
+	
+	<br><br>
+	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=68326c8ad1d84bdc1f10d98cebe524dc&libraries=services"></script>
 	<script>
 		var slideIndex = 1;
 		showSlides(slideIndex);
@@ -240,7 +349,6 @@
 		  }
 		  slides[slideIndex-1].style.display = "block";
 		  dots[slideIndex-1].className += " active";
-		  //captionText.innerHTML = dots[slideIndex-1].alt;
 		}
 		
 		
@@ -260,8 +368,42 @@
 		    position: markerPosition
 		});
 
-		// 마커가 지도 위에 표시되도록 설정합니다........
+		// 마커가 지도 위에 표시되도록 설정합니다
 		marker.setMap(map);
+		
+		
+		function facilityPriceDisplay(){
+			console.log($("#priceValue").val());
+			if($("#priceValue").val() == 0){
+				document.getElementById("priceInfo").style.display = "block";
+				$("#priceValue").val(1);
+				if($("#instructorValue").val() == 1){
+					document.getElementById("instructorInfo").style.display = "none";
+					$("#instructorValue").val(0);
+				}
+			}
+			else if($("#priceValue").val() == 1){
+				document.getElementById("priceInfo").style.display = "none";
+				$("#priceValue").val(0);
+			}
+		}
+		
+		
+		function instructorDisplay(){
+			if($("#instructorValue").val() == 0){
+				document.getElementById("instructorInfo").style.display = "block";
+				$("#instructorValue").val(1);
+				if($("#priceValue").val() == 1){
+					document.getElementById("priceInfo").style.display = "none";
+					$("#priceValue").val(0);
+				}
+			}
+			else if($("#instructorValue").val() == 1){
+				document.getElementById("instructorInfo").style.display = "none";
+				$("#instructorValue").val(0);
+			}
+			
+		}
 		
 	</script>
 

@@ -10,9 +10,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,11 +24,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.kh.ddoda.common.PageInfo;
+import com.kh.ddoda.common.Pagination;
 import com.kh.ddoda.facility.domain.ExerciseFacility;
 import com.kh.ddoda.facility.domain.FacilityPicture;
 import com.kh.ddoda.facility.domain.FacilityPrice;
 import com.kh.ddoda.facility.domain.InstructorInfo;
-import com.kh.ddoda.facility.domain.MapLocation;
 import com.kh.ddoda.facility.service.FacilityService;
 import com.kh.ddoda.member.domain.Member;
 
@@ -39,37 +43,38 @@ public class FacilityController {
 		
 	}
 	
-	//½Ã¼³Ã£±â ÆäÀÌÁö ¶ç¿ì±â
+	//ì‹œì„¤ì°¾ê¸° í˜ì´ì§€ ë„ìš°ê¸°
 	@RequestMapping(value = "facilityListView.doa", method = RequestMethod.GET)
 	public String facilityListView(Model model, String city) {
-		model.addAttribute("city", "null");//Ã³À½ ½Ã´Â none
-		model.addAttribute("kinds", "null"); //ÇöÀç ¼±ÅÃÇÑ ½Ã¼³Á¾·ù //none
-		model.addAttribute("beforekinds", "none"); //¼±ÅÃÇÑ ½Ã¼³Á¾·ù Àü¼Û
+		model.addAttribute("city", "null");//ì²˜ìŒ ì‹œëŠ” none
+		model.addAttribute("kinds", "null"); //í˜„ì¬ ì„ íƒí•œ ì‹œì„¤ì¢…ë¥˜ //none
+		model.addAttribute("beforekinds", "none"); //ì„ íƒí•œ ì‹œì„¤ì¢…ë¥˜ ì „ì†¡
 		model.addAttribute("beforeCity", "none");
 		model.addAttribute("county", "null");
 		return "facility/facilityListView";
 	}
 	
-	
-	
-	
-	//½Ã¼³ »ó¼¼Á¶È¸
+	//ì‹œì„¤ ìƒì„¸ì¡°íšŒ
 	@RequestMapping(value = "facilityDetail.doa", method = RequestMethod.GET)
 	public String facilityInfoView(int facilityNo, HttpServletRequest request, Model model) {
 		
 		ExerciseFacility facilityInfo = fService.facilityInfo(facilityNo);
 		ArrayList<FacilityPicture> facilityPicture = fService.facilityPicture(facilityNo);
+		ArrayList<FacilityPrice> facilityPrice = fService.facilityPriceInfo(facilityNo);
+		ArrayList<InstructorInfo> instructorInfo = fService.instructorInfo(facilityNo);
 		
 		model.addAttribute("facilityPicture", facilityPicture);
 		model.addAttribute("facilityInfo", facilityInfo);
+		model.addAttribute("facilityPrice", facilityPrice);
+		model.addAttribute("instructorInfo", instructorInfo);
 		return "facility/facilityInfoView";
 	}
 	
 	@RequestMapping(value = "markerList.doa", method = RequestMethod.GET)
 	public void markerList(HttpServletResponse response, String city, String county, String kinds) throws Exception{
 		HashMap<String, String> facilityInfo = new HashMap<String, String>();
-		//city.substring(0, 1);
-		facilityInfo.put("city", city.substring(0, 1));
+		System.out.println(city);
+		facilityInfo.put("city", city.substring(0, 2));
 		facilityInfo.put("kinds", kinds);
 		facilityInfo.put("county", county);
 		ArrayList<ExerciseFacility> fList = fService.markerCountyList(facilityInfo);
@@ -82,7 +87,7 @@ public class FacilityController {
 	@RequestMapping(value = "markerPoints.doa", method = RequestMethod.GET)
 	public String markerPoints(String city, String county, String kinds) { // HttpServletResponse response,
 		HashMap<String, String> facilityInfo = new HashMap<String, String>();
-		facilityInfo.put("city", city.substring(0, 1));
+		facilityInfo.put("city", city.substring(0, 2));
 		facilityInfo.put("kinds", kinds);
 		facilityInfo.put("county", county);
 		String markers = "";
@@ -100,12 +105,79 @@ public class FacilityController {
 		return markers;
 	}
 	
+	@ResponseBody
+	@RequestMapping(value = "contentList.doa", method = RequestMethod.GET)
+	public String contentList(String city, String county, String kinds) {
+		HashMap<String, String> facilityInfo = new HashMap<String, String>();
+		facilityInfo.put("city", city.substring(0, 2));
+		facilityInfo.put("kinds", kinds);
+		facilityInfo.put("county", county);
+		String content = "";
+		System.out.println(city + ", " + kinds + ", " + county);
+		ArrayList<ExerciseFacility> contentList = fService.markerCountyList(facilityInfo);
+		for (int i = 0; i < contentList.size(); i++) {
+			if(i == (contentList.size()-1)) {
+//				content += "{content: '<div" + " class = \"contents\"" + ">" 
+//						+ contentList.get(i).getFacilityName() 
+//						+"<br><a href=\"facilityDetail.doa?facilityNo=" + contentList.get(i).getFacilityNo()+"\">í™ˆí˜ì´ì§€</a>"
+//						+ "</div>'}";
+				content += "{content: '<div class=\"wrap\">" + 
+						"<div class=\"info\">" + 
+						"<div class=\"title\">" + 
+						"ì¹´ì¹´ì˜¤ ìŠ¤í˜ì´ìŠ¤ë‹·ì›" + 
+						"<div class=\"close\" onclick=\"closeOverlay()\" title=\"ë‹«ê¸°\"></div>" + 
+						"</div>" + 
+						"<div class=\"body\">" + 
+						"<div class=\"img\">" + 
+						"<img src=\"https://cfile181.uf.daum.net/image/250649365602043421936D\" width=\"73\" height=\"70\">" + 
+						"</div>" + 
+						"<div class=\"desc\">" + 
+						"<div class=\"ellipsis\">ì œì£¼íŠ¹ë³„ìì¹˜ë„ ì œì£¼ì‹œ ì²¨ë‹¨ë¡œ 242</div>" + 
+						"<div class=\"jibun ellipsis\">(ìš°) 63309 (ì§€ë²ˆ) ì˜í‰ë™ 2181</div>" + 
+						"<div><a href=\"https://www.kakaocorp.com/main\" target=\"_blank\" class=\"link\">í™ˆí˜ì´ì§€</a></div>" + 
+						"</div>" + 
+						"</div>" + 
+						"</div>" + 
+						"</div>'}";
+			}
+			else {
+//				content += "{content: '<div" + " class = \"contents\"" + ">" 
+//						+ contentList.get(i).getFacilityName() 
+//						+"<br><a href=\"facilityDetail.doa?facilityNo=" + contentList.get(i).getFacilityNo()+"\">í™ˆí˜ì´ì§€</a>"
+//						+ "</div>'},";
+				content += "{content: '<div class=\"wrap\">" + 
+						"<div class=\"info\">" + 
+						"<div class=\"title\">" + 
+						"ì¹´ì¹´ì˜¤ ìŠ¤í˜ì´ìŠ¤ë‹·ì›" + 
+						"<div class=\"close\" onclick=\"closeOverlay()\" title=\"ë‹«ê¸°\"></div>" + 
+						"</div>" + 
+						"<div class=\"body\">" + 
+						"<div class=\"img\">" + 
+						"<img src=\"https://cfile181.uf.daum.net/image/250649365602043421936D\" width=\"73\" height=\"70\">" + 
+						"</div>" + 
+						"<div class=\"desc\">" + 
+						"<div class=\"ellipsis\">ì œì£¼íŠ¹ë³„ìì¹˜ë„ ì œì£¼ì‹œ ì²¨ë‹¨ë¡œ 242</div>" + 
+						"<div class=\"jibun ellipsis\">(ìš°) 63309 (ì§€ë²ˆ) ì˜í‰ë™ 2181</div>" + 
+						"<div><a href=\"https://www.kakaocorp.com/main\" target=\"_blank\" class=\"link\">í™ˆí˜ì´ì§€</a></div>" + 
+						"</div>" + 
+						"</div>" + 
+						"</div>" + 
+						"</div>'},";
+			}
+		}
+		System.out.println(content);
+		
+		return content;
+	}
+	
 	@RequestMapping(value = "markerCountList.doa", method = RequestMethod.GET)
 	public String markerCountyList(String city, String kinds, String beforekinds, String county, Model model) {
 		String markers = markerPoints(city, county, kinds);
+		String content = contentList(city, county, kinds);
+		model.addAttribute("content", content);
 		model.addAttribute("markerAllList", markers);
-		model.addAttribute("city", city.substring(0, 1)); //¾î´À½Ã¸¦ ¼±ÅÃÇß¾ú´ÂÁö Àü¼Û
-		model.addAttribute("beforekinds", kinds); // ¼±ÅÃÇÑ ½Ã¼³Á¾·ù Àü¼Û
+		model.addAttribute("city", city.substring(0, 2)); //ì–´ëŠì‹œë¥¼ ì„ íƒí–ˆì—ˆëŠ”ì§€ ì „ì†¡
+		model.addAttribute("beforekinds", kinds); // ì„ íƒí•œ ì‹œì„¤ì¢…ë¥˜ ì „ì†¡
 		model.addAttribute("beforeCity", city);
 		model.addAttribute("county", county);
 		model.addAttribute("kinds", kinds);
@@ -114,19 +186,19 @@ public class FacilityController {
 	}
 	
 	
-	//½Ã¼³µî·ÏÇÏ±â ÆäÀÌÁö
+	//ì‹œì„¤ë“±ë¡í•˜ê¸° í˜ì´ì§€
 	@RequestMapping(value = "facilityInfoRegistView.doa", method = RequestMethod.GET)
 	public String facilityInfoRegistView() {
 		return "facility/facilityInfoRegist";
 	}
 	
-	//½Ã¼³µî·Ï¿äÃ»
+	//ì‹œì„¤ë“±ë¡ìš”ì²­
 	@RequestMapping(value = "facilityRegistration.doa", method = RequestMethod.POST)
 	public String facilityRegistration(HttpServletRequest request, @RequestParam(name="picturePath", required=false) MultipartFile[] picturePath, ExerciseFacility facility, HttpSession session, @RequestParam(name="addr") String addr, @RequestParam(name="detailAddr") String detailAddr) {
 
 		Member loginUser = (Member) session.getAttribute("loginUser");
 		
-		//»çÁøÅ×ÀÌºí Á¤º¸¸¦ Array¿¡´Ù°¡ ³Ö´Â´Ù.
+		//ì‚¬ì§„í…Œì´ë¸” ì •ë³´ë¥¼ Arrayì—ë‹¤ê°€ ë„£ëŠ”ë‹¤.
 		ArrayList<FacilityPicture> facilityPictures = new ArrayList<FacilityPicture>();
 		FacilityPicture facilityPicture = null;
 		String[] renamePathName = new String[picturePath.length];
@@ -145,13 +217,11 @@ public class FacilityController {
 			System.out.println(facilityPictures.get(i).toString());
 		}
 		
-//		System.out.println(picture);
-//		System.out.println(pictureRename);
-		//ÀûÀº ³»¿ëÀº ½Ã¼³Á¤º¸Å×ÀÌºí
+		//ì ì€ ë‚´ìš©ì€ ì‹œì„¤ì •ë³´í…Œì´ë¸”
 		int facilityResult = 0;
 		int pictureResult = 0;
 		String path = null;
-		String userId = loginUser.getUserId(); // ·Î±×ÀÎÇÑ »ç¿ëÀÚ ¾ÆÀÌµğ ¹Ş¾Æ¿À±â
+		String userId = loginUser.getUserId(); // ë¡œê·¸ì¸í•œ ì‚¬ìš©ì ì•„ì´ë”” ë°›ì•„ì˜¤ê¸°
 		String facilityAddr = addr + ", " + detailAddr;
 		facility.setFacilityAddr(facilityAddr);
 		facility.setUserId(userId);
@@ -160,9 +230,9 @@ public class FacilityController {
 		facilityResult = fService.facilityRegistration(facility);
 		
 		for (int i = 0; i < facilityPictures.size(); i++) {
-			//¸®½ºÆ®¿¡ ´ã±ä Á¤º¸¸¦ °¡Áö°í¿Â´Ù.
+			//ë¦¬ìŠ¤íŠ¸ì— ë‹´ê¸´ ì •ë³´ë¥¼ ê°€ì§€ê³ ì˜¨ë‹¤.
 			FacilityPicture fpicture = facilityPictures.get(i);
-			//hashMapÀ» ¸¸µé¾î
+			//hashMapì„ ë§Œë“¤ì–´
 			HashMap<String, String> fHash = new HashMap<String, String>();
 			fHash.put("picturePath", fpicture.getPicturePath());
 			fHash.put("pictureRename", fpicture.getPictureRename());
@@ -181,7 +251,7 @@ public class FacilityController {
 	
 	public String[] saveFacilityFile(@RequestParam(name="picturePath", required=false) MultipartFile[] picturePath, HttpServletRequest request) {
 		String root = request.getSession().getServletContext().getRealPath("resources");
-		String savePath = root + "\\facilityFiles\\faciltyPicture";
+		String savePath = root + "\\facilityFiles\\facilityPicture";
 	
 		File folder = new File(savePath);
 	
@@ -189,12 +259,12 @@ public class FacilityController {
 			folder.mkdirs();
 		}
 		
-		//ÀÌ¸§ Àç¼³Á¤
+		//ì´ë¦„ ì¬ì„¤ì •
 		String[] pictureRename = new String[picturePath.length];
 		String[] filePath = new String[picturePath.length];
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
 		for (int i = 0; i < picturePath.length; i++) {
-			//¿ø·¡ ÆÄÀÏÀÌ¸§
+			//ì›ë˜ íŒŒì¼ì´ë¦„
 			String originPath = picturePath[i].getOriginalFilename();
 			pictureRename[i] = sdf.format(new java.sql.Date(System.currentTimeMillis())) + "_" + i + "." + originPath.substring(originPath.lastIndexOf(".")+1);
 			filePath[i] = folder + "\\" + pictureRename[i];
@@ -211,25 +281,20 @@ public class FacilityController {
 		return pictureRename;
 	}
 	
-	//½Ã¼³°¡°İµî·Ï ÆäÀÌÁö -> Áö¿ì±â
+	//ì‹œì„¤ê°€ê²©ë“±ë¡ í˜ì´ì§€ -> ì§€ìš°ê¸°
 	@RequestMapping(value = "facilityPriceRegistView.doa", method = RequestMethod.GET)
 	public String facilityPriceRegistView() {
 		return "facility/facilityPriceRegist";
 	}
 	
-	//½Ã¼³°¡°İµî·Ï ¿äÃ»
+	//ì‹œì„¤ê°€ê²©ë“±ë¡ ìš”ì²­
 	@RequestMapping(value = "facilityPriceRegist.doa", method = RequestMethod.POST)
 	public String facilityPriceRegist(HttpServletRequest request, String termsOfUse) {
 		String[] monthArr = request.getParameterValues("months");
 		String[] priceArr = request.getParameterValues("price");	
 		String[] optionsArr = request.getParameterValues("options");
 		String[] benefitsArr = request.getParameterValues("benefits");
-//		for (int i = 0; i < benefitsArr.length; i++) {
-//			System.out.println(monthArr[i]);
-//			System.out.println(priceArr[i]);
-//			System.out.println(optionsArr[i]);
-//			System.out.println(benefitsArr[i]);
-//		}
+
 		int resultPrice = 0;
 		//int resultTerms = 0;
 		for (int i = 0; i < benefitsArr.length; i++) {
@@ -240,7 +305,6 @@ public class FacilityController {
 			facilityPrice.setBenefits(benefitsArr[i]);
 			resultPrice = fService.facilityPriceRegist(facilityPrice);
 		}
-		//resultTerms = fService.facilityTerms(termsOfUse);
 		if(resultPrice > 0) {
 			return "facility/facilityInstructorRegist";
 		}
@@ -249,23 +313,18 @@ public class FacilityController {
 		}
 	}
 	
-	//°­»çµî·ÏÆäÀÌÁö -> Áö¿ì±â
+	//ê°•ì‚¬ë“±ë¡í˜ì´ì§€ -> ì§€ìš°ê¸°
 	@RequestMapping(value = "facilityInstructorRegistView.doa", method = RequestMethod.GET)
 	public String facilityInstructorRegistView() {
 		return "facility/facilityInstructorRegist";
 	}
 	
-	//°­»çµî·Ï ¿äÃ»
+	//ê°•ì‚¬ë“±ë¡ ìš”ì²­
 	@RequestMapping(value = "facilityInstructorRegist.doa", method = RequestMethod.POST)
 	public String facilityInstructorRegist(HttpServletRequest request, @RequestParam(name="instructorPicture", required=false) MultipartFile[] instructorPicture) {
 		String[] instructorNameArr = request.getParameterValues("instructorName");
 		String[] carrerArr = request.getParameterValues("carrer");
 		String[] promiseArr = request.getParameterValues("promise");
-		for (int i = 0; i < promiseArr.length; i++) {
-			System.out.println(instructorNameArr[i]);
-			System.out.println(carrerArr[i]);
-			System.out.println(promiseArr[i]);
-		}
 		String[] instructorRename = new String[instructorPicture.length];
 		saveInstructorFile(instructorPicture, request);
 		int result = 0;
@@ -285,12 +344,11 @@ public class FacilityController {
 				
 			}
 		}
-		//result = fService.instructorRegist(instructorInfo);
 		if(result > 0) {
 			return "home";
 		}
 		else {
-			return "common/errorPage";
+			return "home";
 		}
 		
 	}
@@ -326,28 +384,35 @@ public class FacilityController {
 		return instructorRename;
 	}
 	
-	//³» ½Ã¼³Á¤º¸ ¸®½ºÆ®
+	//ë‚´ ì‹œì„¤ì •ë³´ ë¦¬ìŠ¤íŠ¸
 	@RequestMapping(value = "myfacilityList.doa", method = RequestMethod.GET)
-	public String myFacilityListView(HttpSession session, HttpServletRequest request, Model model) {
+	public String myFacilityListView(HttpSession session, HttpServletRequest request, Model model, @RequestParam(value="page", required = false) Integer page) {
 		Member loginUser = (Member) session.getAttribute("loginUser");
 		String userId = loginUser.getUserId();
 		System.out.println(userId);
-		ArrayList<ExerciseFacility> exerciseFacility = fService.FacilityList(userId);
-		for (int i = 0; i < exerciseFacility.size(); i++) {
-			System.out.println(exerciseFacility.get(i).getTermsYn());
-		}
+		
+		
+		int currentPage = (page != null) ? page : 1;
+		int listCount = fService.getMyFacilityListCount(userId);
+		System.out.println(currentPage);
+		System.out.println(listCount);
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+		ArrayList<ExerciseFacility> exerciseFacility = fService.FacilityList(pi, userId);
+		
+		
+		model.addAttribute("pi", pi);
 		model.addAttribute("exerciseFacility", exerciseFacility);
 		
 		return "facility/myFacilityList";
 	}
 	
-	//½Ã¼³Á¤º¸ ¼öÁ¤ ÆäÀÌÁö
+	//ì‹œì„¤ì •ë³´ ìˆ˜ì • í˜ì´ì§€
 	@RequestMapping(value = "facilityInfoModifyView.doa", method = RequestMethod.GET)
 	public String facilityInfoModifyView(HttpServletRequest requuest, Model model, int facilityNo) {
-		//Á¤º¸ °¡Á®¿À±â
-		//1. ½Ã¼³ Á¤º¸
+		//ì •ë³´ ê°€ì ¸ì˜¤ê¸°
+		//1. ì‹œì„¤ ì •ë³´
 		ExerciseFacility exerciseFacility = fService.facilityInfo(facilityNo);
-		//2. ½Ã¼³ »çÁø Á¤º¸
+		//2. ì‹œì„¤ ì‚¬ì§„ ì •ë³´
 		ArrayList<FacilityPicture> facilityPicture = fService.facilityPicture(facilityNo);
 		
 		model.addAttribute("exerciseFaciliy", exerciseFacility);
@@ -357,27 +422,341 @@ public class FacilityController {
 		return "facility/facilityInfoModify";
 	}
 	
-	//½Ã¼³Á¤º¸ ¼öÁ¤ÇÏ±â
+	//íŒŒì¼ ì‚­ì œ -> ì‚­ì œë²„íŠ¼ ëˆ„ë¥¸ íŒŒì¼ë“¤
+	@RequestMapping(value = "deleteSelectFile.doa", method = RequestMethod.GET)
+	public void deleteSelectFile(HttpServletRequest request) {
+		String[] pictureFiles = request.getParameterValues("pictureFiles");
+		
+		File file;
+		if(pictureFiles != null) {
+			String root = request.getSession().getServletContext().getRealPath("resources");
+			String savePath = root + "\\facilityFiles\\facilityPicture";
+			for (int i = 0; i < pictureFiles.length; i++) {
+				file = new File(savePath + "\\" + pictureFiles[i]);
+				String pictureRename = pictureFiles[i];
+				if(file.exists()) {
+					fService.deleteFacilityPictureOne(pictureRename);
+					file.delete();
+				}
+			}
+		}
+	}
+	
+	//ì‹œì„¤ì •ë³´ ìˆ˜ì •í•˜ê¸°
 	@RequestMapping(value = "facilityModify.doa", method = RequestMethod.POST)
-	public String facilityInfoModify(HttpServletRequest request, Model model) {
-		return "";
+	public String facilityInfoModify(Model model, HttpServletRequest request, @RequestParam(name="picturePath", required=false) MultipartFile[] picturePath, ExerciseFacility facility, HttpSession session, @RequestParam(name="addr") String addr, @RequestParam(name="detailAddr") String detailAddr, String facilityNo) {
+		Member loginUser = (Member) session.getAttribute("loginUser");
+		
+		System.out.println("ì‹œì„¤ì •ë³´ : " + facility.toString());
+		
+		int facilityResult = 0;
+		int pictureResult = 0;
+		String path = null;
+		String userId = loginUser.getUserId(); // ë¡œê·¸ì¸í•œ ì‚¬ìš©ì ì•„ì´ë”” ë°›ì•„ì˜¤ê¸°
+		String facilityAddr = addr + ", " + detailAddr;
+		facility.setFacilityAddr(facilityAddr);
+		facility.setUserId(userId);
+		int facilityNumber = Integer.parseInt(facilityNo);
+		
+		ArrayList<FacilityPicture> facilityPictures = null;
+		if(picturePath.length != 0 && picturePath != null) {
+			//ì‚¬ì§„í…Œì´ë¸” ì •ë³´ë¥¼ Arrayì—ë‹¤ê°€ ë„£ëŠ”ë‹¤.
+			facilityPictures = new ArrayList<FacilityPicture>();
+			FacilityPicture facilityPicture = null;
+			String[] renamePathName = new String[picturePath.length];
+			saveFacilityFile(picturePath, request);
+			for (int i = 0; i < picturePath.length; i++) {
+				if(!picturePath[i].getOriginalFilename().equals("")) {
+					facilityPicture = new FacilityPicture();
+					renamePathName[i] = saveFacilityFile(picturePath, request)[i];
+					facilityPicture.setPicturePath(picturePath[i].getOriginalFilename());
+					facilityPicture.setPictureRename(renamePathName[i]);
+					facilityPictures.add(facilityPicture);
+				}
+			}
+			for (int i = 0; i < facilityPictures.size(); i++) {
+				System.out.println(facilityPictures.get(i).toString());
+			}
+			
+			for (int i = 0; i < facilityPictures.size(); i++) {
+				//ë¦¬ìŠ¤íŠ¸ì— ë‹´ê¸´ ì •ë³´ë¥¼ ê°€ì§€ê³ ì˜¨ë‹¤.
+				FacilityPicture fpicture = facilityPictures.get(i);
+				FacilityPicture facilityfile = new FacilityPicture();
+				facilityfile.setFacilityNo(facilityNumber);
+				facilityfile.setPicturePath(fpicture.getPicturePath());
+				facilityfile.setPictureRename(fpicture.getPictureRename());
+				pictureResult = fService.updateFacilityPicture(facilityfile);
+			}
+		}
+		
+		facilityResult = fService.updateFacilityInfo(facility);
+		
+		System.out.println(facilityResult);
+		System.out.println(pictureResult);
+		
+		if(facilityResult > 0 || pictureResult > 0) {
+			ArrayList<FacilityPrice> facilityPriceInfo = fService.facilityPriceInfo(facilityNumber);
+			model.addAttribute("priceNum", facilityPriceInfo.size());
+			model.addAttribute("facilityPriceInfo", facilityPriceInfo);
+			model.addAttribute("facilityNo", facilityNo);
+			path = "facility/facilityPriceModify";
+		}
+		else {
+			
+		}
+		return path;
 	}
-	//½Ã¼³ °¡°İ ¼öÁ¤ ÇÏ±âÆäÀÌÁö
-	public String facilityPriceInfoModify(int facilityNo, Model model) {
-		//4. ½Ã¼³ °¡°İÁ¤º¸
-		ArrayList<FacilityPrice> facilityPrice = fService.facilityPriceInfo(facilityNo);
-		model.addAttribute("facilityPrice", facilityPrice);
+	
+	//ì‹œì„¤ ê°€ê²© ìˆ˜ì • í•˜ê¸°í˜ì´ì§€
+	//ì‹œì„¤ ê°€ê²© ì‚­ì œ, ìˆ˜ì •, ì¶”ê°€ ì„¸ê°€ì§€ê°€ ìˆì–´ì•¼í•¨
+	//ì‹œì„¤ê°€ê²© ì‚­ì œëŠ” ìœ„ì—ì„œ ì§„í–‰(deletePriceSubmit)
+	//ì‹œì„¤ê°€ê²© ìˆ˜ì •(ë³€í™˜ëœ 
+	//ì‹œì„¤ê°€ê²© ì¶”ê°€
+	//ê·¸ëƒ¥ ì „ë¶€ ë‹¤ ì‚­ì œí•˜ê³  ë‹¤ì‹œ insertí•˜ê¸°
+	@RequestMapping(value = "facilityPriceModify.doa", method = RequestMethod.POST)
+	public String facilityPriceInfoModify(int facilityNo, Model model, HttpServletRequest request) {
+		String[] monthArr = request.getParameterValues("months");
+		String[] priceArr = request.getParameterValues("price");	
+		String[] optionsArr = request.getParameterValues("options");
+		String[] benefitsArr = request.getParameterValues("benefits");
+		
+		int priceresult = 0;
+		int deletePrices = 0;
+		//ê°€ê²©ì •ë³´ ì§€ìš°ê¸°
+		
+		deletePrices = fService.deletePrices(facilityNo);
+		System.out.println("dd"+deletePrices);
+		
+		if(benefitsArr.length != 0) {
+			//ê°€ê²©ì •ë³´ ë„£ê¸°
+			for (int i = 0; i < benefitsArr.length; i++) {
+				FacilityPrice facilityPrice = new FacilityPrice();
+				facilityPrice.setFacilityNo(facilityNo);
+				facilityPrice.setMonths(Integer.parseInt(monthArr[i]));
+				facilityPrice.setPrice(Integer.parseInt(priceArr[i]));
+				facilityPrice.setOptions(optionsArr[i]);
+				facilityPrice.setBenefits(benefitsArr[i]);
+				priceresult = fService.facilityPriceModify(facilityPrice);
+			}
+		}
+		
+		
+		ArrayList<InstructorInfo> instructorInfoList = fService.instructorInfo(facilityNo);
+		model.addAttribute("instuctorNum", instructorInfoList.size());
+		model.addAttribute("instructorInfo", instructorInfoList);
 		model.addAttribute("facilityNo", facilityNo);
-		return "";
+		return "facility/facilityInstructorModify";
+		
+		
 	}
 	
-	//°­»ç Á¤º¸ ¼öÁ¤ÇÏ±â ÆäÀÌÁö
-	public String instructorInfoModify(int facilityNo, Model model) {
-		//3. °­»çÁ¤º¸
+	//ê°•ì‚¬ ì •ë³´ ìˆ˜ì •í•˜ê¸° í˜ì´ì§€
+	@RequestMapping(value = "facilityInstructorModify.doa", method = RequestMethod.POST)
+	public String instructorInfoModify(Model model, HttpServletRequest request,@RequestParam(name="instructorPicture", required=false) MultipartFile[] instructorPicture) {
+		int facilityNo = Integer.parseInt(request.getParameter("facilityNo"));
+		
+		String[] instructorNameArr = request.getParameterValues("instructorName");
+		String[] carrerArr = request.getParameterValues("carrer");
+		String[] promiseArr = request.getParameterValues("promise");
+		
+		String[] instructorNameDBArr = request.getParameterValues("instructorNameDB");
+		String[] carrerDBArr = request.getParameterValues("carrerDB");
+		String[] promiseDBArr = request.getParameterValues("promiseDB");
+		InstructorInfo upInstructorInfo = null;
+		for (int i = 0; i < promiseDBArr.length; i++) {
+			upInstructorInfo = new InstructorInfo();
+			upInstructorInfo.setInstructorName(instructorNameDBArr[i]);
+			upInstructorInfo.setCarrer(carrerDBArr[i]);
+			upInstructorInfo.setPromise(promiseDBArr[i]);
+			upInstructorInfo.setFacilityNo(facilityNo);
+			fService.modifyFacilityInstructor(upInstructorInfo);
+		}
+		
+		String[] instructorRename = new String[instructorPicture.length];
+		saveInstructorFile(instructorPicture, request);
+		int result = 0;
+		InstructorInfo instructorInfo = null;
+		for (int i = 0; i < instructorPicture.length; i++) {
+			if(!instructorPicture[i].getOriginalFilename().equals("")) {
+				instructorInfo = new InstructorInfo();
+				instructorRename[i] = saveInstructorFile(instructorPicture, request)[i];
+				instructorInfo.setInstructorName(instructorNameArr[i]);
+				instructorInfo.setCarrer(carrerArr[i]);
+				instructorInfo.setPromise(promiseArr[i]);
+				instructorInfo.setInstructorPicture(instructorPicture[i].getOriginalFilename());
+				instructorInfo.setInstructorRename(instructorRename[i]);
+				instructorInfo.setFacilityNo(facilityNo);
+				System.out.println(instructorInfo.toString());
+				result = fService.updateFacilityInstructor(instructorInfo);
+				
+			}
+		}
+		if(result > 0) {
+			return "home";
+		}
+		else {
+			return "home";
+		}
+		
+	}
+	
+	@RequestMapping(value = "instructorDeleteSubmit.doa", method = RequestMethod.GET)
+	public void instructorDeleteSubmit(HttpServletRequest request) {
+		String[] RenamePictures = request.getParameterValues("instructorRenameArr");
+		File file;
+		if(RenamePictures != null) {
+			String root = request.getSession().getServletContext().getRealPath("resources");
+			String savePath = root + "\\facilityFiles\\instructorPicture";
+			for (int i = 0; i < RenamePictures.length; i++) {
+				System.out.println(RenamePictures[i]);
+				file = new File(savePath + "\\" + RenamePictures[i]);
+				String instructorRename = RenamePictures[i];
+				if(file.exists()) {
+					System.out.println(instructorRename);
+					fService.deleteFacilityInstructorOne(instructorRename);
+					file.delete();
+				}
+			}
+		}
+		
+		
+	}
+	
+	//ì‹œì„¤ì‚­ì œí•˜ê¸°
+	@ResponseBody
+	@RequestMapping(value = "deleteMyFacility.doa", method = RequestMethod.GET)
+	public int deleteMyFacility(HttpServletRequest request) {
+		int facilityNo = Integer.parseInt(request.getParameter("facilityNo"));
+		System.out.println(facilityNo);
+		//ì‹œì„¤ì‚¬ì§„ ì‚­ì œ
+		//ì‹œì„¤ë²ˆí˜¸ì— í•´ë‹¹í•˜ëŠ” ì‹œì„¤ì‚¬ì§„ ëª©ë¡ ê°€ì ¸ì˜¤ê¸°
+		ArrayList<FacilityPicture> faciltiyPciture = fService.facilityPicture(facilityNo);
+		
+		File file;
+		if(faciltiyPciture != null) {
+			String root = request.getSession().getServletContext().getRealPath("resources");
+			String savePath = root + "\\facilityFiles\\facilityPicture";
+			for (int i = 0; i < faciltiyPciture.size(); i++) {
+				String pictureRename = faciltiyPciture.get(i).getPictureRename();
+				file = new File(savePath + "\\" + pictureRename);
+				//System.out.println(pictureRename);
+				if(file.exists()) {
+					System.out.println(pictureRename);
+					file.delete();
+				}
+			}
+		}
+		//ê°•ì‚¬ ì‚¬ì§„ ì‚­ì œ
+		//ì‹œì„¤ ë²ˆí˜¸ì— í•´ë‹¹í•˜ëŠ” ê°•ì‚¬ì‚¬ì§„ ëª©ë¡ ê°€ì ¸ì˜¤ê¸°
 		ArrayList<InstructorInfo> instructorInfo = fService.instructorInfo(facilityNo);
-		model.addAttribute("instructorInfo", instructorInfo);
-		return "";
+		if(instructorInfo != null) {
+			String root = request.getSession().getServletContext().getRealPath("resources");
+			String savePath = root + "\\facilityFiles\\instructorPicture";
+			for (int i = 0; i < instructorInfo.size(); i++) {
+				String instructorRename = instructorInfo.get(i).getInstructorRename();
+				file = new File(savePath + "\\" + instructorRename);
+				if(file.exists()) {
+					System.out.println(instructorRename);
+					file.delete();
+				}
+			}
+		}
+		
+		
+		
+		int facilityResult = fService.deleteMyFacility(facilityNo);
+		return facilityResult;
 	}
 	
+	
+	
+	//ê´€ë¦¬ì_ì‹œì„¤ê´€ë¦¬í˜ì´ì§€
+	@RequestMapping(value = "adminFacilityManage.doa", method = RequestMethod.GET)
+	public String adminFacilityManage(Model model, @RequestParam(value="page", required = false) Integer page) {
+		int currentPage = (page != null) ? page : 1;
+		int listCount = fService.getAllFacilityListCount();
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+		ArrayList<ExerciseFacility> exerciseFacility = fService.allFacilityList(pi);
+		model.addAttribute("pi", pi);
+		model.addAttribute("exerciseFacility", exerciseFacility);
+		model.addAttribute("termsYn", "D");
+		model.addAttribute("userId", null);
+		return "facility/adminFacilityManage";
+	}
+	
+	//ê´€ë¦¬ì_ì‹œì„¤ê²€ìƒ‰
+	@RequestMapping(value = "termsYnSearch.doa", method = RequestMethod.GET)
+	public String termsYnSearch(Model model, HttpServletRequest request, @RequestParam(value="page", required = false) Integer page) {
+		String userId = request.getParameter("userId");
+		String[] termsYnArr = request.getParameterValues("termsYn");
+		HashMap<String, String> termsYnHash = new HashMap<String, String>();
+		
+		
+		if(userId != "" && userId != null) {
+			termsYnHash.put("userId", userId);
+			System.out.println("userId : " + userId);
+		}
+		else {
+			termsYnHash.put("userId", "none");
+			System.out.println("none");
+		}
+		
+		if(termsYnArr.length == 1) {
+			termsYnHash.put("termsYn", termsYnArr[0]);
+		}
+		else {//ë‘ê°œ ë‹¤ ì„ íƒí–ˆì„ ë•Œ
+			termsYnHash.put("termsYn", "dup");
+			System.out.println("dup");
+		}
+		
+		//userIdê°¸ noneì´ë©´ usrIdê²€ìƒ‰ì—†ìŒ
+		//termsYnì´ dupì´ë©´  termsYnê²€ìƒ‰ì—†ìŒ
+		int currentPage = (page != null) ? page : 1;
+		int listCount = fService.termsYnSearchCount(termsYnHash);
+		System.out.println(listCount);
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+		
+		ArrayList<ExerciseFacility> exerciseFacility = fService.termsYnSearch(pi, termsYnHash);
+		if(termsYnArr.length == 1) {
+			model.addAttribute("termsYn", termsYnArr[0]);
+		}
+		else {
+			model.addAttribute("termsYn", "D");
+		}
+		model.addAttribute("userId", userId);
+		model.addAttribute("pi", pi);
+		model.addAttribute("exerciseFacility", exerciseFacility);
+		return "facility/adminFacilityManage";
+	}
+	
+	//ê´€ë¦¬ì ì‹œì„¤ ìŠ¹ì¸
+	@RequestMapping(value = "approvedClick.doa", method = RequestMethod.GET)
+	public String approvedClick(HttpServletRequest request, Model model, @RequestParam(value="page", required = false) Integer page) {
+		int facilityNo = Integer.parseInt(request.getParameter("facilityNo"));
+		System.out.println(facilityNo);
+		int result = fService.approvedClick(facilityNo); // updateë¨¼
+		if(result > 0) {
+			return "redirect:adminFacilityManage.doa";
+		}
+		else {
+			return "common/errorPage";
+		}
+		
+	}
+	
+	//ê´€ë¦¬ì ì‹œì„¤ ê±°ì ˆ
+	@RequestMapping(value = "rejectClick.doa", method = RequestMethod.GET)
+	public String rejectClick(HttpServletRequest request, Model model, @RequestParam(value="page", required = false) Integer page) {
+		int facilityNo = Integer.parseInt(request.getParameter("facilityNo"));
+		System.out.println(facilityNo);
+		int result = fService.rejectClick(facilityNo); // updateë¨¼ì €
+		if(result > 0) {
+			return "redirect:adminFacilityManage.doa";
+		}
+		else {
+			return "common/errorPage";
+		}
+		
+	}
 	
 }

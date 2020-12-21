@@ -81,7 +81,7 @@
 
 	<!-- content -->	
 	
-	<div class="content" style="height:1200px;">
+	<div class="content" style="height:1000px;">
 		<div class="menub" style="height:500px; position: fixed;">
 			<ul>
 				<li><a href="facilityListView.doa">시설정보</a></li>
@@ -90,65 +90,68 @@
 		</div>
 		<div class="main" style="margin-left: 180px;">
 			<div class="main-name" style="height: 80px; width: 1200px;">
+				<!-- <img src="../resources/images/facilityMap/facilityRegistor.png" class="facilityImg"> -->
 				<div class="facilityInfo">
 					<div class="facilityMenu" onclick="facilityInfoClick()"></div>
 				</div>
 				<div class="nextMarker"><img src="../resources/images/facilityMap/nextImg.png" class="nextMarkerImg"></div>
-				<div class="facilityInfo">
-					<div class="facilityMenu" id="facilityRegistor"></div>
+				<div class="facilityInfo" onclick="facilityPriceClick()">
+					<div class="facilityMenu"></div>
 				</div>
 				<div class="nextMarker"><img src="../resources/images/facilityMap/nextImg.png" class="nextMarkerImg"></div>
 				<div class="facilityInfo" onclick="facilityInstructorClick()">
-					<div class="facilityMenu"></div> 
+					<div class="facilityMenu"  id="facilityRegistor"></div>
 				</div>
 				<!-- <div class="facilityInfo"><img src="../resources/images/facilityMap/facilityInstrutor.png" class="facilityImg"></div> -->
 			</div>
 			<br><br>
 			<div class="table-wrap">
-				<form id="fileForm" action="facilityPriceRegist.doa" method="post" enctype="multipart/form-data">
+				<form id="fileForm" action="facilityInstructorRegist.doa" method="post" enctype="multipart/form-data">
 					<table class="table" id="facilityTbl">
 						<thead>
 							<tr>
 								<td colspan="5" align="left">
-									<a href='#this' onclick="addPrice()">+ 추가하기</a>
+									<a href='#this' onclick="addInstructor()">+ 추가하기</a>
 								</td>
 							</tr>
 						</thead>
-						<tbody id="tablebody">
+						<tbody>
 							<tr>
-								<td>개월수</td>
+								<td>강사이름</td>
 								<td>
-									<input type="text" name="months" placeholder="숫자를 입력해주세요" required>개월
+									<input type="text" name="instructorName">
 								</td>
-								<td>가격</td>
+								<td>강사사진</td>
 								<td>
-									<input type="text" name="price" placeholder="숫자를 입력해주세요" required>원
+									<input type="file" name="instructorPicture">
 								</td>
 								<td>
 									<a href="#this" onclick="deletePrice(this)">- 삭제하기</a>
 								</td>
 							</tr>
 							<tr>
-								<td>옵션가격</td>
-								<td colspan="4">
-									<textarea rows="5" cols="50" name="options" required></textarea>
-								</td>
+								<td>경력</td>
+								<td colspan="3"><input type="text" name="carrer"></td>
 							</tr>
 							<tr>
-								<td>혜택</td>
-								<td colspan="4">
-									<textarea rows="5" cols="50" name="benefits" required></textarea>
+								<td>다짐</td>
+								<td colspan="3">
+									<textarea rows="5" cols="50" name="promise"></textarea>
 								</td>
 							</tr>
 						</tbody>
+						
+						
 					</table>
-					
 					<div align="center">
 						<input type="submit" value="등록하기" class="insert btn btn-primary"> &nbsp;
 						<a href="javascript:returnOpenList()">목록으로</a>
 					</div>
 				</form>
+				
+				
 			</div>
+			
 		</div>
 	</div>
 
@@ -158,50 +161,40 @@
 	<br><br><br><br><br><br>
 	<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 	<!-- end footer -->
+	<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+	<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=68326c8ad1d84bdc1f10d98cebe524dc&libraries=services"></script>
 	<script>
-
-		
 		function facilityInfoClick(){
+			/* document.getElementById('facilityRegistor').style.background='yellow'; */
 			location.href='facilityInfoRegistView.doa';
 		}
 		
-		function facilityInstructorClick(){
-			location.href='facilityInstructorRegistView.doa';
+		function facilityPriceClick(){
+			location.href='facilityPriceRegistView.doa';
 		}
 		
-		var clickCnt = 1;
-		function addPrice(){
-			if(clickCnt < 6){
-				var str = "<tr><td>개월수</td><td><input type='text' name='months'></td><td>가격</td><td><input type ='text' name = 'price'></td><td><a href='#this' onclick='deletePrice(this)'>- 삭제하기</td></tr>" +
-				"<tr><td>옵션가격</td><td colspan='4'><textarea rows='5' cols='50' name='options'></textarea></td></tr>"
-				+ "<tr><td>혜택</td><td colspan='4'><textarea rows='5' cols='50' name='benefits'></textarea></td></tr>";
-				$('#tablebody').append(str);
-				clickCnt++;
-				console.log(clickCnt);
-			}
-			else{
-				alert('최대6개 등록 가능합니다.');
-			}
+		function addInstructor(){
+			alert('dd');
+			var str = "<tr><td>강사이름</td><td><input type='text' name='instructorName'></td><td>강사사진</td><td><input type ='file' name = 'instructorPicture'></td><td><a href='#this' onclick='deletePrice(this)'>- 삭제하기</td></tr>"
+						+"<tr><td>경력</td><td colspan='3'><input type='text' name='carrer'></td></tr>"+
+						"<tr><td>다짐</td><td colspan='3'><textarea rows='5' cols='50' name='promise'></textarea></td></tr>";
+			$('#facilityTbl').append(str);
 			
 		}
 		
 		function deletePrice(obj){
-			if(clickCnt > 1){
-				clickCnt--;
-				var choiceRow = $(obj).parent().parent();
-				var nextRow = choiceRow.next(); //nth-child()
-				var doubleRow = nextRow.next();
-				choiceRow.remove();
-				nextRow.remove();
-				doubleRow.remove();
-			}
-			else{
-				alert('최소 1개이상 등록 해야합니다.');
-			}
+			var choiceRow = $(obj).parent().parent();
+			var nextRow = choiceRow.next(); //nth-child()
+			var doubleRow = nextRow.next();
+			choiceRow.remove();
+			nextRow.remove();
+			doubleRow.remove();
+            deleteFile($(this));
 		}
 		
-		
-		
+		function deleteFile(obj) {
+	        obj.parent().remove();
+	    }
 
 	</script>
 </body>

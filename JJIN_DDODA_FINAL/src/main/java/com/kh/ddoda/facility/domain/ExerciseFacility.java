@@ -10,8 +10,6 @@ public class ExerciseFacility {
 	private String facilityKinds;
 	private String facilityBlog;
 	private String facilityPhone;
-//	private String picturePath;
-//	private String pictureRename;
 	private String termsOfUse;
 	private String latiLong;
 	private String termsYn;
@@ -32,8 +30,6 @@ public class ExerciseFacility {
 		this.facilityKinds = facilityKinds;
 		this.facilityBlog = facilityBlog;
 		this.facilityPhone = facilityPhone;
-		//this.picturePath = picturePath;
-		//this.pictureRename = pictureRename;
 		this.termsOfUse = termsOfUse;
 		this.latiLong = latiLong;
 		this.termsYn = termsYn;
@@ -144,32 +140,6 @@ public class ExerciseFacility {
 				+ ", termsOfUse=" + termsOfUse + ", latiLong=" + latiLong + ", termsYn=" + termsYn + ", userId="
 				+ userId + "]";
 	}
-
-	
-//	public String getPicturePath() {
-//		return picturePath;
-//	}
-//
-//	public void setPicturePath(String picturePath) {
-//		this.picturePath = picturePath;
-//	}
-//
-//	public String getPictureRename() {
-//		return pictureRename;
-//	}
-//
-//	public void setPictureRename(String pictureRename) {
-//		this.pictureRename = pictureRename;
-//	}
-
-//	@Override
-//	public String toString() {
-//		return "ExerciseFacility [facilityNo=" + facilityNo + ", facilityField=" + facilityField + ", recommended="
-//				+ recommended + ", facilityName=" + facilityName + ", facilityAddr=" + facilityAddr + ", facilityKinds="
-//				+ facilityKinds + ", facilityBlog=" + facilityBlog + ", facilityPhone=" + facilityPhone
-//				+ ", picturePath=" + picturePath + ", pictureRename=" + pictureRename + ", termsOfUse=" + termsOfUse
-//				+ ", latiLong=" + latiLong + ", termsYn=" + termsYn + ", userId=" + userId + "]";
-//	}
 
 	
 }

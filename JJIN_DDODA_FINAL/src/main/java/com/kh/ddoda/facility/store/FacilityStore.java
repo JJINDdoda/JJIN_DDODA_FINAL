@@ -3,65 +3,82 @@ package com.kh.ddoda.facility.store;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.kh.ddoda.common.PageInfo;
 import com.kh.ddoda.facility.domain.ExerciseFacility;
 import com.kh.ddoda.facility.domain.FacilityPicture;
 import com.kh.ddoda.facility.domain.FacilityPrice;
 import com.kh.ddoda.facility.domain.InstructorInfo;
-import com.kh.ddoda.facility.domain.MapLocation;
 
 public interface FacilityStore {
 	
 	/**
-	 * ½Ã, ±¸ ¹Ş¾Æ¿À±â(ok)
+	 * ì‹œ, êµ¬ ë°›ì•„ì˜¤ê¸°(ok)
 	 * @return
 	 */
-	public ArrayList<MapLocation> locationList();
+	//public ArrayList<MapLocation> locationList();
 	
-
 	
 	/**
-	 * ³»°¡ µî·ÏÇÑ ½Ã¼³¸ñ·Ï
+	 * êµ¬ êµ¬ì—­ ë‚˜ëˆ„ê¸°
+	 * @return
+	 */
+	//public ArrayList<MapLocation> mapLocation(MapLocation mapLocation);
+	
+	/**
+	 * ì‹œë¡œ ê²€ìƒ‰
+	 * @return
+	 */
+	//public ArrayList<ExerciseFacility> searchCity();
+	
+	/**
+	 * êµ¬ë¡œ ê²€ìƒ‰
+	 * @return
+	 */
+	//public ArrayList<ExerciseFacility> searchCounty(String areaName);
+	
+	/**
+	 * ë‚´ê°€ ë“±ë¡í•œ ì‹œì„¤ëª©ë¡
 	 * @param userId
 	 * @return
 	 */
-	public ArrayList<ExerciseFacility> FacilityList(String userId);
+	public ArrayList<ExerciseFacility> FacilityList(PageInfo pi, String userId);
 	
 	/**
-	 * ½Ã¼³ »ó¼¼º¸±â
+	 * ì‹œì„¤ ìƒì„¸ë³´ê¸°
 	 * @param facilityNo
 	 * @return
 	 */
 	public ExerciseFacility facilityInfo(int facilityNo);
 	
 	/**
-	 * ½Ã¼³³» »çÁø °¡Á®¿À±â
+	 * ì‹œì„¤ë‚´ ì‚¬ì§„ ê°€ì ¸ì˜¤ê¸°
 	 * @param facilityNo
 	 * @return
 	 */
 	public ArrayList<FacilityPicture> facilityPicture(int facilityNo);
 	
 	/**
-	 * °­»çÁ¤º¸ °¡Á®¿À±â
+	 * ê°•ì‚¬ì •ë³´ ê°€ì ¸ì˜¤ê¸°
 	 * @param facilityNo
 	 * @return
 	 */
 	public ArrayList<InstructorInfo> instructorInfo(int facilityNo);
 	
 	/**
-	 * ½Ã¼³°¡°İÁ¤º¸ °¡Á®¿À±â
+	 * ì‹œì„¤ê°€ê²©ì •ë³´ ê°€ì ¸ì˜¤ê¸°
 	 * @param facilityNo
 	 * @return
 	 */
 	public ArrayList<FacilityPrice> facilityPriceInfo(int facilityNo);
 
 	/**
-	 * ½Ã¼³ À§Ä¡ ÀüÃ¼ Ãâ·Â
+	 * ì‹œì„¤ ìœ„ì¹˜ ì „ì²´ ì¶œë ¥
 	 * @return
 	 */
 	//public ArrayList<String> markerListAll(HashMap<String, String> facilityInfo);
 	
 	/**
-	 * ±¸ ´ÜÀ§ ½Ã¼³ Ãâ·Â(ok)
+	 * êµ¬ ë‹¨ìœ„ ì‹œì„¤ ì¶œë ¥(ok)
 	 * @param facilityInfo
 	 * @return
 	 */
@@ -70,33 +87,153 @@ public interface FacilityStore {
 	public ArrayList<String> markerPoints(HashMap<String, String> facilityInfo);
 	
 	/**
-	 * ½Ã¼³ Á¤º¸ µî·Ï
+	 * contentì¶œë ¥
+	 * @return
+	 */
+	public ArrayList<String> contentList(HashMap<String, String> facilityInfo);
+	
+	/**
+	 * ì‹œì„¤ ì •ë³´ ë“±ë¡
 	 * @return
 	 */
 	public int facilityRegistration(ExerciseFacility exerciseFacility);
 	
 	/**
-	 * ½Ã¼³»çÁø µî·Ï
+	 * ì‹œì„¤ì‚¬ì§„ ë“±ë¡
 	 * @return
 	 */
 	public int facilityPictureRegist(HashMap<String, String> facilityHash);
 	
 	/**
-	 * ½Ã¼³°¡°İµî·Ï
+	 * ì‹œì„¤ê°€ê²©ë“±ë¡
 	 * @return
 	 */
 	public int facilityPriceRegist(FacilityPrice facilityPrice);
 	
 	/**
-	 * ÀÌ¿ë¾à°ü ³Ö±â
+	 * ì´ìš©ì•½ê´€ ë„£ê¸°
 	 * @param termsOfUse
 	 * @return
 	 */
-	public int facilityTerms(String termsOfUse);
+	//public int facilityTerms(String termsOfUse);
 	
 	/**
-	 * °­»çÁ¤º¸ µî·ÏÇÏ±â
+	 * ê°•ì‚¬ì •ë³´ ë“±ë¡í•˜ê¸°
 	 * @return
 	 */
 	public int instructorRegist(InstructorInfo instructorInfo);
+	
+	/**
+	 * ì‹œì„¤ì •ë³´ ìˆ˜ì •
+	 * @return
+	 */
+	public int updateFacilityInfo(ExerciseFacility exerciseFacility);
+	
+	/**
+	 * ì‹œì„¤ì‚¬ì§„ ìˆ˜ì •(ë“±ë¡)
+	 * @param facilityHash
+	 * @return
+	 */
+	public int updateFacilityPicture(FacilityPicture facilityPicture);
+	
+	/**
+	 * ì‹œì„¤ì‚¬ì§„ í•˜ë‚˜ ì‚­ì œ
+	 * @return
+	 */
+	public int deleteFacilityPictureOne(String pictureRename);
+	
+	/**
+	 * ê°€ê²© í•˜ë‚˜ ì‚­ì œ
+	 * @param months
+	 * @return
+	 */
+	//public int deletePriceSubmit(HashMap<String, Integer> priceHash);
+	
+	/**
+	 * ê°€ê²©ì§€ìš°ê¸°
+	 * @param facilityNo
+	 * @return
+	 */
+	public int deletePrices(int facilityNo);
+	
+	/**
+	 * ì‹œì„¤ê°€ê²© ì¬ë“±ë¡
+	 * @param facilityNo
+	 * @return
+	 */
+	public int facilityPriceModify(FacilityPrice facilityPrice);
+	
+	/**
+	 * ê°•ì‚¬ ì‚¬ì§„ ì‚­ì œ
+	 * @return
+	 */
+	public int deleteFacilityInstructorOne(String instructorRename);
+	
+	/**
+	 * ê°•ì‚¬ ì¬ë“±ë¡(ì—…ë°ì´íŠ¸)
+	 * @param instructorInfo
+	 * @return
+	 */
+	public int updateFacilityInstructor(InstructorInfo instructorInfo);
+	
+	/**
+	 * ê°•ì‚¬ ì—…ë°ì´íŠ¸
+	 * @param instructorInfo
+	 * @return
+	 */
+	public int modifyFacilityInstructor(InstructorInfo instructorInfo);
+	
+	/**
+	 * ë‚˜ì˜ ì‹œì„¤ ì‚­ì œ
+	 * @param facilityNo
+	 * @return
+	 */
+	public int deleteMyFacility(int facilityNo);
+	
+	/**
+	 * í˜ì´ì§€ ì „ì²´ ê°¯ìˆ˜ ê°€ì ¸ì˜¤ê¸°(ë‚˜ì˜ ì‹œì„¤)
+	 * @return
+	 */
+	public int getMyFacilityListCount(String userId);
+	
+	/**
+	 * ì „ì²´ì‹œì„¤ ë¦¬ìŠ¤íŠ¸ ê°¯ìˆ˜ ê°€ì ¸ì˜¤ê¸°
+	 * @return
+	 */
+	public int getAllFacilityListCount();
+	
+	/**
+	 * ì „ì²´ì‹œì„¤ ë¦¬ìŠ¤íŠ¸ ê°€ì ¸ì˜¤ê¸°
+	 * @param pi
+	 * @return
+	 */
+	public ArrayList<ExerciseFacility> allFacilityList(PageInfo pi);
+	
+	/**
+	 * ê²€ìƒ‰ì„ í†µí•œ ë¦¬ìŠ¤íŠ¸ ê°¯ìˆ˜ ê°€ì ¸ì˜¤ê¸°
+	 * @param termsYnHash
+	 * @return
+	 */
+	public int termsYnSearchCount(HashMap<String, String> termsYnHash);
+
+	/**
+	 * ê²€ìƒ‰ì„ í†µí•œ ë¦¬ìŠ¤íŠ¸ ê°€ì ¸ì˜¤ê¸°
+	 * @param pi
+	 * @return
+	 */
+	public ArrayList<ExerciseFacility> termsYnSearch(PageInfo pi, HashMap<String, String> termsYnHash);
+	
+	/**
+	 * ìŠ¹ì¸ ë²„íŠ¼ í´ë¦­
+	 * @param facilityNo
+	 * @return
+	 */
+	public int approvedClick(int facilityNo);
+	
+	/**
+	 * ê±°ì ˆë²„íŠ¼ í´ë¦­
+	 * @param facilityNo
+	 * @return
+	 */
+	public int rejectClick(int facilityNo);
 }
