@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="diaryMapper">
+
+	<resultMap type="Diary" id="diaryResultMap">
+		<result property="diaryNo" column="DIARY_NO"></result>
+		<result property="diaryTitle" column="DIARY_TITLE"></result>
+		<result property="diaryContents" column="DIARY_CONTENTS"></result>
+		<result property="diaryDate" column="DIARY_DATE"></result>
+		<result property="publicCode" column="PUBLIC_CODE"></result>
+		<result property="originalFileName" column="ORIGINAL_FILENAME"></result>
+		<result property="renameFileName" column="RENAME_FILENAME"></result>
+	
+	</resultMap>
+
+	
+	<resultMap type="Reply" id="replyResultMap">
+		<result property="refBid" column="REF_BID"></result>
+		<result property="rCreateDate" column="R_CREATE_DATE"></result>
+		<result property="rModifyDate" column="R_MODIFY_DATE"></result>
+		<result property="rStatus" column="R_STATUS"></result>
+	</resultMap>
+	
+	<select id="getListCount" resultType="int">
+		SELECT COUNT(*)
+		FROM DIARY
+		WHERE USERID=#{userId}
+	</select>
+	
+	<select id="selectList" resultMap="diaryResultMap">
+		SELECT*FROM DIARY WHERE USERID=#{userId}
+		ORDER BY DIARY_NO DESC
+	</select>
+	
+	<update id="updateCount">
+		UPDATE DIARY
+		SET DCOUNT = DCOUNT + 1
+		WHERE DIARY_NO=#{diaryNo}
+	</update>
+	
+	<select id="selectOne" resultMap="diaryResultMap">
+		SELECT*FROM DIARY
+		WHERE DIARY_NO= #{diaryNo} 
+	</select>
+	
+	<update id="updatePublicCode">
+		UPDATE DIARY
+		SET PUBLIC_CODE = #{publicCode}
+		WHERE DIARY_NO = #{diaryNo}
+	</update>
+	
+	<insert id="insertDiary">
+		INSERT INTO DIARY
+		VALUES(SEQ_DIARY.NEXTVAL, #{userId}, #{diaryTitle}, #{diaryContents}, SYSDATE, #{publicCode}, #{originalFileName}, #{renameFileName})
+	</insert>
+	
+	<update id="updateDiary">
+		UPDATE DIARY
+		SET DIARY_CONTENTS=#{diaryContents}, ORIGINAL_FILENAME=#{originalFileName}, RENAME_FILENAME=#{renameFileName}
+		WHERE DIARY_NO =#{diaryNo} 
+	</update>
+	
+	<delete id="deleteDiary">
+		DELETE FROM DIARY
+		WHERE DIARY_NO = #{diaryNo}
+	</delete>
+	
+	<insert id="insertReply">
+		INSERT INTO REPLY
+		VALUES(SEQ_RID.NEXTVAL, #{rContent}, #{refBid}, #{rWriter},SYSDATE,SYSDATE,DEFAULT)
+	</insert>
+	
+	<select id="selectReplyList" resultMap="replyResultMap">
+		SELECT *
+		FROM REPLY 
+		WHERE REF_BID = #{num}
+		ORDER BY RID DESC
+	</select>
+	
+	<select id="searchList" resultMap="diaryResultMap">
+		SELECT*FROM DIARY
+		<where>
+			<if test="searchCondition.toString() == 'title'">
+				DIARY_TITLE LIKE '%'|| #{searchValue}||'%'
+			</if>
+			<if test="searchCondition.toString() == 'date'">
+				DIARY_DATE LIKE '%'|| #{searchValue}||'%'
+			</if>
+			<if test="searchCondition.toString() == 'content'">
+				DIARY_CONTENTS LIKE '%'|| #{searchValue}||'%'
+			</if>
+			<if test="searchCondition.toString() == 'all'">
+				DIARY_TITLE LIKE '%'|| #{searchValue}||'%'
+				OR DIARY_DATE LIKE '%' || #{searchValue} || '%'
+				OR DIARY_CONTENTS LIKE '%' || #{searchValue} || '%'
+			</if>
+		</where>
+	</select>
+</mapper>

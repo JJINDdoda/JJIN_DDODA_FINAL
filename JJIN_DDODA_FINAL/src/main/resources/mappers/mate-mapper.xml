@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="MateMapper">
+
+	<resultMap type="Mate" id="mateResultMap">
+		<result property="mateNo"	column="MATE_NO" />
+		<result property="mateTitle"	column="MATE_TITLE"/>
+		<result property="mateContents"	column="MATE_CONTENTS"/>
+		<result property="mateDate"	column="MATE_DATE"/>
+		<result property="mateModifyDate"	column="MATE_MODIFY_DATE"/>
+		<result property="mateRequireNo"	column="MATE_REQUIRENO"/>
+		<result property="matePlace"	column="MATE_PLACE"/>
+		<result property="detailAddr"	column="MATE_DETAILADDR"/>
+		<result property="roadAddr"	column="MATE_ROADADDR"/>
+		<result property="sido"	column="MATE_SIDO"/>
+		<result property="latLong"	column="MATE_LATLONG"/>
+		<result property="mateView"	column="MATE_VIEWS"/>
+		<result property="mateEnd"	column="MATE_END"/>
+		<result property="userId"	column="USERID"/>
+	</resultMap>
+	<resultMap type="MateCom" id="mateComResultMap">
+		<result property="mateComNo"	column="MATECOMMENTS_NO"/>
+		<result property="mateComRefNo"	column="MATECOMMENTS_REF_NO"/>
+		<result property="mateComContents"	column="MATECOMMENTS_CONTENTS"/>
+		<result property="mateComDate"	column="MATECOMMENTS_DATE"/>
+		<result property="mateComModifyDate"	column="MATECOMMENTS_MODIFY_DATE"/>
+		<result property="mateNo"	column="MATE_NO"/>
+		<result property="userId"	column="USERID"/>
+	</resultMap>
+	<resultMap type="Mymate" id="myMateResultMap">
+		<result property="mateNo" column="MATE_NO"/>
+	</resultMap>
+	
+	<select id="selectList" resultMap="mateResultMap">
+		SELECT * FROM MATE ORDER BY MATE_NO DESC
+	</select>
+	<select id="getListCount" resultType="int">
+		SELECT COUNT(*) FROM MATE
+	</select>
+	<insert id="insertMate">
+		INSERT INTO MATE VALUES(SEQ_MATE.NEXTVAL, #{mateTitle},#{mateContents},
+		SYSDATE, SYSDATE, #{mateRequireNo}, #{matePlace}, #{detailAddr}, #{roadAddr},
+		#{sido}, #{latLong}, DEFAULT, DEFAULT, #{userId})
+	</insert>
+	<select id="selectOneMate" resultMap="mateResultMap">
+		SELECT * FROM MATE WHERE MATE_NO = #{mateNo}
+	</select>
+	<update id="addViewCount">
+		UPDATE MATE SET MATE_VIEWS = MATE_VIEWS + 1
+		WHERE MATE_NO = #{mateNo}
+	</update>
+	<insert id="insertMateCom">
+		INSERT INTO MATE_COMMENTS VALUES(SEQ_MATE_COMMENTS.NEXTVAL, DEFAULT,
+		#{mateComContents}, SYSDATE, SYSDATE, #{mateNo}, #{userId})
+	</insert>
+	<select id="selectMateCom"  resultMap="mateComResultMap">
+		SELECT * FROM MATE_COMMENTS WHERE MATE_NO = #{mateNo} AND MATECOMMENTS_REF_NO = 0
+		ORDER BY MATE_NO DESC
+	</select>
+	<insert id="insertMymate">
+		INSERT INTO MYMATE VALUES(#{mateNo}, #{userId})
+	</insert>
+	<select id="selectMymate" resultMap="myMateResultMap">
+		SELECT * FROM MYMATE WHERE MATE_NO = #{mateNo}
+	</select>
+	<!-- 메이트 모집글 삭제 -->
+	<delete id="deleteMate">
+		DELETE FROM MATE WHERE MATE_NO = #{mateNo}
+	</delete>
+	<delete id="deleteAllmyMate">
+		DELETE FROM MYMATE WHERE MATE_NO = #{mateNo}
+	</delete>
+	<delete id="deleteAllMateCom">
+		DELETE FROM MATE_COMMENTS WHERE MATE_NO = #{mateNo}
+	</delete>
+	<!-- 메이트 모집글 수정 -->
+	<update id="updateMate">
+		UPDATE MATE SET MATE_TITLE = #{mateTitle}, MATE_CONTENTS = #{mateContents}, MATE_REQUIRENO = #{mateRequireNo},
+		MATE_PLACE = #{matePlace}, MATE_DETAILADDR = #{detailAddr}, MATE_ROADADDR = #{roadAddr}, MATE_SIDO = #{sido},
+		MATE_LATLONG = #{latLong} WHERE MATE_NO = #{mateNo}
+	</update>
+	<!-- 메이트 대댓글 작성 -->
+	<insert id="insertMateComReply">
+		INSERT INTO MATE_COMMENTS VALUES(SEQ_MATE_COMMENTS.NEXTVAL, #{mateComRefNo},
+		#{mateComContents}, SYSDATE, SYSDATE, #{mateNo}, #{userId})
+	</insert>
+	<!-- 대댓글 리스트 -->
+	<select id="selectMateComReply">
+		SELECT * FROM MATE_COMMENTS WHERE MATE_NO = #{mateNo} AND MATECOMMENTS_REF_NO = #{mateComRefNo}
+		ORDER BY MATE_NO DESC
+	</select>
+</mapper>

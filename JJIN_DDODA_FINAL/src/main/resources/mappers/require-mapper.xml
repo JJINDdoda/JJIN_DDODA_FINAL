@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="RequireMapper">
+	<resultMap type="Require" id="requireResultMap">
+		<result property="requireNo"	column="REQUIRE_NO"/>
+		<result property="requireTitle"	column="REQUIRE_TITLE"/>
+		<result property="requireDate"	column="REQUIRE_DATE"/>
+		<result property="requireModifyDate"	column="REQUIRE_MODIFY_DATE"/>
+		<result property="requireContents"	column="REQUIRE_CONTENTS"/>
+		<result property="requireYN"	column="REQUIRE_YN"/>
+		<result property="userId"	column="USERID"/>
+		<result property="originalFilename"	column="REQUIRE_ORIGINALFILENAME"/>
+		<result property="renameFilename"	column="REQUIRE_RENAMEFILENAME"/>
+		<result property="rCount"	column="RCOUNT"/>
+	</resultMap>
+	
+	<select id="requireList" resultMap="requireResultMap">
+		SELECT * FROM REQUIRE ORDER BY REQUIRE_DATE DESC
+	</select>
+	
+	<select id="getListCount" resultType="int">
+		SELECT COUNT(*) FROM REQUIRE
+	</select>
+	
+	<select id="selectOneRequire" resultMap="requireResultMap">
+		SELECT * FROM REQUIRE WHERE REQUIRE_NO = #{requireNo}
+	</select>
+	
+	<insert id="insertRequire">
+		INSERT INTO REQUIRE 
+		VALUES(SEQ_REQUIRE.NEXTVAL, #{requireTitle}, SYSDATE, SYSDATE,
+		#{requireContents}, DEFAULT, #{originalFilename}, #{renameFilename}, #{userId}, DEFAULT)
+	</insert>
+	
+	<update id="updateCount">
+		UPDATE REQUIRE SET RCOUNT = RCOUNT + 1
+		WHERE REQUIRE_NO = #{requireNo}
+	</update>
+	
+	<update id="updateRequire">
+		UPDATE REQUIRE SET REQUIRE_TITLE = #{requireTitle}, REQUIRE_DATE = SYSDATE, REQUIRE_MODIFY_DATE=SYSDATE,
+		REQUIRE_CONTENTS = #{requireContents}, REQUIRE_ORIGINALFILENAME = #{originalFilename}, REQUIRE_RENAMEFILENAME = #{renameFilename}
+		WHERE REQUIRE_NO = #{requireNo}
+	</update>
+	
+	<delete id="deleteRequire">
+		DELETE FROM REQUIRE
+		WHERE REQUIRE_NO = #{requireNo}
+	</delete>
+	<select id="searchList"  resultMap="requireResultMap">
+		SELECT * FROM REQUIRE
+		<where>
+			<if test="searchCondition.toString() == 'title'">
+				REQUIRE_TITLE LIKE '%' || #{searchValue} ||'%'
+			</if>
+			<if test="searchCondition.toString() == 'writer'">
+				USERID LIKE '%' || #{searchValue} ||'%'
+			</if>
+			<if test="searchCondition.toString() == 'content'">
+				REQUIRE_CONTENTS LIKE '%' || #{searchValue} ||'%'
+			</if>
+			<if test="searchCondition.toString() == 'all'">
+				REQUIRE_TITLE LIKE '%' || #{searchValue} ||'%'
+				OR USERID LIKE '%' || #{searchValue} || '%'
+				OR REQUIRE_CONTENTS LIKE '%' || #{searchValue} || '%'
+			</if>
+		</where>
+		ORDER BY REQUIRE_DATE DESC
+	</select>
+	
+</mapper>

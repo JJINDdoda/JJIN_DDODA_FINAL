@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="calendarMapper">
+	<resultMap type="MemberInfo" id="MemberInfoResultMap">
+		<result property="userInfoNo" column="USERINFO_NO"/>
+	</resultMap>
+	
+	<insert id="insertMemberInfo">
+		INSERT INTO MEMBERINFO
+		VALUES (SEQ_MEMBERINFO.NEXTVAL, #{userId}, #{gender}, #{age}, #{height}, #{weight}, #{period}, #{goal})
+	</insert>
+	
+	<select id="selectOne" resultMap="MemberInfoResultMap">
+		SELECT * FROM MEMBERINFO
+		WHERE USERID=#{userId}
+	</select>
+	
+	<update id="updateMemberInfo">
+		UPDATE MEMBERINFO
+		SET GENDER=#{gender}, HEIGHT=#{height}, WEIGHT=#{weight}, PERIOD=#{period}, GOAL=#{goal}
+		WHERE USERID=#{userId}
+	</update>
+	
+
+</mapper>

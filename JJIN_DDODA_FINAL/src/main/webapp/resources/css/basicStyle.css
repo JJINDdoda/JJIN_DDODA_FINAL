@@ -1,0 +1,38 @@
+@charset "UTF-8";
+.content {height :530px;}
+	.menub {
+	background: #f7bf99; width:100px; height:100%; float:left; text-align:center;
+	margin-left : 50px; margin-right : 50px; 
+	}
+	.menub li {margin-top : 30%; list-decoration : none; }
+	.menub li a {color : white;}
+	.main {width:77%; float:left;border:1px solid none;height:500px;}
+	.menub li, table {color : black;}
+	table tr>td{text-align:center;}
+	table {width : 100%;}
+	table tr:last-child:hover{background:white;}
+	.table-wrap {border : 2px solid none;height : 410px;}
+	.main-name-h2 {margin-bottom : 0px;}
+	@media (max-width: 991px) { 
+		.content {height :600px;}
+		.menub {
+			background : #f7bf99;
+			width : 90%; height : 50px;
+			margin-left : 30px;
+			margin-right : 40px;
+			margin-bottom : 7%;
+		}
+		.main { width : 90%; margin-left:30px; margin-right: 40px;height:500px;}
+		.menub ul { vertical-align: middle;}
+		.menub li{ width : 50%;margin-top : 15px; margin-right : 0; float:left;
+		}
+	}
+	@media (min-width : 1100px) and (max-width : 1419px) {
+		.main {width : 79%;}
+	}
+	@media(min-width: 1420px){
+	    .main {width : 84%;float:left;}
+	}
+	@media(min-width: 1820px){
+	    .main {width : 85%;float:left;}
+	}
