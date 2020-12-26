@@ -80,4 +80,19 @@ SELECT * FROM MEMBER
 WHERE EMAIL = #{email} AND USER_NAME = #{userName}
 
 </select>
+
+	<select id="getMemberListCount" resultType="int">
+		SELECT COUNT(*) FROM MEMBER
+	</select>
+	<select id="adminSelectMemberList" resultMap="memberResultMap">
+		SELECT * FROM MEMBER
+	</select>
+	<select id="adminSelectMember" resultMap="memberResultMap">
+		SELECT * FROM MEMBER
+		WHERE USERID = #{userId}
+	</select>
+	<delete id="adminDeleteMember">
+		DELETE FROM MEMBER
+		WHERE USERID = #{userId}
+	</delete>
 </mapper>
