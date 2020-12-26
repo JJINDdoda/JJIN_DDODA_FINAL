@@ -89,7 +89,7 @@
 		if(ask) {
 			$.ajax({
 				url : "mymateOut.doa",
-				type : "post",
+				type : "get",
 				data : { "mateNo" : mateNo, "userId" : sessionId },
 				success : function(data) {
 					if(data == 'success') {

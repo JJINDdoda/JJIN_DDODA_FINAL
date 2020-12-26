@@ -142,6 +142,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+    <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -187,6 +188,50 @@
 .dropdown-contents {display : none;}
 .dropdowns:hover .dropdown-contents{display:block;}
 .dropdowns:hover .dropdown-contents>a:hover{background-color : gray; color:white;}
+dropbtn-dy {
+  background-color: #ea2129;
+  color: white;
+  padding: 13px;
+  font-size: 16px;
+  border: none;
+}
+.dropdown-dy {
+  position: relative;
+  display: inline-block;
+}
+.contents-dy a {
+  color: black;
+  padding: 12px 13px;
+  text-decoration: none;
+  display: block;
+}
+.contents-dy {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 130px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
+  z-index: 1;
+}
+.dropdown-dy:hover .contents-dy {display: block;}
+.dropdown-dy:hover .dropbtn-dy {background-color: #3e8e41;}
+
+@media ( max-width : 991px) {
+	.contents-dy {
+		display:none; position:relative;
+		box-shadow : none;
+		 background-color: white;
+	}
+	.contents-dy a{
+		padding : 1%;
+	} 
+	.dropdown-dy:hover .contents-dy{display:block;}
+	.dropdown-dy:hover .contents-dy>a:hover{ color:white;}
+	.dropdown-dy:hover .dropbtn-dy {background-color: white;}
+	.contents-dy li {
+		position : relative;
+	}
+}
 </style>
 </head>
 <body data-spy="scroll" data-target=".navbar-collapse">
@@ -215,23 +260,12 @@
                             <div class="col-md-6">
                                 <div class="navbar-callus text-left sm-text-center">
                                     <ul class="list-inline">
-                                        <li><a href=""><i class="fa fa-phone"></i> Call us: 1234 5678 90</a></li>
-                                        <li><a href=""><i class="fa fa-envelope-o"></i> Contact us: your@email.com</a></li>
+                                          <li><a href=""><i class="fa fa-phone"></i> Call us : 010-5555-5555</a></li>
+                                        <li><a href=""><i class="fa fa-envelope-o"></i> Contact us : ddoda@iei.or.kr</a></li>
                                     </ul>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="navbar-socail text-right sm-text-center">
-                                    <ul class="list-inline">
-                                        <li><a href=""><i class="fa fa-facebook"></i></a></li>
-                                        <li><a href=""><i class="fa fa-twitter"></i></a></li>
-                                        <li><a href=""><i class="fa fa-linkedin"></i></a></li>
-                                        <li><a href=""><i class="fa fa-google-plus"></i></a></li>
-                                        <li><a href=""><i class="fa fa-behance"></i></a></li>
-                                        <li><a href=""><i class="fa fa-dribbble"></i></a></li>
-                                    </ul>
-                                </div>
-                            </div>
+                            
                         </div>
                     </div>
                 </div>
@@ -242,26 +276,29 @@
                         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-menu">
                             <i class="fa fa-bars"></i>
                         </button>
-                        <a class="navbar-brand" href="#brand">
-                            <img src="assets/images/logo.png" class="logo" alt="">
+                        <a class="navbar-brand" href="/">
+                            <img src="../resources/assets/mainlogo.jpg" class="logo" alt="" style="width:150px;height:40px;">
                             <!--<img src="assets/images/footer-logo.png" class="logo logo-scrolled" alt="">-->
                         </a>
 
                     </div>
                     <!-- End Header Navigation -->
-
+					<c:url var="myMateAttendList" value="myMateAttendList.doa">
+						<c:param name="userId" value="${loginUser.userId }"></c:param>
+					</c:url>
+					<input type="hidden" id="userId" name="userId" value="${loginUser.userId }">
                     <!-- navbar menu -->
                     <div class="collapse navbar-collapse" id="navbar-menu">
                         <ul class="nav navbar-nav navbar-right"> <!-- bootstrap.css의 navbar-right -->
                             <li><a href="/">Home</a></li>                    
-                            <li><a href="#features">Calendar</a></li>
+                            <li id="calendarr"><a href="calendarView.doa">Calendar</a></li>
                             <li><a href="#business">Facility</a></li>
-                            <li class="dropdowns">
-                            	<a href="#test">Community</a>
-                            	<div class="dropdown-contents">
-                            		<a href="opendiaryList.doa">공유일기 커뮤니티</a><br>
-                            		<a href="mateList.doa">메이트 커뮤니티</a>
-                            	</div>
+                            <li class="dropdown-dy">
+                            	<a href="#">Community</a>
+                            	<ul class="contents-dy">
+                            		<li><a href="opendiaryList.doa">공유일기 커뮤니티</a></li>
+                            		<li><a href="mateList.doa?category=health">메이트 커뮤니티</a></li>
+                            	</ul>
                             </li>
                             <li><a href="requireList.doa">Q&A</a></li>
                             <li class="dropdowns">
@@ -283,9 +320,32 @@
                             	</div>
                             </li>
                         </ul>
-                    </div><!-- /.navbar-collapse -->
-                </div> 
+                    </div>
+                <!-- /.navbar-collapse -->
             </nav>
+
+	<!-- Preloader -->
+        <div id="loading">
+            <div id="loading-center">
+                <div id="loading-center-absolute">
+                    <div class="object" id="object_one"></div>
+                    <div class="object" id="object_two"></div>
+                    <div class="object" id="object_three"></div>
+                    <div class="object" id="object_four"></div>
+                </div>
+            </div>
+        </div>
+   <!--End off Preloader -->
+   <script>
+   $("#calendarr").on("click", function() {
+	   var userId = $('#userId').val();
+	  if(userId == "") {
+		  alert("로그인 후 이용해주세요.");
+		  return false;
+	  } else {
+	  }
+   });
+   </script>
 </body>
 >>>>>>> refs/remotes/origin/1222_yujin
 </html>

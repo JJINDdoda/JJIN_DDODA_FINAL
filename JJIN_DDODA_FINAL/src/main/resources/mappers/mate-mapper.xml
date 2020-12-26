@@ -179,4 +179,5 @@
 		WHERE USERID = #{userId} ORDER BY MATE_DATE DESC
 	</select> 
 	
+	
 </mapper>

@@ -10,13 +10,16 @@ public class Opendiary {
 	private Date opendiaryDate;
 	private Date opendiaryModifyDate;
 	private int opendiaryViews;
+	private String menuName;
 	private String userId;
 	private String mainImagePath;
+	private String openYn;
 	
 	public Opendiary() {}
 
 	public Opendiary(int opendiaryNo, String opendiaryTitle, String opendiaryContents, Date opendiaryDate,
-			Date opendiaryModifyDate, int opendiaryViews, String userId, String mainImagePath) {
+			Date opendiaryModifyDate, int opendiaryViews, String menuName, String userId, String mainImagePath,
+			String openYn) {
 		super();
 		this.opendiaryNo = opendiaryNo;
 		this.opendiaryTitle = opendiaryTitle;
@@ -24,8 +27,10 @@ public class Opendiary {
 		this.opendiaryDate = opendiaryDate;
 		this.opendiaryModifyDate = opendiaryModifyDate;
 		this.opendiaryViews = opendiaryViews;
+		this.menuName = menuName;
 		this.userId = userId;
 		this.mainImagePath = mainImagePath;
+		this.openYn = openYn;
 	}
 
 	public int getOpendiaryNo() {
@@ -76,6 +81,14 @@ public class Opendiary {
 		this.opendiaryViews = opendiaryViews;
 	}
 
+	public String getMenuName() {
+		return menuName;
+	}
+
+	public void setMenuName(String menuName) {
+		this.menuName = menuName;
+	}
+
 	public String getUserId() {
 		return userId;
 	}
@@ -92,12 +105,21 @@ public class Opendiary {
 		this.mainImagePath = mainImagePath;
 	}
 
+	public String getOpenYn() {
+		return openYn;
+	}
+
+	public void setOpenYn(String openYn) {
+		this.openYn = openYn;
+	}
+
 	@Override
 	public String toString() {
 		return "Opendiary [opendiaryNo=" + opendiaryNo + ", opendiaryTitle=" + opendiaryTitle + ", opendiaryContents="
 				+ opendiaryContents + ", opendiaryDate=" + opendiaryDate + ", opendiaryModifyDate="
-				+ opendiaryModifyDate + ", opendiaryViews=" + opendiaryViews + ", userId=" + userId + ", mainImagePath="
-				+ mainImagePath + "]";
+				+ opendiaryModifyDate + ", opendiaryViews=" + opendiaryViews + ", menuName=" + menuName + ", userId="
+				+ userId + ", mainImagePath=" + mainImagePath + ", openYn=" + openYn + "]";
 	}
+
 	
 }

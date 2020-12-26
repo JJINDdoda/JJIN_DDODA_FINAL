@@ -27,7 +27,7 @@
 		<div class="menub">
 			<ul>
 				<li><a href="#">회원정보 수정</a></li>
-				<li><a href="mateContentsList.doa?userId=${loginUser.userId }">내가 쓴글</a></li>
+				<li><a href="opendiaryContentsList.doa?userId=${loginUser.userId }">내가 쓴글</a></li>
 				<li><a href="myMateAttendList.doa?userId=${loginUser.userId }">마이 메이트</a></li>
 				<li><a href="#">회원탈퇴</a></li>
 			</ul>
@@ -59,8 +59,8 @@
 				</div>
 				<table align="center" cellpadding="10" cellspacing="0" border="1" width="500" class="table" id="mymateList">
 					<tr>
-						<td>분류</td>
-						<td width="300">제목</td>
+						<td width="200">분류</td>
+						<td width="500">제목</td>
 						<td>작성날짜</td>
 						<td>답변여부</td>
 					</tr>
@@ -69,7 +69,11 @@
 					</c:if>
 					<c:if test="${!empty requireContents }">
 					<c:forEach items="${ requireContents }" var="requireContents" varStatus="status">
-						<tr>
+						<c:url var="requireDetail" value="mypageRequireDetail.doa">
+							<c:param name="requireNo" value="${requireContents.requireNo }"></c:param>
+							<c:param name="page" value="${pi.currentPage }"></c:param>
+						</c:url>
+						<tr onclick="location.href='${requireDetail}'">
 							<td>문의사항 커뮤니티</td>
 							<td>${ requireContents.requireTitle }</td>
 							<td>${ requireContents.requireDate }</td>

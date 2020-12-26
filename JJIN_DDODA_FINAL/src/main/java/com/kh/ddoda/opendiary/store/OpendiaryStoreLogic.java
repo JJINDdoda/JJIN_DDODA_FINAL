@@ -160,6 +160,11 @@ public class OpendiaryStoreLogic implements OpendiaryStore{
 		return (ArrayList)sqlSession.selectList("OpendiaryMapper.openContentsList", userId, rowBounds);
 	}
 
+	@Override
+	public int getComReplyListCount() {
+		return sqlSession.selectOne("OpendiaryMapper.getComReplyListCount");
+	}
+
 //	@Override
 //	public int selectOneOpendiaryNo() {
 //		int result = sqlSession.selectOne("OpendiaryMapper.selectOneNo");
