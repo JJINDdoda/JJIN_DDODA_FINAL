@@ -1,10 +1,12 @@
 package com.kh.ddoda.chat.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.ddoda.chat.domain.Chat;
 import com.kh.ddoda.chat.store.ChatStore;
 import com.kh.ddoda.common.PageInfo;
 import com.kh.ddoda.mate.domain.Mate;
@@ -39,5 +41,20 @@ public class ChatServiceImpl implements ChatService {
 	@Override
 	public int adminModifyChat(Mymate myMate) {
 		return cStore.adminModifyChat(myMate);
+	}
+
+	@Override
+	public int adminChatOpen(Chat chat) {
+		return cStore.adminChatOpen(chat);
+	}
+
+	@Override
+	public Mymate selectChatInsert(HashMap<String, Object> map) {
+		return cStore.selectChatInsert(map);
+	}
+
+	@Override
+	public ArrayList<Chat> selectChatList(int mateNo) {
+		return cStore.selectChatList(mateNo);
 	}
 }

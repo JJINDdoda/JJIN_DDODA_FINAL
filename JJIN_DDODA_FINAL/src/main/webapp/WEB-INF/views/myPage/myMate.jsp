@@ -51,13 +51,23 @@
 					</c:if>
 					<c:if test="${!empty mateAttendList }">
 					<c:forEach items="${ mateAttendList }" var="mateAttendList" varStatus="status">
+						<input type="hidden" id="mateNo" value="${mateAttendList.mateNo }">
 						<tr>
-							<td>${ status.index }</td>
+							<td>${ mateAttendList.mateNo }</td>
 							<td>${ mateAttendList.mateTitle }</td>
 							<td>${ mateAttendList.userId }</td>
 							<td>${ mateAttendList.mateDate }</td>
-							<td><button id="mymateOut" onclick="openChart)">채팅방 입장</button></td>
-							<td><button id="mymateOut" onclick="mateOut(${myContentsList.mateNo})">메이트 나가기</button></td>
+							<td>
+								<c:if test="${mateAttendList.mateEnd == 'N' }">
+									<button onclick="beforeOpen()">오픈 전</button>
+								</c:if>
+								<c:if test="${mateAttendList.mateEnd == 'Y' }">
+									<%-- <button id="mymateOut" onclick="location.href='chatInsert.doa?mateNo=${mateAttendList.mateNo }&userId=${loginUser.userId }';">채팅방 입장</button> --%>
+									<button id="mymateOut" onclick="window.open('chatInsert.doa?mateNo=${mateAttendList.mateNo}&userId=${loginUser.userId }', '채팅방 입장', 'width=400px, height=600px, location=no, status=no, scrollbars=yes');">채팅방 입장</button>
+								</c:if>
+							</td>
+							<td><button id="mymateOut" onclick="mateOut()">메이트 나가기</button></td>
+							<%-- ${myContentsList.mateNo} --%>
 						</tr>
 					</c:forEach>
 					</c:if>
@@ -74,6 +84,7 @@
 	<script>
 	function mateOut(mateNo) {
 		var sessionId = $("#sessionId").val();
+		var mateNo = $("#mateNo").val();
 		var ask = confirm("모집글에서 나가시겠습니까?");
 		if(ask) {
 			$.ajax({
@@ -94,6 +105,10 @@
 		} else {
 			return false;
 		}
+	}
+	
+	function beforeOpen() {
+		alert("채팅방이 오픈되지 않았습니다.");
 	}
 	</script>
 </body>

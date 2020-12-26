@@ -1,30 +1,31 @@
 package com.kh.ddoda.chat.domain;
 
-import java.sql.Timestamp;
 
 public class Chat {
 	
-	private String contents;
+	private String messageinput;
 	private String userId;
-	private Timestamp time;
+	private int mateNo;
+	private int chatNo;
 	
 	public Chat() {
 		super();
 	}
 
-	public Chat(String contents, String userId, Timestamp time) {
+	public Chat(String messageinput, String userId, int mateNo, int chatNo) {
 		super();
-		this.contents = contents;
+		this.messageinput = messageinput;
 		this.userId = userId;
-		this.time = time;
+		this.mateNo = mateNo;
+		this.chatNo = chatNo;
 	}
 
-	public String getContents() {
-		return contents;
+	public String getMessageinput() {
+		return messageinput;
 	}
 
-	public void setContents(String contents) {
-		this.contents = contents;
+	public void setMessageinput(String messageinput) {
+		this.messageinput = messageinput;
 	}
 
 	public String getUserId() {
@@ -34,17 +35,25 @@ public class Chat {
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
-
-	public Timestamp getTime() {
-		return time;
+	
+	public int getMateNo() {
+		return mateNo;
 	}
-
-	public void setTime(Timestamp time) {
-		this.time = time;
+	
+	public void setMateNo(int mateNo) {
+		this.mateNo = mateNo;
+	}
+	
+	public int getChatNo() {
+		return chatNo;
+	}
+	
+	public void setChatNo(int chatNo) {
+		this.chatNo = chatNo;
 	}
 
 	@Override
 	public String toString() {
-		return "Chat [contents=" + contents + ", userId=" + userId + ", time=" + time + "]";
+		return "Chat [messageinput=" + messageinput + ", userId=" + userId + ", mateNo=" + mateNo + ", chatNo=" + chatNo + "]";
 	}
 }

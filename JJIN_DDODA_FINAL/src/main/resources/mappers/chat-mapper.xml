@@ -17,6 +17,13 @@
 		<result property="mateEnd"	column="MATE_END"/>
 		<result property="userId"	column="USERID"/>
 	</resultMap>
+	<resultMap type="Mymate" id="myMateResultMap">
+		<result property="mateNo" column="MATE_NO"/>
+	</resultMap>
+	<resultMap type="Chat" id="chatResultMap">
+		<result property="mateNo" column="MATE_NO"/>
+		<result property="chatNo" column="CHAT_NO"/>
+	</resultMap>
 	<select id="getChatListCount" resultType="int">
 		SELECT COUNT(*) FROM MATE
 		WHERE MATE_END = 'Y'
@@ -38,4 +45,17 @@
 		UPDATE MYMATE SET MATE_STATUS = 'Y'
 		WHERE MATE_NO = #{mateNo}
 	</update>
+	<insert id="insertChat">
+		INSERT INTO CHAT
+		VALUES (#{messageinput}, #{userId}, #{mateNo}, SEQ_CHAT.NEXTVAL)
+	</insert>
+	<select id="selectChatInsert" resultMap="myMateResultMap" parameterType="Hashmap">
+		SELECT * FROM MYMATE
+		WHERE MATE_NO = #{mateNo}
+		AND USERID = #{userId}
+	</select>
+	<select id="selectChatList" resultMap="chatResultMap">
+		SELECT * FROM CHAT
+		WHERE MATE_NO = #{mateNo}
+	</select>
 </mapper>

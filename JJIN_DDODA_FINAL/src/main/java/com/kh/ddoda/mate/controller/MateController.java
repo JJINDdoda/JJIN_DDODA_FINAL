@@ -308,9 +308,10 @@ public class MateController {
 	//메이트 모집완료 시 
 		@ResponseBody
 		@RequestMapping(value="askFinish.doa", method=RequestMethod.GET)
-		public String askFinish(int mateNo, HttpSession session) {
+		public String askFinish(Mymate mymate, int mateNo, HttpSession session) {
 			int result = mService.finishMate(mateNo);
-			if(result >0) {
+			int result2 = mService.insertMymate(mymate);
+			if(result >0 && result2 > 0) {
 				System.out.println("메이트 모집오나료 : "+ result);
 				return "success";
 			} else {
@@ -321,7 +322,7 @@ public class MateController {
 	//마이페이지 메이트 리스트
 		@RequestMapping(value="myMateAttendList.doa", method=RequestMethod.GET)
 		public ModelAndView myMateAttendList(ModelAndView mv, 
-											@RequestParam(value="userId", required=true)String userId,
+											@RequestParam(value="userId", required=false)String userId,
 											@RequestParam(value="page", required=false)Integer page) {
 			System.out.println(userId);
 			int currentPage = (page != null) ? page : 1;
