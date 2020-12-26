@@ -156,124 +156,70 @@ public class MemberController {
 		}
 	}
 
-<<<<<<< HEAD
 	// 회워탈퇴 페이지 뷰 12-11 하는중
 
-	@RequestMapping(value = "deleteMember.doa", method = RequestMethod.GET)
-	public String memberBreak() {
+	   @RequestMapping(value = "deleteMember.doa", method = RequestMethod.GET)
+	   public String memberBreak() {
 
-		return "Member/memberbreak";
+	      return "Member/memberbreak";
 
-	}
-	
+	   }
+
+	   // 회원탈퇴 하는중 12 -11
+	   @RequestMapping(value = "memberDelete.doa", method = RequestMethod.GET)
+	   public String memberDelete(String userId, HttpServletRequest request, Model model) {
+	      HttpSession session = request.getSession();
+	      int result = service.deleteMember(userId);
+	      if (result > 0) {
+	         session.invalidate();
+	         return "home";
+	      } else {
+	         model.addAttribute("msg", "회원탈퇴에 실패하였습니다.");
+	         return "common/errorPage";
+	      }
+
+	   }
+	   
 	// 관리자 회원 전체조회
-	@RequestMapping(value="adminMemberList.doa", method=RequestMethod.GET)
-	public ModelAndView memberList(ModelAndView mv, Integer page) {
-		int currentPage = (page != null) ? page : 1;
-		int listCount = service.getMemberListCount();
-		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
-		ArrayList<Member> mList = service.adminSelectMemberList(pi);
-		if(!mList.isEmpty()) {
-			mv.addObject("mList", mList).addObject("pi", pi).setViewName("admin/Admin_Member_List");
-=======
-	  //회원탈퇴    하는중 12 -11
-	  @RequestMapping(value="memberDelete.doa", method=RequestMethod.GET)
-      public String memberDelete(String userId, HttpServletRequest request, Model model) {
-    	  HttpSession session = request.getSession();
-    	  int result = service.deleteMember(userId);
-    	  if(result > 0 ) {
-    		  session.invalidate();
-    		  return "home";
-    	  } else {
-    		  model.addAttribute("msg", "회원탈퇴에 실패하였습니다.");
-    		  return "common/errorPage";
-    	  }
-	  
-	  }
-	
-	
-	
-	
-	/*
-	 * //회원가입 아이디 중복검사 (ajax)
-	 * 
-	 * @ResponseBody
-	 * 
-	 * @RequestMapping(value="dupId.doa", method=RequestMethod.GET) public String
-	 * idDuplicateCheck(String userId) { boolean isUsable = service.idCheck(userId)
-	 * == 0? true : false; return isUsable + ""; }
-	 */
-	
-    	// 관리자 회원 전체조회
-    		@RequestMapping(value="adminMemberList.doa", method=RequestMethod.GET)
-    		public ModelAndView memberList(ModelAndView mv, Integer page) {
-    			int currentPage = (page != null) ? page : 1;
-    			int listCount = service.getMemberListCount();
-    			PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
-    			ArrayList<Member> mList = service.adminSelectMemberList(pi);
-    			if(!mList.isEmpty()) {
-    				mv.addObject("mList", mList).addObject("pi", pi).setViewName("admin/Admin_Member_List");
-    			} else {
-    				mv.addObject("msg", "회원 전체조회 실패!").setViewName("common/errorPage");
-    			}
-    			return mv;
-    		}
-	
-	// 관리자 회원 상세조회
-	@RequestMapping(value="adminMemberDetail.doa", method=RequestMethod.GET)
-	public ModelAndView adminMemberDetail(ModelAndView mv, Integer page, String userId) {
-		int currentPage = page != null ? page : 1;
-		Member member = service.adminSelectMember(userId);
-		if(member != null) {
-			mv.addObject("member", member).addObject("currentPage", currentPage).setViewName("admin/Admin_Member_Detail");
->>>>>>> refs/remotes/origin/1226_jimin
-		} else {
-			mv.addObject("msg", "회원 전체조회 실패!").setViewName("common/errorPage");
+       @RequestMapping(value="adminMemberList.doa", method=RequestMethod.GET)
+       public ModelAndView memberList(ModelAndView mv, Integer page) {
+          int currentPage = (page != null) ? page : 1;
+          int listCount = service.getMemberListCount();
+          PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+          ArrayList<Member> mList = service.adminSelectMemberList(pi);
+          if(!mList.isEmpty()) {
+             mv.addObject("mList", mList).addObject("pi", pi).setViewName("admin/Admin_Member_List");
+          } else {
+             mv.addObject("msg", "회원 전체조회 실패!").setViewName("common/errorPage");
+          }
+          return mv;
+       }
+
+		// 관리자 회원 상세조회
+		@RequestMapping(value="adminMemberDetail.doa", method=RequestMethod.GET)
+		public ModelAndView adminMemberDetail(ModelAndView mv, Integer page, String userId) {
+		   int currentPage = page != null ? page : 1;
+		   Member member = service.adminSelectMember(userId);
+		   if(member != null) {
+		      mv.addObject("member", member).addObject("currentPage", currentPage).setViewName("admin/Admin_Member_Detail");
+		   } else {
+		      mv.addObject("msg", "게시글 상세조회 실패!");
+		      mv.setViewName("common/errorPage");
+		   }
+		   return mv;
 		}
-		return mv;
-	}
-
-// 관리자 회원 상세조회
-@RequestMapping(value="adminMemberDetail.doa", method=RequestMethod.GET)
-public ModelAndView adminMemberDetail(ModelAndView mv, Integer page, String userId) {
-int currentPage = page != null ? page : 1;
-Member member = service.adminSelectMember(userId);
-if(member != null) {
-	mv.addObject("member", member).addObject("currentPage", currentPage).setViewName("admin/Admin_Member_Detail");
-} else {
-	mv.addObject("msg", "게시글 상세조회 실패!");
-	mv.setViewName("common/errorPage");
-}
-return mv;
-}
-
-// 관리자 회원 탈퇴
-@RequestMapping(value="adminMemberDelete.doa", method=RequestMethod.GET)
-public String adminMemberDelete(String userId, Model model) {
-int result = service.adminDeleteMember(userId);
-if(result > 0) {
-	return "redirect:adminMemberList.doa";
-} else {
-	model.addAttribute("msg", "회원 탈퇴시키기 실패!");
-	return "common/errorPage";
-}
-}
-
-
-	// 회원탈퇴 하는중 12 -11
-	@RequestMapping(value = "memberDelete.doa", method = RequestMethod.GET)
-	public String memberDelete(String userId, HttpServletRequest request, Model model) {
-		HttpSession session = request.getSession();
-		int result = service.deleteMember(userId);
-		if (result > 0) {
-			session.invalidate();
-			return "../../index";
-		} else {
-			model.addAttribute("msg", "회원탈퇴에 실패하였습니다.");
-			return "common/errorPage";
+		
+		// 관리자 회원 탈퇴
+		@RequestMapping(value="adminMemberDelete.doa", method=RequestMethod.GET)
+		public String adminMemberDelete(String userId, Model model) {
+		   int result = service.adminDeleteMember(userId);
+		   if(result > 0) {
+		      return "redirect:adminMemberList.doa";
+		   } else {
+		      model.addAttribute("msg", "회원 탈퇴시키기 실패!");
+		      return "common/errorPage";
+		   }
 		}
-
-	}
 
 	// 회원가입 아이디 중복검사 (ajax) ---------------------------깃 1215
 	// -----------------------------
