@@ -140,6 +140,11 @@ public class OpendiaryServiceImpl implements OpendiaryService{
 		return odStore.openContentsList(userId, pi);
 	}
 
+	@Override
+	public int getComReplyListCount() {
+		return odStore.getComReplyListCount();
+	}
+
 
 //	@Override
 //	public int selectOneOpendiaryNo() {

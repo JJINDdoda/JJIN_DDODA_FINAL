@@ -382,4 +382,22 @@ public class MateController {
 		return mv;
 	}
 	
+	//마이페이지 상세보기
+		//메이트 상세조회
+			@RequestMapping(value="mypageMateDetail.doa", method=RequestMethod.GET)
+			public ModelAndView mypageMateDetail(ModelAndView mv, int mateNo, Integer page) {
+				int currentPage = page != null? page : 1;
+				mService.addViewCount(mateNo);
+				Mate mate = mService.selectOneMate(mateNo);
+				if(mate != null) {
+					mv.addObject("mateOne", mate)
+						.addObject("currentPage", currentPage)
+							.setViewName("myPage/mypageMateDetail");
+				}else {
+					mv.addObject("msg", "게시글 상세조회 실패");
+					mv.setViewName("common/errorPage");
+				}
+				return mv;
+			}
+	
 }

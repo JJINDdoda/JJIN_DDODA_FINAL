@@ -1,37 +1,192 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="OpendiaryMapper">
-	<resultMap type="Opendiary" id="odResultMap">
+	<resultMap type="Opendiary" id="opendResultMap">
 		<result property="opendiaryNo" column="OPENDIARY_NO"/>
 		<result property="opendiaryTitle" column="OPENDIARY_TITLE"/>
 		<result property="opendiaryContents" column="OPENDIARY_CONTENTS"/>
 		<result property="opendiaryDate" column="OPENDIARY_DATE"/>
 		<result property="opendiaryModifyDate" column="OPENDIARY_MODIFY_DATE"/>
 		<result property="opendiaryViews" column="OPENDIARY_VIEWS"/>
+		<result property="menuName" column="MENU_NAME"/>
 		<result property="userId" column="USERID"/>
+		<result property="mainImagePath" column="MAIN_IMAGEPATH"/>
+		<result property="openYn" column="OPENYN"/>
 	</resultMap>
 	<resultMap type="DiaryImg" id="imgResultMap">
 		<result property="imgPath" column="IMAGE_PATH"/>
 		<result property="imgRenamePath" column="IMAGE_RENAME_PATH"/>
 		<result property="diaryNo" column="DIARY_NO"/>
 		<result property="opendiaryNo" column="OPENDIARY_NO"/>
+		<result property="imgMainYn" column="IMAGE_MAINYN"/>
+		<result property="menuName" column="MENU_NAME"/>
 	</resultMap>
-	
-	<select id="odList" resultMap="odResultMap">
-		SELECT * FROM OPENDIARY ORDER BY OPENDIARY_NO
+	<resultMap type="OpendiaryComment" id="opendComResultMap">
+		<result property="openComNo" column="O_COM_NO" />
+		<result property="openComDate" column="O_COM_DATE" />
+		<result property="openComModifyDate" column="O_COM_MODIFY_DATE" />
+		<result property="openComContents" column="O_COM_CONTENTS" />
+		<result property="openComUser" column="USERID" />
+		<result property="refNo" column="O_COM_REF_NO" />
+		<result property="opendiaryNo" column="OPENDIARY_NO" />
+	</resultMap>
+	<!-- 전체 조회 -->
+	<select id="odList" resultMap="opendResultMap">
+		SELECT * FROM OPENDIARY WHERE OPENYN = 'Y' ORDER BY OPENDIARY_NO DESC
 	</select>
 	<select id="getListCount" resultType="int">
-		SELECT COUNT(*) FROM OPENDIARY
+		SELECT COUNT(*) FROM OPENDIARY WHERE OPENYN = 'Y'
 	</select>
-	<insert id="insertDiary">
+	<select id="getComReplyListCount" resultType="int">
+		SELECT COUNT(*) FROM OPENDIARY_COMMENTS
+	</select>
+	<!-- diaryImg 전체 조회 -->
+	<select id="diaryImgList" resultMap="imgResultMap">
+		SELECT * FROM DIARY_IMG WHERE IMAGE_MAINYN LIKE 'Y'
+	</select>
+	<insert id="insertDiary" parameterType="Opendiary">
 		INSERT INTO OPENDIARY VALUES(SEQ_OPENDIARY.NEXTVAL,
 		#{opendiaryTitle}, #{opendiaryContents}, SYSDATE, 
-		SYSDATE,DEFAULT, #{userId})
+		SYSDATE, DEFAULT, DEFAULT, #{userId}, #{mainImagePath}, 'Y')
+		<selectKey keyProperty="opendiaryNo" resultType="int" order="AFTER">
+			SELECT SEQ_OPENDIARY.CURRVAL FROM DUAL
+		</selectKey>
 	</insert>
-	<insert id="insertImgFile" parameterType="hashmap">
+	<update id="updateOpendImage" parameterType="HashMap">
+		UPDATE OPENDIARY SET MAIN_IMAGEPATH = #{imgRenamePath}
+		WHERE OPENDIARY_NO = #{opendiaryNo}
+	</update>
+	<!-- 사진 입력 -->
+	<insert id="insertImgFile" parameterType="HashMap">
 		INSERT INTO DIARY_IMG VALUES
 		(#{userId}, #{imgPath},
-		#{imgRenamePath}, 0, SEQ_OPENDIARY.CURRVAL)
+		#{imgRenamePath}, 0, SEQ_OPENDIARY.CURRVAL, #{imgMainYn}, #{menuName})
 	</insert>
+	<select id="opendiaryOne" resultMap="opendResultMap">
+		SELECT * FROM OPENDIARY WHERE OPENDIARY_NO = #{opendiaryNo}
+	</select>	
+	<update id="addViewCount">
+		UPDATE OPENDIARY SET OPENDIARY_VIEWS = OPENDIARY_VIEWS + 1
+		WHERE OPENDIARY_NO = #{opendiaryNo}
+	</update>
+	<select id="selectDiaryImgList" resultMap="imgResultMap">
+		SELECT * FROM DIARY_IMG WHERE OPENDIARY_NO = #{opendiaryNo} ORDER BY IMAGE_RENAME_PATH DESC
+	</select>
+	<delete id="deleteFileOne" parameterType="hashmap">
+		DELETE FROM DIARY_IMG WHERE OPENDIARY_NO = #{opendiaryNo} AND IMAGE_RENAME_PATH = #{imgRenamePath}
+	</delete>
+	<delete id="deleteOpend">
+		DELETE FROM OPENDIARY WHERE OPENDIARY_NO = #{opendiaryNo}
+	</delete>	
+	<delete id="deleteAllFile">
+		DELETE FROM DIARY_IMG WHERE OPENDIARY_NO = #{opendiaryNo}
+	</delete>
+	<!-- 업데이트 -->
+	<update id="updateOpendiary">
+		UPDATE OPENDIARY SET OPENDIARY_TITLE = #{opendiaryTitle}, OPENDIARY_CONTENTS = #{opendiaryContents},
+		OPENDIARY_MODIFY_DATE = SYSDATE WHERE OPENDIARY_NO = #{opendiaryNo}
+	</update>
+	<insert id="insertImgFileUpdate" parameterType="HashMap">
+		INSERT INTO DIARY_IMG VALUES
+		(#{userId}, #{imgPath},
+		#{imgRenamePath}, 0, #{opendiaryNo}, #{imgMainYn}, #{menuName})
+	</insert>
+	<select id="MianImgPath" resultMap="imgResultMap">
+		SELECT * FROM DIARY_IMG 
+		WHERE IMAGE_MAINYN LIKE 'Y' AND OPENDIARY_NO = #{opendiaryNo}
+	</select>
+	<update id="updateMainImg">
+		UPDATE DIARY_IMG SET IMAGE_MAINYN = 'N' WHERE OPENDIARY_NO = #{opendiaryNo}
+	</update>
+	<!-- 댓글 작성 -->
+	<insert id="insertOpendCom">
+		INSERT INTO OPENDIARY_COMMENTS VALUES(
+		SEQ_OPENDIARY_COMMENTS.NEXTVAL, #{openComContents},
+		SYSDATE, SYSDATE, 0, #{opendiaryNo}, #{openComUser}
+		)
+	</insert>
+	<!-- 댓글 리스트 -->
+	<select id="opendiaryComList" resultMap="opendComResultMap" parameterType="Hashmap">
+		SELECT * FROM OPENDIARY_COMMENTS WHERE OPENDIARY_NO = #{opendiaryNo}
+		AND O_COM_REF_NO = 0
+		ORDER BY O_COM_DATE DESC
+	</select>
+	<!-- 대댓글 작성 -->
+	<insert id="insertOpenComReply">
+		INSERT INTO OPENDIARY_COMMENTS VALUES(
+		SEQ_OPENDIARY_COMMENTS.NEXTVAL, #{openComContents},
+		SYSDATE, SYSDATE, #{refNo}, #{opendiaryNo}, #{openComUser}
+		)
+	</insert>
+	<!-- 대댓글 리스트 -->
+	<select id="opendiaryComReplyList" resultMap="opendComResultMap" parameterType="Hashmap">
+		SELECT * FROM OPENDIARY_COMMENTS WHERE OPENDIARY_NO = #{opendiaryNo}
+		AND O_COM_REF_NO = #{refNo}
+		ORDER BY O_COM_DATE DESC
+	</select>
+	<!-- 댓글 삭제 -->
+	 <delete id="deleteOpendCom">
+	 	DELETE FROM OPENDIARY_COMMENTS WHERE O_COM_NO = #{openComNo}
+	 </delete>
+	<!-- 검색 리스트 -->
+	<select id="openSearchList" resultMap="opendResultMap">
+		SELECT * FROM OPENDIARY
+		<where>
+			<if test="searchCondition.toString() == 'title'">
+				OPENDIARY_TITLE LIKE '%' || #{searchValue} ||'%'
+			</if>
+			<if test="searchCondition.toString() == 'writer'">
+				USERID LIKE '%' || #{searchValue} ||'%'
+			</if>
+			<if test="searchCondition.toString() == 'content'">
+				OPENDIARY_CONTENTS LIKE '%' || #{searchValue} ||'%'
+			</if>
+			<if test="searchCondition.toString() == 'all'">
+				OPENDIARY_TITLE LIKE '%' || #{searchValue} ||'%'
+				OR USERID LIKE '%' || #{searchValue} || '%'
+				OR OPENDIARY_CONTENTS LIKE '%' || #{searchValue} || '%'
+			</if>
+		</where>
+		ORDER BY OPENDIARY_DATE DESC
+	</select>
+	<!-- 모든 내 글 보기 -->
+	<select id="openContentsList" resultMap="opendResultMap">
+		SELECT * FROM OPENDIARY
+		WHERE USERID = #{userId} AND OPENYN = 'Y'
+		ORDER BY OPENDIARY_DATE DESC
+	</select>
+	
+	
+	<!-- 마이 일기 작성 -->
+	<insert id="insertMyDiary"  parameterType="Opendiary">
+		INSERT INTO OPENDIARY VALUES(SEQ_OPENDIARY.NEXTVAL,
+		#{opendiaryTitle}, #{opendiaryContents}, SYSDATE, 
+		SYSDATE, DEFAULT, '마이일기', #{userId}, #{mainImagePath}, #{openYn})
+		<selectKey keyProperty="opendiaryNo" resultType="int" order="AFTER">
+			SELECT SEQ_OPENDIARY.CURRVAL FROM DUAL
+		</selectKey>
+	</insert>
+	<select id="mydiaryList" resultMap="opendResultMap" >
+		SELECT * FROM OPENDIARY WHERE USERID = #{userId}
+		AND MENU_NAME = '마이일기' ORDER BY OPENDIARY_DATE DESC
+	</select>
+	<!-- 마이일기 상세보기 -->
+	<select id="selectMyDiary" resultMap="opendResultMap" >
+		SELECT * FROM OPENDIARY 
+		WHERE OPENDIARY_NO = #{opendiaryNo}
+	</select>
+	<select id="mydiaryFileList" resultMap="imgResultMap">
+		SELECT * FROM DIARY_IMG WHERE OPENDIARY_NO = #{opendiaryNo}
+		ORDER BY IMAGE_RENAME_PATH DESC
+	</select> 
+	<update id="updateMyDiaryImage" parameterType="HashMap">
+		UPDATE OPENDIARY SET MAIN_IMAGEPATH = #{imgRenamePath}
+		WHERE OPENDIARY_NO = #{opendiaryNo}
+	</update>
+	<!-- 마이 일기 업데이트 -->
+	<update id="modifyMyDiary">
+		UPDATE OPENDIARY SET OPENDIARY_TITLE = #{opendiaryTitle}, OPENDIARY_CONTENTS = #{opendiaryContents},
+		OPENDIARY_MODIFY_DATE = SYSDATE WHERE OPENDIARY_NO = #{opendiaryNo}
+	</update>
 	
 </mapper>

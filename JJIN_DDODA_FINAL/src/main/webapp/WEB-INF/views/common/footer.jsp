@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+   <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+    <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -38,6 +40,14 @@
         <link rel="stylesheet" href="../resources/css/responsive.css" />
 
         <script src="../resources/js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+<style>
+@media ( max-width : 991px) {
+	.trophy {
+		margin : 1% 10% 0 10%;
+		text-align:center;
+	}
+}
+</style>
 </head>
 <body data-spy="scroll" data-target=".navbar-collapse">
  <!-- JS includes -->
@@ -55,7 +65,10 @@
         <script src="../resources/js/plugins.js"></script>
         <script src="../resources/js/main.js"></script>
 
+
+	
 	<footer id="contact" class="footer action-lage bg-black p-top-80">
+	
                 <!--<div class="action-lage"></div>-->
                 <div class="container">
                     <div class="row">
@@ -63,18 +76,18 @@
                             <div class="col-md-3" style="float:left;">
                                 <div class="widget_item widget_about">
                                     <h5 class="text-white">About Us</h5>
-                                    <p class="m-top-20">Lorem ipsum dolor sit amet consec tetur adipiscing elit 
-                                        nulla aliquet pretium nisi in cursus 
-                                        maecenas nec eleifen.</p>
+                                    <p class="m-top-20">We are very very important people, you too</p>
                                  </div>
                             </div>
                             <div style="float:left;margin-left:20px;margin-right:20px;">
+                            	<div class="fa fa-phone" style="margin-top:5px;margin-right:10px;float:left;"></div> 
                             	<h5 class="text-white">phone</h5>
-                            	<p class="m-top-20">010-0000-1234</p>
+                            	<p class="m-top-20">010-5555-5555</p>
                             </div>
                             <div style="float:left;margin-left:20px;margin-right:20px;">
+                            	<div class="fa fa-envelope-o" style="margin-top:5px;margin-right:10px;float:left;"></div>
                             	<h5 class="text-white">email</h5>
-                            	<p class="m-top-20">ddoda@naver.com</p>
+                            	<p class="m-top-20">ddoda@iei.or.kr</p>
                             </div>
                             <!-- End off col-md-3 -->
                         </div>
@@ -86,8 +99,8 @@
                             Made with 
                             <i class="fa fa-heart"></i>
                             by 
-                            <a target="_blank" href="http://bootstrapthemes.co">Bootstrap Themes</a> 
-                            2016. All Rights Reserved
+                            <a target="_blank" href="http://bootstrapthemes.co">DDODA</a> 
+                            2020. All Rights Reserved
                         </p>
                     </div>
                 </div>

@@ -19,6 +19,11 @@ public interface OpendiaryService {
 	 */
 	public int getListCount();
 	/**
+	 * 공유일기 댓글 전체 수 조회
+	 * @return
+	 */
+	public int getComReplyListCount();
+	/**
 	 * 공유일기 전체 조회
 	 * @return
 	 */

@@ -10,6 +10,7 @@
 		<result property="requireYN" column="REQUIRE_YN"/>
 		<result property="requireOriginalFilename" column="REQUIRE_ORIGINALFILENAME"/>
 		<result property="requireRenameFilename" column="REQUIRE_RENAMEFILENAME"/>
+		<result property="rCount"	column="RCOUNT"/>
 	</resultMap>
 	<resultMap type="Reply" id="replyResultMap">
 		<result property="rComNo" column="R_COM_NO"/>
@@ -84,4 +85,64 @@
 		DELETE FROM REQUIRE
 		WHERE REQUIRE_NO = #{requireNo}
 	</delete>
+	
+	<!-- 사용자 -->
+	
+	<select id="requireList" resultMap="requireResultMap">
+		SELECT * FROM REQUIRE ORDER BY REQUIRE_DATE DESC
+	</select>
+	
+	<select id="getListCount" resultType="int">
+		SELECT COUNT(*) FROM REQUIRE
+	</select>
+	
+	<select id="selectOneRequire" resultMap="requireResultMap">
+		SELECT * FROM REQUIRE WHERE REQUIRE_NO = #{requireNo}
+	</select>
+	
+	<insert id="insertRequire">
+		INSERT INTO REQUIRE 
+		VALUES(SEQ_REQUIRE.NEXTVAL, #{requireTitle}, SYSDATE, SYSDATE,
+		#{requireContents}, DEFAULT, #{originalFilename}, #{renameFilename}, #{userId}, DEFAULT)
+	</insert>
+	
+	<update id="updateCount">
+		UPDATE REQUIRE SET RCOUNT = RCOUNT + 1
+		WHERE REQUIRE_NO = #{requireNo}
+	</update>
+	
+	<update id="updateRequire">
+		UPDATE REQUIRE SET REQUIRE_TITLE = #{requireTitle}, REQUIRE_DATE = #{requireDate}, REQUIRE_MODIFY_DATE = SYSDATE,
+		REQUIRE_CONTENTS = #{requireContents}, REQUIRE_ORIGINALFILENAME = #{originalFilename}, REQUIRE_RENAMEFILENAME = #{renameFilename}
+		WHERE REQUIRE_NO = #{requireNo}
+	</update>
+	
+	<delete id="deleteRequire">
+		DELETE FROM REQUIRE
+		WHERE REQUIRE_NO = #{requireNo}
+	</delete>
+	<select id="searchList"  resultMap="requireResultMap">
+		SELECT * FROM REQUIRE
+		<where>
+			<if test="searchCondition.toString() == 'title'">
+				REQUIRE_TITLE LIKE '%' || #{searchValue} ||'%'
+			</if>
+			<if test="searchCondition.toString() == 'writer'">
+				USERID LIKE '%' || #{searchValue} ||'%'
+			</if>
+			<if test="searchCondition.toString() == 'content'">
+				REQUIRE_CONTENTS LIKE '%' || #{searchValue} ||'%'
+			</if>
+			<if test="searchCondition.toString() == 'all'">
+				REQUIRE_TITLE LIKE '%' || #{searchValue} ||'%'
+				OR USERID LIKE '%' || #{searchValue} || '%'
+				OR REQUIRE_CONTENTS LIKE '%' || #{searchValue} || '%'
+			</if>
+		</where>
+		ORDER BY REQUIRE_DATE DESC
+	</select>
+	<select id="requireContentsList"  resultMap="requireResultMap">
+		SELECT * FROM REQUIRE WHERE USERID = #{userId}
+		ORDER BY REQUIRE_DATE DESC
+	</select>
 </mapper>

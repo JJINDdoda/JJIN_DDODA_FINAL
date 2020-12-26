@@ -320,5 +320,21 @@ public class RequireController {
 			return mv;
 		}
 	
+		//문의사항 상세조회
+				@RequestMapping(value="mypageRequireDetail.doa", method=RequestMethod.GET)
+				public ModelAndView mypageRequireDetail(ModelAndView mv, int requireNo, Integer page, HttpServletRequest request) {
+					int currentPage = page != null? page : 1;
+					rService.addReadCount(requireNo);
+					Require require = rService.selectOneRequire(requireNo);
+					if(require != null) {
+						mv.addObject("require", require)
+						.addObject("currentPage", currentPage)
+						.setViewName("myPage/mypageRequireDetail");
+					} else {
+						mv.addObject("msg", "게시글 상세조회 실패");
+						mv.setViewName("common/errorPage");
+					}
+					return mv;
+				}
 	
 }

@@ -121,6 +121,7 @@ public class OpendiaryController {
 					dimg.setImgRenamePath(imgRenamePath);
 					dimg.setImgMainYn("Y");
 					dimg.setImgPath(fileImgs[i].getOriginalFilename());
+					dimg.setMenuName("공유일기");
 					imgupdate.put("imgRenamePath", imgRenamePath);
 					imgupdate.put("opendiaryNo", folderNo);
 					odService.updateOpendImage(imgupdate);
@@ -129,6 +130,7 @@ public class OpendiaryController {
 					dimg.setImgRenamePath(imgRenamePath);
 					dimg.setImgMainYn("N");
 					dimg.setImgPath(fileImgs[i].getOriginalFilename());
+					dimg.setMenuName("공유일기");
 				}
 				//이미지 객체?리스트에 넣어준다.
 				dimgs.add(dimg);
@@ -141,6 +143,7 @@ public class OpendiaryController {
 			parameters.put("imgMainYn", dimgs.get(i).getImgMainYn());
 			parameters.put("imgPath", dimgs.get(i).getImgPath());
 			parameters.put("imgRenamePath", dimgs.get(i).getImgRenamePath());
+			parameters.put("menuName", dimgs.get(i).getMenuName());
 //			System.out.println(parameters);
 			pictureresult = odService.insertfileImg(parameters); //diary_img 테이블에 img 넣기
 		}
@@ -273,11 +276,13 @@ public class OpendiaryController {
 							dimg.setImgRenamePath(imgRenamePath);
 							dimg.setImgMainYn("Y");
 							dimg.setImgPath(reloadFile[i].getOriginalFilename());
+							dimg.setMenuName("공유일기");
 						} else {
 							dimg.setUserId(userId);
 							dimg.setImgRenamePath(imgRenamePath);
 							dimg.setImgMainYn("N");
 							dimg.setImgPath(reloadFile[i].getOriginalFilename());
+							dimg.setMenuName("공유일기");
 						}
 					} else {
 						dimg.setUserId(userId);
@@ -297,6 +302,7 @@ public class OpendiaryController {
 			reloadFiles.put("opendiaryNo", opendiary.getOpendiaryNo());
 			reloadFiles.put("imgPath", dimgs.get(i).getImgPath());
 			reloadFiles.put("imgRenamePath", dimgs.get(i).getImgRenamePath());
+			reloadFiles.put("menuName", dimgs.get(i).getMenuName());
 			System.out.println("새로등록되는 이미지파일들 : "+reloadFiles.toString());
 			pictureresult = odService.insertfileImgUpdate(reloadFiles); //diary_img 테이블에 img 넣기
 		}
@@ -416,9 +422,9 @@ public class OpendiaryController {
 	public void mateComList(HttpServletResponse response, int opendiaryNo,
 					@RequestParam(value="page", required=false)Integer page) throws Exception {
 		int currentPage = (page != null) ? page : 1;
-		int listCount = odService.getListCount();
+		//댓글 갯수 받아오기
+		int listCount = odService.getComReplyListCount();
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
-		
 		HashMap<String, Object> map =  new HashMap<String, Object>();
 		map.put("pi", pi);
 		map.put("opendiaryNo", opendiaryNo);
@@ -429,6 +435,7 @@ public class OpendiaryController {
 		}
 		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 		gson.toJson(opendiaryComList, response.getWriter());
+		gson.toJson(pi);
 		System.out.println("오픈다이어리 댓글 리스트" +pi +","+currentPage);
 	}
 	
@@ -495,7 +502,7 @@ public class OpendiaryController {
 		return mv;
 	}
 	
-	//공유일기 전체리스트 조회 
+	//마이페이지 공유일기 전체리스트 조회 
 		@RequestMapping(value="opendiaryContentsList.doa", method=RequestMethod.GET)
 		public ModelAndView opendiaryContentsList(ModelAndView mv,
 							@RequestParam(value="userId", required=false)String userId,
@@ -524,6 +531,27 @@ public class OpendiaryController {
 				mv.addObject("opendiaryContents", opendiaryContents);
 				mv.addObject("pi", pi);
 				mv.setViewName("myPage/opendiaryContents");
+			}
+			return mv;
+		}
+	//마이페이지 상세보기 
+		//공유일기 상세보기
+		@RequestMapping(value="mypageOpenDetail.doa", method=RequestMethod.GET)
+		public ModelAndView mypageOpenDetail(ModelAndView mv, int opendiaryNo, Integer page) {
+			int currentPage = page != null? page : 1;
+			odService.addViewCount(opendiaryNo);
+			Opendiary opendiary = odService.selectOneOpend(opendiaryNo);
+			ArrayList<DiaryImg> dimgs = odService.selectDiaryImgList(opendiaryNo); 
+			int dimgsCount = dimgs.size();
+			if(opendiary != null) {
+				mv.addObject("opendiaryOne", opendiary)
+					.addObject("diaryImg", dimgs)
+					.addObject("dimgsCount", dimgsCount)
+					.addObject("currentPage", currentPage)
+						.setViewName("myPage/mypageOpenDetail");
+			} else {
+				mv.addObject("msg", "게시글 상세조회 실패");
+				mv.setViewName("common/errorPage");
 			}
 			return mv;
 		}

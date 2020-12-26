@@ -16,7 +16,13 @@
 		<result property="latLong"	column="MATE_LATLONG"/>
 		<result property="mateView"	column="MATE_VIEWS"/>
 		<result property="mateEnd"	column="MATE_END"/>
+		<result property="menuName"	column="MENU_NAME"/>
 		<result property="userId"	column="USERID"/>
+		<result property="category"	column="MATE_CATEGORY"/>
+		<collection property="mymate" resultMap="myMateResultMap" />
+		<collection property="require" resultMap="requireResultMap" />
+		<collection property="opendiary" resultMap="myMateResultMap" />
+		<collection property="diaryImg" resultMap="requireResultMap" />
 	</resultMap>
 	<resultMap type="MateCom" id="mateComResultMap">
 		<result property="mateComNo"	column="MATECOMMENTS_NO"/>
@@ -30,9 +36,42 @@
 	<resultMap type="Mymate" id="myMateResultMap">
 		<result property="mateNo" column="MATE_NO"/>
 	</resultMap>
+	<!-- require -->
+	<resultMap type="com.kh.ddoda.require.domain.Require" id="requireResultMap">
+		<result property="requireNo"	column="REQUIRE_NO"/>
+		<result property="requireTitle"	column="REQUIRE_TITLE"/>
+		<result property="requireDate"	column="REQUIRE_DATE"/>
+		<result property="requireModifyDate"	column="REQUIRE_MODIFY_DATE"/>
+		<result property="requireContents"	column="REQUIRE_CONTENTS"/>
+		<result property="requireYN"	column="REQUIRE_YN"/>
+		<result property="userId"	column="USERID"/>
+		<result property="originalFilename"	column="REQUIRE_ORIGINALFILENAME"/>
+		<result property="renameFilename"	column="REQUIRE_RENAMEFILENAME"/>
+		<result property="rCount"	column="RCOUNT"/>
+	</resultMap>
+	<!-- opendiary -->
+	<resultMap type="com.kh.ddoda.opendiary.domain.Opendiary" id="opendResultMap">
+		<result property="opendiaryNo" column="OPENDIARY_NO"/>
+		<result property="opendiaryTitle" column="OPENDIARY_TITLE"/>
+		<result property="opendiaryContents" column="OPENDIARY_CONTENTS"/>
+		<result property="opendiaryDate" column="OPENDIARY_DATE"/>
+		<result property="opendiaryModifyDate" column="OPENDIARY_MODIFY_DATE"/>
+		<result property="opendiaryViews" column="OPENDIARY_VIEWS"/>
+		<result property="userId" column="USERID"/>
+		<result property="mainImagePath" column="MAIN_IMAGEPATH"/>
+	</resultMap>
+	<resultMap type="com.kh.ddoda.opendiary.domain.DiaryImg" id="imgResultMap">
+		<result property="imgPath" column="IMAGE_PATH"/>
+		<result property="imgRenamePath" column="IMAGE_RENAME_PATH"/>
+		<result property="diaryNo" column="DIARY_NO"/>
+		<result property="opendiaryNo" column="OPENDIARY_NO"/>
+		<result property="imgMainYn" column="IMAGE_MAINYN"/>
+	</resultMap>
 	
-	<select id="selectList" resultMap="mateResultMap">
-		SELECT * FROM MATE ORDER BY MATE_NO DESC
+	<select id="selectList" resultMap="mateResultMap" parameterType="String">
+		SELECT * FROM MATE 
+		WHERE MATE_CATEGORY = #{category}
+		ORDER BY MATE_NO DESC
 	</select>
 	<select id="getListCount" resultType="int">
 		SELECT COUNT(*) FROM MATE
@@ -40,7 +79,7 @@
 	<insert id="insertMate">
 		INSERT INTO MATE VALUES(SEQ_MATE.NEXTVAL, #{mateTitle},#{mateContents},
 		SYSDATE, SYSDATE, #{mateRequireNo}, #{matePlace}, #{detailAddr}, #{roadAddr},
-		#{sido}, #{latLong}, DEFAULT, DEFAULT, #{userId})
+		#{sido}, #{latLong}, DEFAULT, DEFAULT, DEFAULT, #{userId}, #{category})
 	</insert>
 	<select id="selectOneMate" resultMap="mateResultMap">
 		SELECT * FROM MATE WHERE MATE_NO = #{mateNo}
@@ -55,10 +94,14 @@
 	</insert>
 	<select id="selectMateCom"  resultMap="mateComResultMap">
 		SELECT * FROM MATE_COMMENTS WHERE MATE_NO = #{mateNo} AND MATECOMMENTS_REF_NO = 0
-		ORDER BY MATE_NO DESC
+		ORDER BY MATECOMMENTS_DATE DESC
+	</select>
+	<select id="selectMateComListNo"  resultMap="mateComResultMap">
+		SELECT * FROM MATE_COMMENTS WHERE MATE_NO = #{mateNo}
+		ORDER BY MATECOMMENTS_DATE DESC
 	</select>
 	<insert id="insertMymate">
-		INSERT INTO MYMATE VALUES(#{mateNo}, #{userId})
+		INSERT INTO MYMATE VALUES(#{mateNo}, #{userId}, DEFAULT)
 	</insert>
 	<select id="selectMymate" resultMap="myMateResultMap">
 		SELECT * FROM MYMATE WHERE MATE_NO = #{mateNo}
@@ -85,8 +128,54 @@
 		#{mateComContents}, SYSDATE, SYSDATE, #{mateNo}, #{userId})
 	</insert>
 	<!-- 대댓글 리스트 -->
-	<select id="selectMateComReply">
+	<select id="selectMateComReply" resultMap="mateComResultMap" parameterType="Hashmap">
 		SELECT * FROM MATE_COMMENTS WHERE MATE_NO = #{mateNo} AND MATECOMMENTS_REF_NO = #{mateComRefNo}
 		ORDER BY MATE_NO DESC
 	</select>
+	<!-- 댓글 대댓글 삭제 -->
+	<delete id="deleteMateCom">
+		DELETE FROM MATE_COMMENTS WHERE MATECOMMENTS_NO = #{mateComNo}
+	</delete>
+	<delete id="deleteMateComReply">
+		DELETE FROM MATE_COMMENTS WHERE MATECOMMENTS_NO = #{mateComNo}
+	</delete>
+	<select id="mateSearchList" resultMap="mateResultMap">
+		SELECT * FROM MATE
+		<where>
+			<if test="searchCondition.toString() == 'title'">
+				MATE_TITLE LIKE '%' || #{searchValue} ||'%'
+			</if>
+			<if test="searchCondition.toString() == 'writer'">
+				USERID LIKE '%' || #{searchValue} ||'%'
+			</if>
+			<if test="searchCondition.toString() == 'content'">
+				MATE_CONTENTS LIKE '%' || #{searchValue} ||'%'
+			</if>
+			<if test="searchCondition.toString() == 'all'">
+				MATE_TITLE LIKE '%' || #{searchValue} ||'%'
+				OR USERID LIKE '%' || #{searchValue} || '%'
+				OR MATE_CONTENTS LIKE '%' || #{searchValue} || '%'
+			</if>
+		</where>
+		ORDER BY MATE_DATE DESC
+	</select>
+	<!-- mate 완료 -->
+	<update id="finishMate">
+		UPDATE MATE SET MATE_END = 'Y' WHERE MATE_NO = #{mateNo}
+	</update>
+	<!-- 마이페이지 mymate 리스트 -->
+	<select id="myMateAttendList" resultMap="mateResultMap">
+		SELECT * FROM MATE A LEFT OUTER JOIN MYMATE B 
+		ON A.MATE_NO = B.MATE_NO WHERE B.USERID = #{userId}
+	</select>
+	<!-- 마이메이트 나가기 -->
+	<delete id="mymateOut">
+		DELETE FROM MYMATE WHERE MATE_NO = #{mateNo}
+		AND USERID = #{userId}
+	</delete>
+	<!-- 모든 내 글 보기 -->
+	<select id="myContentList" resultMap="mateResultMap">
+		SELECT * FROM MATE
+		WHERE USERID = #{userId} ORDER BY MATE_DATE DESC
+	</select> 
 </mapper>

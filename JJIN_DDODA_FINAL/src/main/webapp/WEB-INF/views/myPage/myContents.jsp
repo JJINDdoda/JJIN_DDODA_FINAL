@@ -27,7 +27,7 @@
 		<div class="menub">
 			<ul>
 				<li><a href="#">회원정보 수정</a></li>
-				<li><a href="mateContentsList.doa?userId=${loginUser.userId }">내가 쓴글</a></li>
+				<li><a href="opendiaryContentsList.doa?userId=${loginUser.userId }">내가 쓴글</a></li>
 				<li><a href="myMateAttendList.doa?userId=${loginUser.userId }">마이 메이트</a></li>
 				<li><a href="#">회원탈퇴</a></li>
 			</ul>
@@ -59,24 +59,27 @@
 				</div>
 				<table align="center" cellpadding="10" cellspacing="0" border="1"
 					width="500" class="table" id="mymateList">
+					
 					<tr>
-						<td>분류</td>
-						<td width="300">제목</td>
+						<td width="200">분류</td>
+						<td width="700">제목</td>
 						<td>작성날짜</td>
-						<td>작성자</td>
 					</tr>
 					<c:if test="${ empty myContentsList }">
 						<tr>
-							<td colspan="7" align="center">참여중인 모임이 없습니다.</td>
+							<td colspan="7" align="center">작성된 글이 없습니다.</td>
 						</tr>
 					</c:if>
 					<c:if test="${!empty myContentsList }">
 						<c:forEach items="${ myContentsList }" var="myContents"
 							varStatus="status">
-							<tr>
+							<c:url var="mateDetail" value="mypageMateDetail.doa">
+								<c:param name="mateNo" value="${myContents.mateNo }"></c:param>
+								<c:param name="page" value="${pi.currentPage }"></c:param>
+							</c:url>
+							<tr onclick="location.href='${mateDetail}'">
 								<td>메이트 커뮤니티</td>
 								<td>${ myContents.mateTitle }</td>
-								<td>${ myContents.userId }</td>
 								<td>${ myContents.mateDate }</td>
 							</tr>
 						</c:forEach>
