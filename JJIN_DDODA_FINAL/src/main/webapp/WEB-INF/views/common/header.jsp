@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -122,7 +123,14 @@
                             	</div>
                             </li>
                             <li><a href="requireList.doa">Q&A</a></li>
-                            <li><a href="#test">Mypage</a></li>
+                            <c:choose>
+                            	<c:when test="${ empty sessionScope.loginUser }">
+                            		<li><a href="LoginView.doa">Login</a></li>
+                            	</c:when>
+                            	<c:when test="${ !empty sessionScope.loginUser }">
+                            		<li><a href="myInfo.doa">Mypage</a></li>
+                            	</c:when>
+                            </c:choose>
                         </ul>
                     </div><!-- /.navbar-collapse -->
                 </div> 

@@ -6,6 +6,7 @@
   <result property="userName" column="USER_NAME"/>
   <result property="memStatus" column=" MEM_STATUS "/>
   <result property="userField" column="USER_FIELD"/>
+  <result property="userBirth" column="USER_BIRTH"/>
 </resultMap>
 
 <!-- 로그인 -->
@@ -21,7 +22,7 @@ AND MEM_STATUS = 'N'
 <!-- 회원가입 -->
  <insert id="insertMember" parameterType="Member">
 INSERT INTO MEMBER
-VALUES (#{userId}, #{passWord}, #{userName}, #{gender}, #{email}, #{phone}, 'N',#{userField})
+VALUES (#{userId}, #{passWord}, #{userName}, #{gender}, #{email}, #{phone}, DEFAULT,#{userField}, #{userBirth})
 </insert>
 
 <!-- 회원정보수정 -->
@@ -71,18 +72,12 @@ WHERE EMAIL =#{email}
 SELECT * FROM MEMBER
 WHERE EMAIL = #{email} AND USERID = #{userId}
 </select>
-	<select id="getMemberListCount" resultType="int">
-		SELECT COUNT(*) FROM MEMBER
-	</select>
-	<select id="adminSelectMemberList" resultMap="memberResultMap">
-		SELECT * FROM MEMBER
-	</select>
-	<select id="adminSelectMember" resultMap="memberResultMap">
-		SELECT * FROM MEMBER
-		WHERE USERID = #{userId}
-	</select>
-	<delete id="adminDeleteMember">
-		DELETE FROM MEMBER
-		WHERE USERID = #{userId}
-	</delete>
+
+
+<!-- 아이디 찾기 -->
+<select id="findId" resultMap="memberResultMap">
+SELECT * FROM MEMBER
+WHERE EMAIL = #{email} AND USER_NAME = #{userName}
+
+</select>
 </mapper>

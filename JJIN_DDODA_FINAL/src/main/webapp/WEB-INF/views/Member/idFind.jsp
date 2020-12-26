@@ -16,10 +16,10 @@
 	
 	<!-- content -->	
 	<div class="content">
-	<h3 align="center">회원가입</h3>
+	<h3 align="center">아이디찾기</h3>
 	<div class="centerText" align="center">
-		<form action="findId.doa" method="post" name="memberInfo">
-		<table width="650" cellspacing="5">
+		<form action="IdmailSending.doa" method="post" name="memberInfo">
+		<table width="430" cellspacing="5">
 		        <tr>
 	 				<td>이름</td>
 	 				<td><input type="text" name="userName" placeholder="이름을 입력하세요"></td>
@@ -29,7 +29,7 @@
 	 				<td>이메일</td>
 	 				<td><input type="text" placeholder="이메일" name="emailId">@
 	 				   <select name="emailTag" onkeydown="inputEmailChk();">
-	 				     <option value="@google.com">google.com</option>
+	 				     <option value="@gmail.com">gmail.com</option>
 	 				     <option value="@iei.or.kr">iei.or.kr</option>
 	 				     <option value="@naver.com">naver.com</option>
 	 				     <option value="@daum.net">daum.net</option>

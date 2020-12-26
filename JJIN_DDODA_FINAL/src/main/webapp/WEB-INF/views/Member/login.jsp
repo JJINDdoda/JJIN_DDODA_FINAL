@@ -31,15 +31,26 @@
 					<input type="password" name="passWord">
 				</td>
 			</tr>
+			
+			
+			
 			<tr>
 				<td colspan="3">
-					<a href="enrollView.doa">회원가입</a>&nbsp;&nbsp;&nbsp;&nbsp;
-					<a href="#">아이디 찾기</a>
+					<a href="AgreeView.doa">회원가입</a>&nbsp;&nbsp;&nbsp;&nbsp;
+					<a href="findIdView.doa">아이디 찾기</a>
 					<a href="findPwdView.doa">비밀번호 찾기</a>
 				</td>
 			</tr>
+			<tr>
+			
+			</tr>
 		</table>
 		</form>
+		<div id="kakao_id_login" style="text-align: center">
+			<a href="${kakao_url}">
+				<img width="223" src="resources/assets/KakaoTalk_20201226_015108593.png" />
+			</a>
+		</div>
 	</c:if>
 	<c:if test="${ !empty sessionScope.loginUser}">
 		<table align="right">
@@ -51,6 +62,12 @@
 		</table>
 	</c:if>
 	</div>
+	
+	<%Object kemail = session.getAttribute("kemail"); %>
+	
+	<%if(kemail != null) { %>
+	<input type="text" value="${kemail }">
+	<%} %>
 	
 	<!-- end content -->
 	

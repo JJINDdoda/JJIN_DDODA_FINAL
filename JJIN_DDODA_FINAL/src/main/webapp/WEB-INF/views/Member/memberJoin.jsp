@@ -34,7 +34,7 @@
 	<h3 align="center">회원가입</h3>
 	<div class="centerText" align="center">
 		<form action="insertMember.doa" method="post" name="memberInfo">
-		<table width="650" cellspacing="5">
+		<table width="650" cellspacing="5" >
 		        <tr>
 	 				<td>이름</td>
 	 				<td><input type="text" name="userName" placeholder="이름을 입력하세요" required ></td>
@@ -67,9 +67,9 @@
 	 				<td>이메일</td>
 	 				<td><input type="text" placeholder="이메일" name="emailId" required >@
 	 				   <select name="emailTag" onkeydown="inputEmailChk();">
+	 				     <option value="@gmail.com">gmail.com</option>
 	 				     <option value="@iei.or.kr">iei.or.kr</option>
-	 				     <option value="@naver.com">naver.com</option>
-	 				     <option value="@google.com">google.com</option>
+	 				     <option value="@naver.com">naver.com</option>			  
 	 				     <option value="@daum.net">daum.net</option>
 	 				   </select> <a> Example) mail2im@ iei.or.kr</a>
 	 				
@@ -83,13 +83,10 @@
 	 			<tr>
 	 				<td>전화번호</td>
 	 				<td><select name="firstPhone" style="width: 70px;">
-	 				    <option value="010">010</option>
-	 				    <option value="010">017</option>
-	 				    
+	 				    <option value="010">010</option> 				   		
 	 				</select>
 	 				- <input type="text" size="4" name="secondPhone" id="secondPhone" style="width: 70px;" onkeypress="javascript:checkInputNum();"  onkeydown="inputPhoneChk();"  maxlength="4" required  >
-	 				- <input type="text" size="4" name="lastPhone" id="lastPhone" style="width: 70px;" onkeypress="javascript:checkInputNum();"  onkeydown="inputPhoneChk();"  maxlength="4" required  >
-	 				
+	 				- <input type="text" size="4" name="lastPhone" id="lastPhone" style="width: 70px;" onkeypress="javascript:checkInputNum();"  onkeydown="inputPhoneChk();"  maxlength="4" required  >	 				
 	 				</td>
 	 				<td>
 	 				  <input type="button" value="중복확인" onclick="openPhoneChk();" class="btn btn-primary btn-xs" style="width : 70px; height: 40px; font-size : 0.8em; text-align:center;">
@@ -100,15 +97,7 @@
 	 				
 	 				
 	 			</tr>
-	 			
-	 			<tr>
-	 			 <td>생년월일</td>
-	 			 <td><input type="date" name="userBitrhday" /> </td>
-	 			
-	 			</tr>
-	 			
-	 			
-	 			
+	 			 						
 	 			
 	 			<tr>
 	 				<td>가입분류</td>
@@ -117,6 +106,15 @@
 	 				    <input type="radio" name="userField" value="admin" required>관리자
 	 				    </td>
 	 			</tr>
+	 			
+	 			<tr>
+	 			 <td>생년월일</td>
+	 			 <td><input type="tel" id="userBirth" name="userBirth" placeholder="ex) 20200723"  maxlength="8" required />
+	 			     <span class="eheck_font" id="birth_check"></span>
+	 			 </td>
+	 			
+	 			</tr>
+	 			
 	 		
 	 			<tr>
 	 				<td colspan="2" align="center">
@@ -239,6 +237,71 @@
 		  
 		  
 	  }
+	  
+	  
+	// 생일 유효성 검사
+		var birthJ = false;
+		
+		// 생년월일	birthJ 유효성 검사
+		$('#userBirth').blur(function(){
+			var dateStr = $(this).val();		
+		    var year = Number(dateStr.substr(0,4)); // 입력한 값의 0~4자리까지 (연)
+		    var month = Number(dateStr.substr(4,2)); // 입력한 값의 4번째 자리부터 2자리 숫자 (월)
+		    var day = Number(dateStr.substr(6,2)); // 입력한 값 6번째 자리부터 2자리 숫자 (일)
+		    var today = new Date(); // 날짜 변수 선언
+		    var yearNow = today.getFullYear(); // 올해 연도 가져옴
+			//여기도 에러뜨는데 잘 되는 에러가 뜸 
+		    if (dateStr.length <=8) {
+				// 연도의 경우 1900 보다 작거나 yearNow 보다 크다면 false를 반환합니다.
+			    if (1900 > year || year > yearNow){
+			    	
+			    	$('#birth_check').text('생년월일을 다시 확인해주세요.');
+					$('#birth_check').css('color', 'red');
+			    	
+			    }else if (month < 1 || month > 12) {
+			    		
+			    	$('#birth_check').text('생년월일을 다시 확인해주세요.');
+					$('#birth_check').css('color', 'red'); 
+			    
+			    }else if (day < 1 || day > 31) {
+			    	
+			    	$('#birth_check').text('생년월일을 다시 확인해주세요.');
+					$('#birth_check').css('color', 'red'); 
+			    	
+			    }else if ((month==4 || month==6 || month==9 || month==11) && day==31) {
+			    	 
+			    	$('#birth_check').text('생년월일을 다시 확인해주세요.');
+					$('#birth_check').css('color', 'red'); 
+			    	 
+			    }else if (month == 2) {
+			    	 
+			       	var isleap = (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0));
+			       	
+			     	if (day>29 || (day==29 && !isleap)) {
+			     		
+			     		$('#birth_check').text('생년월일을 다시 확인해주세요.');
+						$('#birth_check').css('color', 'red'); 
+			    	
+					}else{
+						$('#birth_check').text('');
+						birthJ = true;
+					}//end of if (day>29 || (day==29 && !isleap))
+			     	
+			    }else{
+			    	
+			    	$('#birth_check').text(''); 
+					birthJ = true;
+				}//end of if
+				
+				}else{
+					//1.입력된 생년월일이 8자 초과할때 :  auth:false
+					$('#birth_check').text('생년월일을 다시 확인해주세요.');
+					$('#birth_check').css('color', 'red');  
+				}
+			});
+	
+
+
 	  
 	  
 	  

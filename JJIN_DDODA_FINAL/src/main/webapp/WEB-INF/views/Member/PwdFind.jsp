@@ -29,7 +29,7 @@
 	 				<td>이메일</td>
 	 				<td><input type="text" placeholder="이메일" name="emailId">@
 	 				   <select name="emailTag" onkeydown="inputEmailChk();">
-	 				     <option value="@google.com">google.com</option>
+	 				     <option value="@gmail.com">gmail.com</option>
 	 				     <option value="@iei.or.kr">iei.or.kr</option>
 	 				     <option value="@naver.com">naver.com</option>
 	 				     <option value="@daum.net">daum.net</option>

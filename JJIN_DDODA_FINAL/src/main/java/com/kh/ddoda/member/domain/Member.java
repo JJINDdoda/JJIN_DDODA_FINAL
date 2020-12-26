@@ -10,6 +10,7 @@ public class Member {
 	private String phone;
 	private String memStatus;
 	private String userField;
+	private String userBirth;
 	
 	public Member() {
 		// TODO Auto-generated constructor stub
@@ -32,15 +33,16 @@ public class Member {
 	//Member member = new Member("hihi", "123456");//로그인
 
 	public Member(String userId, String passWord, String userName, String gender, String email, String phone,
-			String memStatus, String userField) {
+			String memStatus,String userField,String userBirth) {
 		this.userId = userId;
 		this.passWord = passWord;
 		this.userName = userName;
 		this.gender = gender;
 		this.email = email;
 		this.phone = phone;
-		this.memStatus = memStatus;
+		this.memStatus = memStatus;	
 		this.userField = userField;
+		this.userBirth = userBirth;
 	}
 
 
@@ -112,7 +114,7 @@ public class Member {
 	public void setMemStatus(String memStatus) {
 		this.memStatus = memStatus;
 	}
-
+	
 
 	public String getUserField() {
 		return userField;
@@ -122,14 +124,27 @@ public class Member {
 	public void setUserField(String userField) {
 		this.userField = userField;
 	}
+	
+	public String getUserBirth() {
+		return userBirth;
+	}
+	
+	public void setUserBirth(String userBirth) {
+		this.userBirth = userBirth;
+	}
 
-
+	
+	
 	@Override
 	public String toString() {
 		return "Member [userId=" + userId + ", passWord=" + passWord + ", userName=" + userName + ", gender=" + gender
 				+ ", email=" + email + ", phone=" + phone + ", memStatus=" + memStatus + ", userField=" + userField
-				+ "]";
+				+ ", userBirth=" + userBirth + "]";
 	}
 
+
+
+	
+	
 	
 }
