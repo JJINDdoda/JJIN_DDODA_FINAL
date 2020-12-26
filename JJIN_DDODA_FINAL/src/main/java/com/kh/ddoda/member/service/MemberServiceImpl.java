@@ -1,8 +1,11 @@
 package com.kh.ddoda.member.service;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.ddoda.common.PageInfo;
 import com.kh.ddoda.member.domain.Member;
 import com.kh.ddoda.member.store.MemberStore;
 
@@ -75,5 +78,25 @@ public class MemberServiceImpl implements MemberService{
 	public Member FindId(Member member) {
 		// TODO Auto-generated method stub
 		return store.FindId(member);
+	}
+	
+	@Override
+	public int getMemberListCount() {
+		return store.getMemberListCount();
+	}
+
+	@Override
+	public ArrayList<Member> adminSelectMemberList(PageInfo pi) {
+		return store.adminSelectMemberList(pi);
+	}
+
+	@Override
+	public Member adminSelectMember(String userId) {
+		return store.adminSelectMember(userId);
+	}
+
+	@Override
+	public int adminDeleteMember(String userId) {
+		return store.adminDeleteMember(userId);
 	}
 }
