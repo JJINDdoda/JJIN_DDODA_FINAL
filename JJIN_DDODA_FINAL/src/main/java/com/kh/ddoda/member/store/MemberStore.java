@@ -1,5 +1,8 @@
 package com.kh.ddoda.member.store;
 
+import java.util.ArrayList;
+
+import com.kh.ddoda.common.PageInfo;
 import com.kh.ddoda.member.domain.Member;
 
 public interface MemberStore {
@@ -71,4 +74,31 @@ public interface MemberStore {
 	 * @return Member
 	 */
 	public Member selectOne(String userId);
+	
+	/**
+	 * 관리자 게시글 전체 수 조회
+	 * @return
+	 */
+	public int getMemberListCount();
+	
+	/**
+	 * 관리자 회원 전체 조회
+	 * @param pi
+	 * @return
+	 */
+	public ArrayList<Member> adminSelectMemberList(PageInfo pi);
+	
+	/**
+	 * 관리자 회원 상세조회
+	 * @param userId
+	 * @return
+	 */
+	public Member adminSelectMember(String userId);
+	
+	/**
+	 * 관리자 회원 탈퇴결정
+	 * @param userId
+	 * @return
+	 */
+	public int adminDeleteMember(String userId);
 }
