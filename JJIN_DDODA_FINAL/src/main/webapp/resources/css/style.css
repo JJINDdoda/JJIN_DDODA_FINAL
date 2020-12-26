@@ -116,7 +116,7 @@ section { overflow: hidden; }
 .lightbg {
     background-color: #f2f2f2;
 }
-.bg-primary{background-color: #00a885;}
+.bg-primary{background-color: #f7bf99;}
 .bg-finence{background-color:#13A0B2;}
 .bg-mega{background-color:#1b1b1b;}
 .bg-grey{background-color: #f5f5f5;}
@@ -374,19 +374,18 @@ Button
     font-size:14px;
     font-weight: 600;
     border:1px solid;
-    padding: 1rem 4rem;
 }
 .btn-primary{
     color: #fff;
-    background-color: #00a885;
+    background-color: #f7bf99;
     border:1px solid;
-    border-color: #00a885;
+    border-color: #f7bf99;
 
 }
 .btn-primary:hover{
-    background-color: #eee;
-    border-color: #eee;
-    color:#00a885;
+    background-color: #f6f6f6;
+    border-color: #f6f6f6;
+    color:#f6ac79;
 }
 
 .btn-default{
@@ -397,8 +396,8 @@ Button
 }
 .btn-default:hover{
     color: #fff;
-    background-color: #00a885;
-    border-color: #00a885;
+    background-color: #f7bf99;
+    border-color: #f7bf99;
 }
 
 
@@ -690,7 +689,7 @@ textarea::-ms-input-placeholder{
 
 /*Preloader*/
 #loading{
-    background-color: #00a885;
+    background-color: #f7bf99;
     height: 100%;
     width: 100%;
     position: absolute;
@@ -835,8 +834,14 @@ Nav Menu style
 ==================*/
 
 .navbar-brand {
-    padding: 25px 15px;
+    padding: 15px 15px 15px 20px;
 }
+@media ( max-width : 991px) {
+	.navbar-brand {
+    	padding: 0px 15px;
+	}
+}
+
 .navbar-brand > img {
     display: block;
     width: 80%;
@@ -850,7 +855,7 @@ Nav Menu style
 }
 .navbar-callus li a i{
     font-size:13px;
-    color:#1abc9c;
+    color: #f7bf99;
     margin-right: 5px;
 }
 .navbar-socail li a{
@@ -870,10 +875,10 @@ Home Section style
 ==================*/
 
 .home{
-    background: url(../images/home-bg.jpg) no-repeat scroll  center center;
+    background: url(../assets/image1.jpg) no-repeat scroll  center center;
     background-size: cover;
     position: relative;
-    padding-top: 300px;
+    padding-top: 150px;
     padding-bottom: 190px;
     width:100%;
 }
@@ -914,7 +919,7 @@ Home Section style
 }
 .main_home .slick-dots li.slick-active button:before{
     opacity: 1;
-    background-color: #00a885;
+    background-color: #f99573;
 }
 .main_home .slick-dots{
     bottom: -200px;
@@ -1224,7 +1229,7 @@ work Section style
     height: 0;
     border-left: 15px solid transparent;
     border-right: 15px solid transparent;
-    border-top: 20px solid #00a885;
+    border-top: 20px solid #f7bf99;
     left:50%;
     top:0%;
     z-index: 3;
