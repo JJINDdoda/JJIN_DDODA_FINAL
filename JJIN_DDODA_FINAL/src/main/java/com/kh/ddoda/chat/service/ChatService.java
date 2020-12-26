@@ -1,6 +1,7 @@
 package com.kh.ddoda.chat.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.kh.ddoda.chat.domain.Chat;
 import com.kh.ddoda.common.PageInfo;
@@ -42,4 +43,25 @@ public interface ChatService {
 	 * @return
 	 */
 	public int adminModifyChat(Mymate myMate);
+	
+	/**
+	 * 관리자 채팅 오픈
+	 * @param message
+	 * @return
+	 */
+	public int adminChatOpen(Chat chat);
+	
+	/**
+	 * 채팅방 입장
+	 * @param mateNo
+	 * @return
+	 */
+	public Mymate selectChatInsert(HashMap<String, Object> map);
+	
+	/**
+	 * 채팅 리스트 전체 조회
+	 * @param mateNo
+	 * @return
+	 */
+	public ArrayList<Chat> selectChatList(int mateNo);
 }

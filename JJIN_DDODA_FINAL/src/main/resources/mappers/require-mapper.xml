@@ -10,6 +10,7 @@
 		<result property="requireYN" column="REQUIRE_YN"/>
 		<result property="requireOriginalFilename" column="REQUIRE_ORIGINALFILENAME"/>
 		<result property="requireRenameFilename" column="REQUIRE_RENAMEFILENAME"/>
+		<result property="menuName" column="MENU_NAME"/>
 	</resultMap>
 	<resultMap type="Reply" id="replyResultMap">
 		<result property="rComNo" column="R_COM_NO"/>

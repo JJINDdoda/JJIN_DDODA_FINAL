@@ -65,7 +65,7 @@ public class MemberController {
 	public String memberLogout(HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		session.invalidate();
-		return "home";
+		return "../../index";
 		
 		
 	}
@@ -97,7 +97,7 @@ public class MemberController {
 		System.out.println(member.toString());
 		int result = service.insertMember(member);
 		if(result>0) {
-			return "redirect:home.doa";
+			return "../../index";
 		}else {
 			model.addAttribute("msg","회원가입실패");
 			return "common/errorPage";
@@ -156,6 +156,7 @@ public class MemberController {
     		  model.addAttribute("msg", "회원탈퇴에 실패하였습니다.");
     		  return "common/errorPage";
     	  }
+	  }
 	  
 	
 	

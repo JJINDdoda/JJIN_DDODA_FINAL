@@ -5,16 +5,18 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
+<script type="text/javascript" src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
 <title>Insert title here</title>
 </head>
 <body>
     <div>
         <input type="text" id="sender" value="${loginUser.userId }" name="userId" style="display: none;">
         <input type="text" id="messageinput" name="messageinput">
+        <input type="text" id="mateNo" value="${myMate.mateNo }">
     </div>
     <div>
-        <button type="button" onclick="openSocket();">Open</button>
-        <button type="button" onclick="send();">Send</button>
+        <button type="button" onclick="openSocket();" id="chatOpen">Open</button>
+        <button type="button" onclick="send();" id="chatSB">Send</button>
         <button type="button" onclick="closeSocket();">Close</button>
     </div>
     <!-- Server responses get written here -->
@@ -26,11 +28,11 @@
         
         function openSocket(){
             if(ws!==undefined && ws.readyState!==WebSocket.CLOSED){
-                writeResponse("WebSocket is already opened.");
+                writeResponse("입장하셨습니다.");
                 return;
             }
             //웹소켓 객체 만드는 코드
-            ws=new WebSocket("ws://172.31.11.229:2624/echo.doa");
+            ws=new WebSocket("ws://192.168.219.188:2432/echo.doa");
             
             ws.onopen=function(event){
                 if(event.data===undefined) return;
@@ -41,7 +43,7 @@
                 writeResponse(event.data);
             };
             ws.onclose=function(event){
-                writeResponse("Connection closed");
+                writeResponse("채팅이 종료되었습니다.");
             }
         }
         
@@ -55,8 +57,57 @@
             ws.close();
         }
         function writeResponse(text){
-            messages.innerHTML+="<br/>"+text;
+        	messages.innerHTML+="<br/>"+text;
         }
+        
+        $(function() {
+        	$("#chatSB").on("click", function() {
+        		var messageinput = $("#messageinput").val();
+        		var userId = $("#sender").val();
+        		var mateNo = $("#mateNo").val();
+        		
+        		$.ajax({
+        			url : "addChat.doa",
+        			type : "post",
+        			data : {
+        				"messageinput" : messageinput
+        				, "userId" : userId
+        				, "mateNo" : mateNo
+        			},
+        			success : function(data) {
+        				if(data == "success") {
+        					$("$messageinput").val("");
+        				} else {
+        					alert("저장 실패..");
+        				}
+        			}
+        		});
+        	});
+        });
+        
+        $(function() {
+        	$("#chatOpen").on("click", function() {
+        		var mateNo = ${myMate.mateNo };
+        		$.ajax({
+        			url : "chatList.doa",
+        			type : "get",
+        			data : {"mateNo" : mateNo },
+        			dataType : "json",
+        			success : function(data) {
+        				$div = $("#messages");
+        				$div.html("");
+        				
+        				if(data.length > 0) {
+        					for(var i in data) {
+        						writeResponse(data[i].userId + " : " + decodeURIComponent(data[i].messageinput));
+        					}
+        				} else {
+        					writeResponse("저장된 내용이 없습니다.");
+        				}
+        			}
+        		});
+        	});
+        });
   </script>
 </body>
 </html>

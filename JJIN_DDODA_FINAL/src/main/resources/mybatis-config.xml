@@ -20,7 +20,7 @@
 		<typeAlias type="com.kh.ddoda.facility.domain.FacilityPicture" alias="FacilityPicture"/>
 		<typeAlias type="com.kh.ddoda.facility.domain.InstructorInfo" alias="InstructorInfo"/>
 		<typeAlias type="com.kh.ddoda.facility.domain.FacilityPrice" alias="FacilityPrice"/>
-		
+		<typeAlias type="com.kh.ddoda.chat.domain.Chat" alias="Chat"/>
 		<typeAlias type="com.kh.ddoda.member.domain.Member" alias="member"/>
 		<typeAlias type="com.kh.ddoda.calorie.domain.Calorie" alias="Calorie"/>
 	</typeAliases>

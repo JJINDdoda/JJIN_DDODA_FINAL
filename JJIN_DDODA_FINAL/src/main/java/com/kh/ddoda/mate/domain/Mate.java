@@ -21,6 +21,7 @@ public class Mate {
 	private String latLong;
 	private int mateView;
 	private String mateEnd;
+	private String menuName;
 	private String userId;
 	private String category;
 	
@@ -33,7 +34,7 @@ public class Mate {
 
 	public Mate(int mateNo, String mateTitle, String mateContents, Date mateDate, Date mateModifyDate,
 			String mateRequireNo, String matePlace, String detailAddr, String roadAddr, String sido, String latLong,
-			int mateView, String mateEnd, String userId, String category, Mymate mymate, Opendiary opendiary,
+			int mateView, String mateEnd, String menuName, String userId, String category, Mymate mymate, Opendiary opendiary,
 			DiaryImg diaryImg, Require require) {
 		super();
 		this.mateNo = mateNo;
@@ -49,6 +50,7 @@ public class Mate {
 		this.latLong = latLong;
 		this.mateView = mateView;
 		this.mateEnd = mateEnd;
+		this.menuName = menuName;
 		this.userId = userId;
 		this.category = category;
 		this.mymate = mymate;
@@ -161,6 +163,14 @@ public class Mate {
 		this.mateEnd = mateEnd;
 	}
 
+	public String getMenuName() {
+		return menuName;
+	}
+	
+	public void setMenuName(String menuName) {
+		this.menuName = menuName;
+	}
+	
 	public String getUserId() {
 		return userId;
 	}

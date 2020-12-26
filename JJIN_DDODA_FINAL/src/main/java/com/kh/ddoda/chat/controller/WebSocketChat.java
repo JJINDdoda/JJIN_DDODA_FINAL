@@ -2,21 +2,20 @@ package com.kh.ddoda.chat.controller;
 
 import java.util.ArrayList;
 import java.util.List;
- 
-import javax.websocket.server.ServerEndpoint;
+
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
+import javax.websocket.RemoteEndpoint.Basic;
 import javax.websocket.Session;
- 
+import javax.websocket.server.ServerEndpoint;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
- 
-import javax.websocket.RemoteEndpoint.Basic;
  
 @Controller
 @ServerEndpoint(value="/echo.doa")
@@ -30,7 +29,7 @@ public class WebSocketChat {
     }
     @RequestMapping(value="/chat.doa")
     public ModelAndView getChatViewPage(ModelAndView mav) {
-        mav.setViewName("chat");
+        mav.setViewName("admin/chat");
         return mav;
     }
     @OnOpen
@@ -54,7 +53,7 @@ public class WebSocketChat {
         try {
             for(Session session : WebSocketChat.sessionList) {
                 if(!self.getId().equals(session.getId())) {
-                    session.getBasicRemote().sendText(message.split(",")[1]+" : "+message);
+                    session.getBasicRemote().sendText(message.split(",")[1] + " : " + message.split(",")[0]);
                 }
             }
         }catch (Exception e) {
@@ -67,7 +66,7 @@ public class WebSocketChat {
         logger.info("Message From "+message.split(",")[1] + ": "+message.split(",")[0]);
         try {
             final Basic basic=session.getBasicRemote();
-            basic.sendText("to : "+message);
+            basic.sendText("모두에게 : "+message.split(",")[0]);
         }catch (Exception e) {
             // TODO: handle exception
             System.out.println(e.getMessage());

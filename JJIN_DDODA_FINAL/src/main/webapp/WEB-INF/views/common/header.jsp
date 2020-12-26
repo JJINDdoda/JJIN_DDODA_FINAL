@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -122,11 +123,27 @@
                             	</div>
                             </li>
                             <li><a href="requireList.doa">Q&A</a></li>
-                            <li><a href="#test">Mypage</a></li>
+                            <li class="dropdowns">
+                            	<a href="#test">Mypage</a>
+                            	<div class="dropdown-contents">
+                            		<c:if test="${empty sessionScope.loginUser }">
+                            			<a href="#">로그인</a>
+                            		</c:if>
+                            		<c:if test="${!empty sessionScope.loginUser }">
+                            			<a href="#">로그아웃</a><br>
+                            			<c:url var="myMateAttendList" value="myMateAttendList.doa">
+											<c:param name="userId" value="${loginUser.userId }"></c:param>
+										</c:url>
+                            			<a href="myMateAttendList.doa?category=health">마이페이지</a>
+                            			<c:if test="${loginUser.userId == 'admin' }">
+                            				<br><a href="adminRequireList.doa">관리자 모드</a>
+                            			</c:if>
+                            		</c:if>
+                            	</div>
+                            </li>
                         </ul>
                     </div><!-- /.navbar-collapse -->
                 </div> 
             </nav>
-
 </body>
 </html>
