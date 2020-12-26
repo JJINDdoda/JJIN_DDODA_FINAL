@@ -48,7 +48,7 @@ public class MemberController {
 		
 		if(loginUser != null) {
 			session.setAttribute("loginUser", loginUser);
-			mv.setViewName("Member/myPage");
+			mv.setViewName("redirect:index.jsp");
 			
 		}else {
 			mv.addObject("msg","로그인 실패");
@@ -65,7 +65,7 @@ public class MemberController {
 	public String memberLogout(HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		session.invalidate();
-		return "home";
+		return "../../index";
 		
 		
 	}
@@ -157,7 +157,7 @@ public class MemberController {
     		  return "common/errorPage";
     	  }
 	  
-	
+	  }
 	
 	
 	
