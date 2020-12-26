@@ -30,6 +30,7 @@ import org.apache.http.client.HttpClient;
 public class KakaoController {
 
 	
+	
 	   private final static String K_CLIENT_ID = "ac9a019aaa7361144ef3b2c28761c8b7";
 	   private final static String K_REDIRECT_URI = "http://localhost:8888/KaKaoLogin.doa";
 	   String kakaoUrl = "https://kauth.kakao.com/oauth/authorize?client_id=ac9a019aaa7361144ef3b2c28761c8b7&redirect_uri=http://localhost:8888/KaKaoLogin.doa&response_type=code";
