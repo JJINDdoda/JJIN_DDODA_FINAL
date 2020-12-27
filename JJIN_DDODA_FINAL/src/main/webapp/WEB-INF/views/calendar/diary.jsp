@@ -37,6 +37,7 @@
 		<div class="table-wrap">
 		<form id="diaryToday" action="insertMyDiary.doa" method="post" name="diaryToday"   enctype="multipart/form-data"  onsubmit="return checkvalue();">
 			<input type="hidden" name="opendiaryDate" value="${date }">
+			<input type="hidden" name="opendiaryModifyDate" value="${date }">
 			<input type="hidden" name="userId" id="userId" value="${loginUser.userId }">
 			<table class="table">
 				<tr>

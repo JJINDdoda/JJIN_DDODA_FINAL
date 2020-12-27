@@ -33,7 +33,7 @@
     var mon = (now.getMonth()+1)>9 ? ''+(now.getMonth()+1) : '0'+(now.getMonth()+1);
     var day = now.getDate()>9 ? ''+now.getDate() : '0'+now.getDate();
     var today = year + '-' + mon + '-' + day;
-
+    var opendiaryNo;
     console.log(today);
     
     var events = [];
@@ -59,7 +59,6 @@
 	        },
 	        dataType : "json",
 	        success: function (data) {
-	          
 	          if(data !=null) {
 		          $.each(data, function(index, element) {
 		        	  events.push({
@@ -80,75 +79,29 @@
 	    },
 	    eventRender : function(info) {
 		    for(var i in events){
-		    	console.log(events[i].imageurl);
-		    	$(info.el).popover({
-		    		title : $('<div />', {
-		    			text : events[i].start + events[i].title
-		    		}).append('<p><img src="'+events[i].imageurl+'"> </p>'),
-		    		placement : 'top',
-		    		trigger : 'hover',
-		    		content : events[i].description,
-		    		container : 'body',
-		    		html : true
-		    	}).popover('show');
+			    	$(info.el).popover({
+			    		title : $('<div />', {
+			    			text : events[i].start + events[i].title
+			    		}).append('<p><img src="'+events[i].imageurl+'"> </p>'),
+			    		placement : 'top',
+			    		trigger : 'hover',
+			    		content : events[i].description,
+			    		container : 'body',
+			    		html : true
+			    	}).popover('show');
+			    	console.log(events[i].start);
+		    	
 		    }
-		    },
-	    select : function(info, jsEvent, view){
+		},
+		select : function(info, jsEvent, view){
 	    	var date = info.startStr; //클릭한 날짜 = date
-			var arr = new Array();
-	    	console.log(date+", "+today);
-			for(var i in events) {
-				var diarydate = events[i].start; //일기 이미 작성된 날짜 = diarydate 
-				/* var opendiaryNp = events[i]._id; */
-				if( diarydate == date) {		//클릭한 날짜에 작성된 일기가 있을 경우 
-					/* alert(diarydate + ", "+date); */ //클릭한 날짜 = 이미 작성한 날짜 && 클릭한 날짜 < 현재 -> 수정하기
-														//클릭한 날짜 > 현재 -> 클릭x
-														//클릭한 날짜 = 이미 작성한 날짜 && 클릭한 날짜 = 현재 -> 수정하기
-														//클릭한 날짜 != 이미 작성한 날짜 && 클릭한 날짜 = 현재 -> 새로 작성하기
-						/* alert(date); */
-					if(date < today && date == diarydate) {
-						/* location.href='myDiaryDetail.doa?opendiaryNo='+events[i]._id; */
-						/* alert(events[i].imageurl); */
-						/* alert("이전입니다 ㅏ");  */
-						$(".fc-body").unbind('click');
-						$(".fc-body").on('click', 'td', function (e) {
-						      $("#contextMenu_detail")
-						        .addClass("contextOpenedd")
-						        .css({
-						          display: "block",
-						          left: e.pageX,
-						          top: e.pageY
-						        });
-						      return false;
-						    });
-						
-					} else if(date == today && events[i].start == today) {
-						alert("오늘입니다");
-						console.log(events[i].imageurl);
-					}
-					//날짜 클릭시 카테고리 선택메뉴
-				    var $contextMenu_detail = $("#contextMenu_detail");
-				    $contextMenu_detail.on("click", "a", function (e) {
-				      e.preventDefault();
-
-				      
-				    if ($(this).data().role !== 'close' ) {
-				    	location.href="myDiaryDetail.doa?opendiaryNo="+events[i]._id;
-				    } 
-
-				      $contextMenu_detail.removeClass("contextOpened");
-				      $contextMenu_detail.hide();
-				    });
-
-				    $('body').on('click', function () {
-				      $contextMenu_detail.removeClass("contextOpened");
-				      $contextMenu_detail.hide();
-				    });
-				} else if(diarydate != date && date == today) {	//클릭한 날짜가 오늘이고 작성한 일기가 없을 경우
-					/* alert("어어어없어"); */
-					$(".fc-body").unbind('click');
+	    	
+	    	for(var i in events){
+	    		if(events[i].start == date){
+	    			/* location.href="myDiaryDetail.doa?opendiaryNo="+events[i]._id; */
+	    			$(".fc-body").unbind('click');
 					$(".fc-body").on('click', 'td', function (e) {
-					      $("#contextMenu")
+					      $("#contextMenu_detail")
 					        .addClass("contextOpened")
 					        .css({
 					          display: "block",
@@ -157,40 +110,39 @@
 					        });
 					      return false;
 					    });
-					  //날짜 클릭시 카테고리 선택메뉴
-					    var $contextMenu = $("#contextMenu");
-					    $contextMenu.on("click", "a", function (e) {
-					      e.preventDefault();
-
-					      if ($(this).data().role = '일기쓰기') {
-					    	  location.href="diaryView.doa?date="+date;
-					      }
-
-					      $contextMenu.removeClass("contextOpened");
-					      $contextMenu.hide();
-					    });
-
-					    $('body').on('click', function () {
-					      $contextMenu.removeClass("contextOpened");
-					      $contextMenu.hide();
-					    });  
-				}
-				arr[i]=events[i].start;
-				/* if(events[i].start != today && date == today){
-					/* location.href="diaryView.doa?date="+today; */
-					/* alert(events[i].start);
-					return false; 
-				} */
-			}
-			
+					opendiaryNo = events[i]._id;
+					console.log(opendiaryNo);
+	    		} 
+	    	}
 	    	
-	    },
+		},
 	  locale : 'ko'
     });
+  //날짜 클릭시 카테고리 선택메뉴
+    var $contextMenu_detail = $("#contextMenu_detail");
+  	
+  	/* console.log(opendiaryNo); */
+    $contextMenu_detail.on("click", "a", function (e) {
+      e.preventDefault();
 
+  	    if ($(this).data().role !== 'close' ) {
+  	    	newEvent(opendiaryNo, $(this).html());
+  	    } 
+  	      $contextMenu_detail.removeClass("contextOpened");
+  	      $contextMenu_detail.hide();
+    });
+
+    $('body').on('click', function () {
+      $contextMenu_detail.removeClass("contextOpened");
+      $contextMenu_detail.hide();
+    });
     calendar.render();
   });
 
+  function newEvent(opendiaryNo,html) {
+	  console.log(opendiaryNo +", "+html);
+	  location.href="myDiaryDetail.doa?opendiaryNo="+opendiaryNo;
+  }
  
 </script>
 <style>
