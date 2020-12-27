@@ -129,6 +129,7 @@
                             	</c:when>
                             	<c:when test="${ !empty sessionScope.loginUser }">
                             		<li><a href="myInfo.doa">Mypage</a></li>
+                                    <li><a href="logout.doa">Logout</a></li>
                             	</c:when>
                             </c:choose>
                         </ul>
