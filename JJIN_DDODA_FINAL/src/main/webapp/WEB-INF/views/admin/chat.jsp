@@ -5,11 +5,12 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
+<link rel="stylesheet" href="../resources/css/openchat.css"> 
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
 <title>Insert title here</title>
 </head>
 <body>
-    <div>
+    <%-- <div>
         <input type="text" id="sender" value="${loginUser.userId }" name="userId" style="display: none;">
         <input type="text" id="messageinput" name="messageinput">
         <input type="text" id="mateNo" value="${myMate.mateNo }">
@@ -20,7 +21,22 @@
         <button type="button" onclick="closeSocket();">Close</button>
     </div>
     <!-- Server responses get written here -->
-    <div id="messages"></div>
+    <div id="messages"></div> --%>
+    
+    <input type="text" id="sender" value="${loginUser.userId }" name="userId" style="display: none;">
+    <input type="text" id="mateNo" value="${myMate.mateNo }" style="display: none;">
+    <div class="chatarea">
+    	<div class="chatnotice">${myMate.mateNo } 번 채팅방 입장하기<button type="button" onclick="openSocket();" id="chatOpen">입장</button></div>
+    	<div id="messages" class="chatMessageArea"></div>
+    	
+    	<span class="inputarea">
+    		<input type="text" class="message" id="messageinput" name="messageinput">
+    		<span class="sendarea">
+    			<input type="button" class="sendBtn" onclick="send();" id="chatSB" value="전송">
+    		</span>
+    	</span>
+    </div>
+    
     <!-- websocket javascript -->
     <script type="text/javascript">
         var ws;

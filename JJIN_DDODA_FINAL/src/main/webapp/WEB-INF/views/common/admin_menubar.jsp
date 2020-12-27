@@ -5,6 +5,21 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style>
+	@media (max-width : 991px) {
+		.menub {height: 19%;}
+	}
+	
+	@media (max-width : 768px) {
+		.menub {height: 19%;}
+	}
+	
+	@media ( min-width : 992px) and (max-width : 1419px) {
+		.menub {
+			height: 50%;
+		}
+	}
+</style>
 </head>
 <body>
 	<div class="menub">

@@ -9,16 +9,19 @@
 		<result property="mateModifyDate"	column="MATE_MODIFY_DATE"/>
 		<result property="mateRequireNo"	column="MATE_REQUIRENO"/>
 		<result property="matePlace"	column="MATE_PLACE"/>
-		<result property="mateViews" column="MATE_VIEWS"/>
 		<result property="detailAddr"	column="MATE_DETAILADDR"/>
 		<result property="roadAddr"	column="MATE_ROADADDR"/>
 		<result property="sido"	column="MATE_SIDO"/>
 		<result property="latLong"	column="MATE_LATLONG"/>
+		<result property="mateView" column="MATE_VIEWS"/>
 		<result property="mateEnd"	column="MATE_END"/>
+		<result property="menuName" column="MENU_NAME"/>
 		<result property="userId"	column="USERID"/>
+		<result property="category" column="MATE_CATEGORY"/>
 	</resultMap>
 	<resultMap type="Mymate" id="myMateResultMap">
 		<result property="mateNo" column="MATE_NO"/>
+		<result property="mateStatus" column="MATE_STATUS"/>
 	</resultMap>
 	<resultMap type="Chat" id="chatResultMap">
 		<result property="mateNo" column="MATE_NO"/>
@@ -26,7 +29,7 @@
 	</resultMap>
 	<select id="getChatListCount" resultType="int">
 		SELECT COUNT(*) FROM MATE
-		WHERE MATE_END = 'Y'
+		WHERE MATE_END = 'N'
 	</select>
 	<select id="adminChatList" resultMap="mateResultMap">
 		SELECT * FROM MATE 
