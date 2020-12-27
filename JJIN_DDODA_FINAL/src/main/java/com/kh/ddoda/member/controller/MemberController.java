@@ -52,7 +52,7 @@ public class MemberController {
 
 		if (loginUser != null) {
 			session.setAttribute("loginUser", loginUser);
-			mv.setViewName("Member/login");
+			mv.setViewName("../../index");
 
 		} else {
 			mv.addObject("msg", "로그인 실패");

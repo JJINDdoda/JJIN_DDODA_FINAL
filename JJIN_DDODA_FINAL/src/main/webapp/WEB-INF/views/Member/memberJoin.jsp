@@ -19,6 +19,9 @@
 	span.ok {color : green;}
 	span.error {color:red;}
 	
+	.formcontrol{
+	width:100%;
+	}
 	
 </style>
 </head>
@@ -28,108 +31,129 @@
 	<br><br><br><br>
 	<!-- end header -->
 	
+	<div class="container" align="center">
 	
 	<!-- content -->	
 	<div class="content">
 	<h3 align="center">회원가입</h3>
-	<div class="centerText" align="center">
-		<form action="insertMember.doa" method="post" name="memberInfo">
-		<table width="650" cellspacing="5" >
-		        <tr>
-	 				<td>이름</td>
-	 				<td><input type="text" name="userName" placeholder="이름을 입력하세요" required ></td>
-	 			</tr>
-	 			<tr>
-	 				<td>아이디</td>
-	 				<td><input type="text" name="userId" id="userId" placeholder="아이디를 입력하세요" required >
+	<div class="card bg-light">
+	<article class="card-body mx-auto" style="max-width: 400px;">
+		<form  style="width:100%;"  action="insertMember.doa" method="post" name="memberInfo">
+		  
+		        	<div class="form-group input-group">
+	 				 	<div class="input-group-prepend">
+	 				 	   <span class="input-group-text"> <i class="fa fa-user">이름</i> </span>
+	 				 	</div>
+	 				<input type="text" name="userName"  class="form-control" placeholder="이름을 입력하세요"  required >
+	 			      </div>
+	 				
+	 				
+	 				<div class="form-group input-group">
+	 					<div class="input-group-prepend">
+		              <span class="input-group-text"> <i class="fa fa-id-card">아이디</i> </span>
+		             
+		             </div>
+	 				<input type="text" name="userId" id="userId" class="form-control" placeholder="아이디를 입력하세요"  required >
 		 				<span class="guide ok">사용 가능한 아이디 입니다.</span>
 		 				<span class="guide error">이 아이디는 사용할 수 없습니다.</span>
-		 				<input type="hidden" id="idCheck" value="0">
-	 				</td>
-	 			</tr>
+		 				<input type="hidden" id="idCheck" value="0">	 				
+	 			   </div>
+	 			   
+	 			   
+	 			   <div class="form-group input-group">
+	 			   	<div class="input-group-prepend">
+		           <span class="input-group-text"> <i class="fa fa-lock">비밀번호</i> </span>
+	      	       </div>
+	 				<input type="password" name="userPassword"  class="form-control"  onkeyup="pwCheck();" placeholder="비밀번호를 입력하세요"  required >
+	 				<span id="pwdCheck" style="font-size: 1.3em; float:left;"></span>
 	 			
-	 			<tr>
-	 				<td>비밀번호</td>
-	 				<td><input type="password" name="userPassword" onkeyup="pwCheck();" placeholder="비밀번호를 입력하세요" required ></td>
-	 				<td><span id="pwdCheck" style="font-size: 1.3em; float:left;"></span> </td>
-	 			</tr>
-	 			<tr>
-	 				<td>비밀번호 확인</td>
-	 				<td><input type="password" name="userPasswordChk" onkeyup="pwCheck();" placeholder="비밀번호 재확인" required></td>
+	 				<div>
+	 				<input type="password" name="userPasswordChk" class="form-control"  onkeyup="pwCheck();" placeholder="비밀번호 재확인" required>
+	 				</div>
+	 				</div>
 	 				
-	 			</tr>
-	 			<tr>
-	 				<td>성별</td>
-	 				<td><input type="radio" name="gender" value="M" required>남
-	 				<input type="radio" name="gender" value="F" required>여</td>
-	 			</tr>
-	 			<tr>
-	 				<td>이메일</td>
-	 				<td><input type="text" placeholder="이메일" name="emailId" required >@
-	 				   <select name="emailTag" onkeydown="inputEmailChk();">
+	 				
+	 			
+	 				   <div class="form-group input-group">
+	 				   <div class="input-group-prepend">
+		           <span  class="input-group-text"><i class="fa fa-check" >성별</i> </span>
+	      	       </div>
+	 				   
+	 				<input type="radio" name="gender" value="M" required>남
+	 				<input type="radio" name="gender" value="F" required>여
+	 			
+	 				</div>
+	 				
+	 				<div class="form-group input-group">
+    	              <div class="input-group-prepend">
+    	              
+		              <span class="input-group-text"> <i class="fa fa-envelope">이메일</i> </span>
+		             </div>
+	 				<input type="text"   placeholder="Example) mail2im" name="emailId" required >@
+	 				   <select style="max-width: 120px; height:26px;" class="custom-select" name="emailTag" onkeydown="inputEmailChk();">
 	 				     <option value="@gmail.com">gmail.com</option>
 	 				     <option value="@iei.or.kr">iei.or.kr</option>
 	 				     <option value="@naver.com">naver.com</option>			  
 	 				     <option value="@daum.net">daum.net</option>
-	 				   </select> <a> Example) mail2im@ iei.or.kr</a>
+	 				   </select> 
 	 				
-	 				</td>
-	 				<td>
-	 				  <input type="button" value="중복확인" onclick="openEmailChk();" class="btn btn-primary btn-xs"  style="width : 70px; height: 40px; font-size : 0.8em; text-align:center;">
+	 				
+	 				  <input type="button" value="중복확인" onclick="openEmailChk();" class="btn btn-primary btn-lg btn-block"  style="width : 70px; height: 40px; font-size : 0.8em; text-align:center;">
 	 				  <input type="hidden" name="emailCheck" value="emailUncheck">
-	 				</td>
-	 			</tr>
+	 			</div>
 	 			
-	 			<tr>
-	 				<td>전화번호</td>
-	 				<td><select name="firstPhone" style="width: 70px;">
+	 			
+	 			
+	 			 <div class="form-group input-group" style="width:100%;">
+    	         <div class="input-group-prepend">
+		            <span class="input-group-text"> <i class="fa fa-phone">전화번호</i> </span>
+		         </div>
+	 				<select class="form-control"  style="width: 33%; height:40px;" name="firstPhone" >
 	 				    <option value="010">010</option> 				   		
 	 				</select>
-	 				- <input type="text" size="4" name="secondPhone" id="secondPhone" style="width: 70px;" onkeypress="javascript:checkInputNum();"  onkeydown="inputPhoneChk();"  maxlength="4" required  >
-	 				- <input type="text" size="4" name="lastPhone" id="lastPhone" style="width: 70px;" onkeypress="javascript:checkInputNum();"  onkeydown="inputPhoneChk();"  maxlength="4" required  >	 				
-	 				</td>
-	 				<td>
-	 				  <input type="button" value="중복확인" onclick="openPhoneChk();" class="btn btn-primary btn-xs" style="width : 70px; height: 40px; font-size : 0.8em; text-align:center;">
-	 				</td>
-	 				<td>
+	 				<input class="form-control"  type="text" size="4" name="secondPhone" id="secondPhone" style="width: 33%; height:40px;" onkeypress="javascript:checkInputNum();"  onkeydown="inputPhoneChk();"  maxlength="4" required  >
+	 				<input class="form-control"  type="text" size="4" name="lastPhone" id="lastPhone" style="width: 33%; height:40px;" onkeypress="javascript:checkInputNum();"  onkeydown="inputPhoneChk();"  maxlength="4" required  >	 				
+	 				
+	 				  <input type="button" value="중복확인" onclick="openPhoneChk();" class="btn btn-primary btn-lg btn-block" style="width : 70px; height: 40px; font-size : 0.8em; text-align:center;">
+	 				
 	 				  <input type="hidden" name="phoneCheck" value="phoneUncheck">
-	 				</td>
-	 				
-	 				
-	 			</tr>
-	 			 						
 	 			
-	 			<tr>
-	 				<td>가입분류</td>
-	 				<td><input type="radio" name="userField" value="member" required>사용자(일반)
+	 			 		</div>				
+	 			
+	 			 <div class="form-group input-group">
+	 				   <div class="input-group-prepend">
+		           <span  class="input-group-text"><i class="fa fa-check" >사용자 분류</i> </span>
+	      	       </div>
+	 				<input type="radio" name="userField" value="member" required>사용자(일반)
 	 				    <input type="radio" name="userField" value="healthCeo"required>사장님(시설)
 	 				    <input type="radio" name="userField" value="admin" required>관리자
-	 				    </td>
-	 			</tr>
-	 			
-	 			<tr>
-	 			 <td>생년월일</td>
-	 			 <td><input type="tel" id="userBirth" name="userBirth" placeholder="ex) 20200723"  maxlength="8" required />
-	 			     <span class="eheck_font" id="birth_check"></span>
-	 			 </td>
-	 			
-	 			</tr>
-	 			
+	 			</div>
 	 		
-	 			<tr>
-	 				<td colspan="2" align="center">
+	 		
+	 		 <div class="form-group input-group">
+	 				   <div class="input-group-prepend">
+		           <span  class="input-group-text"><i class="fa fa-birthday-cake" >생년월일</i> </span>
+	      	       </div>
+	 			 <input   style="width: 150px; height:40px;" type="tel" id="userBirth" name="userBirth" placeholder="ex) 20200723" class="form-control"  maxlength="8" required />
+	 			     <span class="eheck_font" id="birth_check"></span>
+	 			
+	 			</div>
+	 		
+	 			
 	 				<!-- 사용불가 id 유효성검사 : validate()가 false면 가입 불가/ true이면 action url로 넘어감 -->
 	 				 <!-- <button  onclick="return  validate();">가입하기</button> --> 
-	 				 <input type="submit" class="" value="가입하기"> 
+	 				 <input type="submit"   class="btn btn-primary btn-block" value="가입하기"> 
 	 				<!-- <button onclick="return validate();">가입하기</button> -->
-	 				<button type="button" onclick="location.href='home.doa';">홈으로</button></td>
+	 				<button type="button"  class="btn btn-info" onclick="location.href='/';">홈으로</button></td>
 	 			
-	 			</tr>
-	 		</table>
+	 			
+	 		
 	</form>
-	</div>
-	</div>
+	</article>
 	
+	</div>
+	</div>
+	</div>
 	
 		<!-- footer -->
 	<br><br><br><br><br><br>
