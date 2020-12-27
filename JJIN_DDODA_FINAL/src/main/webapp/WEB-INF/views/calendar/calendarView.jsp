@@ -96,6 +96,25 @@
 		select : function(info, jsEvent, view){
 	    	var date = info.startStr; //클릭한 날짜 = date
 	    	
+	    	if(date == today){
+	    		for(var i in events){
+	    			if(events[i].start != today) {
+	    				alert("hello");
+	    				$(".fc-body").unbind('click');
+						$(".fc-body").on('click', 'td', function (e) {
+						      $("#contextMenu")
+						        .addClass("contextOpened")
+						        .css({
+						          display: "block",
+						          left: e.pageX,
+						          top: e.pageY
+						        });
+						      return false;
+						    });
+	    				return false;
+	    			}
+	    		}
+    		} else if(date != today) {
 	    	for(var i in events){
 	    		if(events[i].start == date){
 	    			/* location.href="myDiaryDetail.doa?opendiaryNo="+events[i]._id; */
@@ -114,9 +133,27 @@
 					console.log(opendiaryNo);
 	    		} 
 	    	}
-	    	
+    		}
 		},
 	  locale : 'ko'
+    });
+  //날짜 클릭시 카테고리 선택메뉴
+    var $contextMenu = $("#contextMenu");
+  	
+  	/* console.log(opendiaryNo); */
+    $contextMenu.on("click", "a", function (e) {
+      e.preventDefault();
+
+  	    if ($(this).data().role !== 'close' ) {
+  	    	insertEvent(today, $(this).html());
+  	    } 
+  	      $contextMenu.removeClass("contextOpened");
+  	      $contextMenu.hide();
+    });
+
+    $('body').on('click', function () {
+      $contextMenu.removeClass("contextOpened");
+      $contextMenu.hide();
     });
   //날짜 클릭시 카테고리 선택메뉴
     var $contextMenu_detail = $("#contextMenu_detail");
@@ -142,6 +179,10 @@
   function newEvent(opendiaryNo,html) {
 	  console.log(opendiaryNo +", "+html);
 	  location.href="myDiaryDetail.doa?opendiaryNo="+opendiaryNo;
+  }
+  function insertEvent(opendiaryNo,html) {
+	  console.log(opendiaryNo +", "+html);
+	  location.href="diaryView.doa?date="+today;
   }
  
 </script>
