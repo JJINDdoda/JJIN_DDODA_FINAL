@@ -2,6 +2,7 @@ package com.kh.ddoda.calendar.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -169,18 +170,14 @@ public class CalendarController {
 	public void diaryList(HttpServletResponse response, 
 							@RequestParam("userId") String userId) throws Exception {
 		ArrayList<Opendiary> opendiaryList = cService.mydiaryList(userId);
-//		for(Opendiary opendiary : opendiaryList) {
-//			opendiary.set
-//		}
+		for(Opendiary opendiary : opendiaryList) {
+			if(opendiary.getMainImagePath() != null) {
+			opendiary.setMainImagePath(URLEncoder.encode(opendiary.getMainImagePath(), "utf-8"));
+			}
+		}
 		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 		gson.toJson(opendiaryList, response.getWriter());
 		System.out.println("다이어리 리스트 : "+ opendiaryList);
-		
-//		ArrayList<Opendiary> diaryList = cService.mydiaryList(userId);
-//		if( !diaryList.isEmpty()) {
-//			mv.addObject("diaryList", diaryList)
-//				.setViewName("myPage/calendarView");
-//		} else 
 	}
 	
 	//마이 일기 오늘 이전 - 수정
