@@ -77,4 +77,9 @@ public interface CalendarStore {
 	 * @return 
 	 */
 	public int updateMainImg(int opendiaryNo);
+	/**
+	 * 일기 삭제 시 모든 파일 삭제
+	 * @param opendiaryNo
+	 */
+	public int deleteAllFile(int opendiaryNo);
 }

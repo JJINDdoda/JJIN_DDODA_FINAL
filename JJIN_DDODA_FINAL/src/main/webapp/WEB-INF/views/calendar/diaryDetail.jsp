@@ -85,5 +85,17 @@
 	<!-- footer -->
 	<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 	<!-- end footer -->
+	<script>
+	var opendiaryNo = $('#opendiaryNo').val();
+	function askquestion() {
+		var ask = confirm("일기를 삭제할 경우, 이전 날짜에 대한 일기를 다시 기록할 수 없습니다.\n그래도 삭제하시겠습니까?");
+		if(ask){
+			location.href="myDiaryDelete.doa?opendiaryNo="+opendiaryNo;
+			return true;
+		}else {
+			return false;
+		}
+	}
+	</script>
 </body>
 </html>

@@ -71,4 +71,9 @@ public class CalendarServiceImpl implements CalendarService{
 		return cStore.insertfileImgModify(imgfile);
 	}
 
+	@Override
+	public int deleteAllFile(int opendiaryNo) {
+		return cStore.deleteAllFile(opendiaryNo);
+	}
+
 }

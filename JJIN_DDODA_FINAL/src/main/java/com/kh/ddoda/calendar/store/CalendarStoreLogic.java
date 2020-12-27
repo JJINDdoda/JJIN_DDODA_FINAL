@@ -73,4 +73,9 @@ public class CalendarStoreLogic implements CalendarStore{
 		return sqlSession.update("OpendiaryMapper.insertImgFileUpdate", imgfile);
 	}
 
+	@Override
+	public int deleteAllFile(int opendiaryNo) {
+		return sqlSession.delete("OpendiaryMapper.deleteAllFile", opendiaryNo);
+	}
+
 }

@@ -188,5 +188,10 @@
 		UPDATE OPENDIARY SET OPENDIARY_TITLE = #{opendiaryTitle}, OPENDIARY_CONTENTS = #{opendiaryContents},
 		OPENDIARY_MODIFY_DATE = SYSDATE WHERE OPENDIARY_NO = #{opendiaryNo}
 	</update>
+	<!-- 마이일기 삭제 -->
+	<delete id="deleteMyDiary">
+		DELETE FROM OPENDIARY WHERE OPENDIARY_NO = #{opendiaryNo}
+	</delete>
+	
 	
 </mapper>

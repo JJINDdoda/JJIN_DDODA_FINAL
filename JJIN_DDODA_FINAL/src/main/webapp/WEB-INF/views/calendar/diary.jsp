@@ -83,6 +83,20 @@
 	<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 	<!-- end footer -->
 	<script>
+	function checkMain(chk) {
+		/* var obj = chk.val(); */
+		/* if(obj > 1) {
+			alert("1이상");
+			$("input[name='imgMainYn']:checked").attr("checked", true);
+			$("input[name='imgMainYn']").attr("checked", false);
+		} */
+		var obj = document.getElementsByName("imgMainYn");
+		for ( var i = 0 ;i <obj.length ; i ++) {
+			if(obj[i] != chk) {
+				obj[i].checked = false;
+			}
+		}
+	}
 	//file 칸 추가 
 	var fCount = 0
 		function addFile() {

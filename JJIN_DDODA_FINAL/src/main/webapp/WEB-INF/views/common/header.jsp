@@ -43,9 +43,49 @@
 
 
 <style>
-.dropdown-contents {display : none;}
-.dropdowns:hover .dropdown-contents{display:block;}
-.dropdowns:hover .dropdown-contents>a:hover{background-color : gray; color:white;}
+.dropdown-btn {
+  background-color: #ea2129;
+  color: white;
+  padding: 16px;
+  border: none;
+}
+.dropdown-wrapper {
+  position: relative;
+  display: inline-block;
+}
+.dropdown-contents {
+	display:none;
+	position : absolute;
+  background-color: #f1f1f1;
+  min-width: 130px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+.dropdown-contents a {
+  color: black;
+  padding: 12px 13px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-wrapper:hover .dropdown-contents {display: block;}
+.dropdown-wrapper:hover .dropdown-btn {background-color: #3e8e41;}
+
+@media ( max-width : 991px) {
+	.dropdown-contents  {
+		display:none; position:relative;
+		box-shadow : none;
+		 background-color: white;
+	}
+	.dropcontents  a{
+	} 
+	.dropdowns:hover .dropcontents{display:block;}
+	.dropdowns:hover .dropcontents>a:hover{ color:white;}
+	.dropdowns:hover .dropbtns {background-color: white;}
+	.dropcontents li {
+		position : relative;
+	}
+}
 </style>
 </head>
 <body data-spy="scroll" data-target=".navbar-collapse">
@@ -79,18 +119,6 @@
                                     </ul>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="navbar-socail text-right sm-text-center">
-                                    <ul class="list-inline">
-                                        <li><a href=""><i class="fa fa-facebook"></i></a></li>
-                                        <li><a href=""><i class="fa fa-twitter"></i></a></li>
-                                        <li><a href=""><i class="fa fa-linkedin"></i></a></li>
-                                        <li><a href=""><i class="fa fa-google-plus"></i></a></li>
-                                        <li><a href=""><i class="fa fa-behance"></i></a></li>
-                                        <li><a href=""><i class="fa fa-dribbble"></i></a></li>
-                                    </ul>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -101,26 +129,26 @@
                         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-menu">
                             <i class="fa fa-bars"></i>
                         </button>
-                        <a class="navbar-brand" href="#brand">
-                            <img src="assets/images/logo.png" class="logo" alt="">
+                        <a class="navbar-brand" href="/">
+                            <img src="../resources/assets/mainlogo.jpg" class="logo" alt="" style="width:150px;height:40px;">
                             <!--<img src="assets/images/footer-logo.png" class="logo logo-scrolled" alt="">-->
                         </a>
 
                     </div>
                     <!-- End Header Navigation -->
-
+					<input type="hidden" id="userId" name="userId" value="${loginUser.userId }">
                     <!-- navbar menu -->
                     <div class="collapse navbar-collapse" id="navbar-menu">
                         <ul class="nav navbar-nav navbar-right"> <!-- bootstrap.css의 navbar-right -->
                             <li><a href="/">Home</a></li>                    
-                            <li><a href="#features">Calendar</a></li>
+                            <li id="calendarr"><a href="calendarView.doa">Calendar</a></li>
                             <li><a href="#business">Facility</a></li>
-                            <li class="dropdowns">
-                            	<a href="#test">Community</a>
-                            	<div class="dropdown-contents">
-                            		<a href="opendiaryList.doa">공유일기 커뮤니티</a><br>
-                            		<a href="mateList.doa">메이트 커뮤니티</a>
-                            	</div>
+                            <li class="dropdown-wrapper">
+                            	<a class="dropdown-btn" href="#">Community</a>
+                            	<ul class="dropdown-contents">
+                            		<li><a href="opendiaryList.doa">공유일기 커뮤니티</a></li>
+                            		<li><a href="mateList.doa?category=health">메이트 커뮤니티</a></li>
+                            	</ul>
                             </li>
                             <li><a href="requireList.doa">Q&A</a></li>
                             <c:choose>
@@ -133,8 +161,28 @@
                             </c:choose>
                         </ul>
                     </div><!-- /.navbar-collapse -->
-                </div> 
             </nav>
-
+<!-- Preloader -->
+        <div id="loading">
+            <div id="loading-center">
+                <div id="loading-center-absolute">
+                    <div class="object" id="object_one"></div>
+                    <div class="object" id="object_two"></div>
+                    <div class="object" id="object_three"></div>
+                    <div class="object" id="object_four"></div>
+                </div>
+            </div>
+        </div>
+   <!--End off Preloader -->
+   <script>
+   $("#calendarr").on("click", function() {
+	   var userId = $('#userId').val();
+	  if(userId == "") {
+		  alert("로그인 후 이용해주세요.");
+		  return false;
+	  } else {
+	  }
+   });
+   </script>
 </body>
 </html>

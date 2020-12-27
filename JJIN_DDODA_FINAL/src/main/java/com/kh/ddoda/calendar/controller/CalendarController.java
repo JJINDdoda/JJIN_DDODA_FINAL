@@ -354,4 +354,43 @@ public class CalendarController {
 			}
 			return mv;
 		}
+	//마이일기 삭제하기
+	@RequestMapping(value="myDiaryDelete.doa",method = RequestMethod.GET)
+	public String myDiaryDelelte(@RequestParam("opendiaryNo") int opendiaryNo, 
+							HttpServletRequest request, Model model) {
+		ArrayList<DiaryImg> dimgs = cService.mydiaryFileList(opendiaryNo);
+		if(!dimgs.isEmpty()) {
+			deleteAllFile(opendiaryNo, request, model);
+		}
+		int diaryresult = cService.deleteDiary(opendiaryNo);
+		int fileresult = cService.deleteAllFile(opendiaryNo);
+		if(diaryresult > 0 || fileresult >0) {
+			return "redirect:calendarView.doa";
+		} else {
+			model.addAttribute("msg", "게시글 삭제 실패...");
+			return "common/errorPage";
+		}
+	}
+	//이클립스 내 첨부파일 모두 삭제 
+		public void deleteAllFile(int opendiaryNo,  HttpServletRequest request, Model model) {
+			//파일 저장 saveFile 
+			HttpSession session = request.getSession();
+			Member loginUser = (Member) session.getAttribute("loginUser");
+			String userId = loginUser.getUserId();
+			int folderNo = opendiaryNo;
+			//폴더 경로 생성 
+			String root = request.getSession().getServletContext().getRealPath("resources");
+			String savePath = root + "//diaryUploadFiles//"+userId +"//"+folderNo;
+			File file = new File(savePath); //폴더 만들기
+			if( file.exists()) {
+				//폴더 하위에 파일이 존재할 경우 지워지지 않는다. 하위파일 지우는 코드 필요! 
+				File[] deleteFolderList = file.listFiles();
+				System.out.println(deleteFolderList);
+				for(int j = 0 ; j <deleteFolderList.length ; j++) {
+					deleteFolderList[j].delete();
+				}
+				file.delete();
+			}
+		}
+	
 }
