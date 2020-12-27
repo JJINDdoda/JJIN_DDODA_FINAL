@@ -160,8 +160,8 @@
 	<!-- 마이 일기 작성 -->
 	<insert id="insertMyDiary"  parameterType="Opendiary">
 		INSERT INTO OPENDIARY VALUES(SEQ_OPENDIARY.NEXTVAL,
-		#{opendiaryTitle}, #{opendiaryContents}, SYSDATE+1, 
-		SYSDATE+1, DEFAULT, '마이일기', #{userId}, #{mainImagePath}, #{openYn})
+		#{opendiaryTitle}, #{opendiaryContents}, SYSDATE, 
+		SYSDATE, DEFAULT, '마이일기', #{userId}, #{mainImagePath}, #{openYn})
 		<selectKey keyProperty="opendiaryNo" resultType="int" order="AFTER">
 			SELECT SEQ_OPENDIARY.CURRVAL FROM DUAL
 		</selectKey>
