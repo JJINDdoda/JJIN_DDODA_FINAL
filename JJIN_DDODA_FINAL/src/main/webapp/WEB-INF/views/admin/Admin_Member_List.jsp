@@ -15,7 +15,7 @@
 	<!-- end header -->
 
 	<!-- content -->	
-	<div class="content">
+	<div class="content" style="height: 450px;">
 	<jsp:include page="/WEB-INF/views/common/admin_menubar.jsp"/>
 	<div class="main">
 		<div class="main-name">
@@ -100,7 +100,6 @@
 	<!-- end content -->
 	
 	<!-- footer -->
-	<br><br><br><br><br><br>
 	<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 	<!-- end footer -->
 </body>

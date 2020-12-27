@@ -156,8 +156,18 @@
                             		<li><a href="LoginView.doa">Login</a></li>
                             	</c:when>
                             	<c:when test="${ !empty sessionScope.loginUser }">
-                            		<li><a href="myInfo.doa">Mypage</a></li>
-                                    <li><a href="logout.doa">Logout</a></li>
+                            		<c:if test="${loginUser.userId == 'admin' }">
+                            			<li class="dropdowns">
+                            				<a href="adminRequireList.doa">Admin</a>
+                            				<div class="dropdown-contents">
+                            					<a href="logout.doa">로그아웃</a>
+                            				</div>
+                            			</li>
+                            		</c:if>
+                            		<c:if test="${loginUser.userId != 'admin' }">
+                            			<li><a href="myInfo.doa">Mypage</a></li>
+                                    	<li><a href="logout.doa">Logout</a></li>
+                                    </c:if>
                             	</c:when>
                             </c:choose>
                         </ul>

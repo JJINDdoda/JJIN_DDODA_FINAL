@@ -65,15 +65,18 @@ public class ChatController {
 	}
 	
 	// 관리자 채팅방 오픈해주기
-	@RequestMapping(value="adminChatSuccess.doa", method=RequestMethod.POST)
-	public ModelAndView chatSuccess(ModelAndView mv, Mymate myMate) {
+	@ResponseBody
+	@RequestMapping(value="adminChatSuccess.doa", method=RequestMethod.GET)
+	public String chatSuccess(Mymate myMate) {
 		int result = cService.adminModifyChat(myMate);
+		System.out.println(result);
 		  if(result > 0) {
-			  mv.setViewName("redirect:adminChatList.doa");
-		  } else { 
-			  mv.addObject("msg", "게시글 전체조회 실패!").setViewName("common/errorPage");
+			  System.out.println("성공이다");
+			  return "success";
+		  } else {
+			  System.out.println("error다");
+			  return "fail";
 		  }
-		return mv;
 	}
 	
 	// 채팅내용 저장

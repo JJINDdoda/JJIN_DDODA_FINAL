@@ -7,6 +7,21 @@
 <meta charset="UTF-8">
 <link rel="stylesheet" type="text/css" href="/resources/css/basicStyle.css">
 <title>관리자 모드</title>
+<style>
+	@media (max-width : 991px) {
+		.table {height: 90%;}
+	}
+	
+	@media (max-width : 768px) {
+		.table-wrap {height: 10%;}
+	}
+	
+	@media ( min-width : 992px) and (max-width : 1904px) {
+		.table {
+			height: 90%;
+		}
+	}
+</style>
 </head>
 <body>
 	<!-- header -->

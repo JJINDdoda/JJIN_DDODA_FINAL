@@ -7,6 +7,21 @@
 <meta charset="UTF-8">
 <link rel="stylesheet" type="text/css" href="/resources/css/basicStyle.css">
 <title>관리자 모드</title>
+<style>
+	@media (max-width : 991px) {
+		.table {height: 90%;}
+	}
+	
+	@media (max-width : 768px) {
+		.table {height: 40%;}
+	}
+	
+	@media ( min-width : 992px) and (max-width : 1904px) {
+		.table {
+			height: 90%;
+		}
+	}
+</style>
 </head>
 <body>
 	<!-- header -->
@@ -22,7 +37,7 @@
 			<h2 class="main-name-h2">요청사항</h2>
 		</div>
 		<div class="table-wrap">
-		<table align="center" border="1" cellspacing="0" style="clear:right;"  class="table table-hover table-responsive">
+		<table align="center" border="1" cellspacing="0" style="clear:right;" class="table table-hover table-responsive">
 			<tr>
 				<th>번호</th>
 				<th width="300">게시판명</th>
@@ -101,9 +116,8 @@
 	</div>
 
 	<!-- end content -->
-	
+	<br><br><br><br><br>
 	<!-- footer -->
-	<br><br><br><br><br><br>
 	<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 	<!-- end footer -->
 </body>

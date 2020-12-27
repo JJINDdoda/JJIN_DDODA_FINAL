@@ -63,7 +63,7 @@
 								</c:if>
 								<c:if test="${mateAttendList.mateEnd == 'Y' }">
 									<%-- <button id="mymateOut" onclick="location.href='chatInsert.doa?mateNo=${mateAttendList.mateNo }&userId=${loginUser.userId }';">채팅방 입장</button> --%>
-									<button id="mymateOut" onclick="window.open('chatInsert.doa?mateNo=${mateAttendList.mateNo}&userId=${loginUser.userId }', '채팅방 입장', 'width=400px, height=600px, location=no, status=no, scrollbars=yes');">채팅방 입장</button>
+									<button id="mymateOut" onclick="window.open('chatInsert.doa?mateNo=${mateAttendList.mateNo}&userId=${loginUser.userId }', '채팅방 입장', 'width=430px, height=650px, location=no, status=no, scrollbars=yes');">채팅방 입장</button>
 								</c:if>
 							</td>
 							<td><button id="mymateOut" onclick="mateOut()">메이트 나가기</button></td>

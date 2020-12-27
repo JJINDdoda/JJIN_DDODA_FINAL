@@ -50,7 +50,7 @@
 				INSERT INTO REQUIRE VALUES (SEQ_REQUIRE.NEXTVAL, #{sNoticeTitle}, SYSDATE, NULL, #{sNoticeContents}, DEFAULT, NULL, NULL, DEFAULT, DEFAULT, #{userId})
 			</when>
 			<when test="sSearchCondition.toString() == 'mate'">
-				INSERT INTO MATE VALUES (SEQ_MATE.NEXTVAL, #{sNoticeTitle}, #{sNoticeContents}, SYSDATE, NULL, 0, 'TEST', DEFAULT, DEFAULT, 'TEST', 'TEST', 'TEST', 'TEST', DEFAULT, #{userId})
+				INSERT INTO MATE VALUES (SEQ_MATE.NEXTVAL, #{sNoticeTitle}, #{sNoticeContents}, SYSDATE, NULL, 0, 'TEST', 'TEST', 'TEST', 'TEST', 'TEST', DEFAULT, DEFAULT, DEFAULT, #{userId}, NULL)
 			</when>
 		</choose>
 	</insert>

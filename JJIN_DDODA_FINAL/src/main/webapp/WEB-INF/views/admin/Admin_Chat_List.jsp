@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" type="text/css" href="/resources/css/basicStyle.css">
+<script type="text/javascript" src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
 <title>관리자 모드</title>
 </head>
 <body>
@@ -27,10 +28,11 @@
 				<th>번호</th>
 				<th width="300">제목</th>
 				<th>요청자</th>
+				<th>채팅 요청</th>
 			</tr>
 			<c:forEach items="${cList }" var="chat">
 				<tr>
-					<td align="center">${chat.mateNo }</td>
+					<td align="center" class="mateNo">${chat.mateNo }</td>
 					<td align="center">
 						<c:url var="cDetail" value="adminChatDetail.doa">
 							<c:param name="mateNo" value="${chat.mateNo }"/>
@@ -38,6 +40,7 @@
 						<a href="${cDetail }">${chat.mateTitle }</a>
 					</td>
 					<td align="center">${chat.userId }</td>
+					<td align="center"><button class="chatOpen">open</button></td>
 				</tr>
 			</c:forEach>
 			<!-- 페이징 처리 -->
@@ -90,5 +93,35 @@
 	<br><br><br><br><br><br>
 	<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 	<!-- end footer -->
+	
+	<script>
+			$(".chatOpen").click(function() {
+				alert("작동은 했다!");
+				
+				var str = ""
+				var tdArr = new Array();	// 배열 선언
+				var checkBtn = $(this);
+				
+				var tr = checkBtn.parent().parent();
+				var td = tr.children();
+				
+				var mateNo = td.eq(0).text();
+				
+				td.each(function(i){	
+					tdArr.push(td.eq(i).text());
+				});
+				
+				console.log("mateNo ==> " + mateNo);
+				
+				$.ajax({
+					url : "adminChatSuccess.doa",
+					type : "get",
+					data : {"mateNo" : mateNo},
+					success : function(data) {
+						alert("채팅방이 정상적으로 오픈되었습니다.");
+					}
+				});
+			});
+		</script>
 </body>
 </html>

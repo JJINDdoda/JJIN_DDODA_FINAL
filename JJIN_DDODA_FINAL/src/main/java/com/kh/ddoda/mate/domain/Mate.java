@@ -228,6 +228,4 @@ public class Mate {
 				+ userId + ", category=" + category + ", mymate=" + mymate + ", opendiary=" + opendiary + ", diaryImg="
 				+ diaryImg + ", require=" + require + "]";
 	}
-
-	
 }

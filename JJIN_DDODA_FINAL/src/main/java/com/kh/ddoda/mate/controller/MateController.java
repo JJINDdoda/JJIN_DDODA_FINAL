@@ -28,7 +28,6 @@ import com.kh.ddoda.mate.domain.MateComment;
 import com.kh.ddoda.mate.domain.Mymate;
 import com.kh.ddoda.mate.service.MateService;
 import com.kh.ddoda.member.domain.Member;
-import com.kh.ddoda.require.domain.Require;
 
 @Controller
 public class MateController {
@@ -330,6 +329,7 @@ public class MateController {
 			PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
 			
 			ArrayList<Mate> mateAttendList = mService.myMateAttendList(userId, pi);
+			
 //			System.out.println("mateAttendList : "+ mateAttendList);
 			System.out.println("controller : "+mateAttendList);
 			if(!mateAttendList.isEmpty()) {
