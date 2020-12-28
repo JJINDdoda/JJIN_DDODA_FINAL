@@ -10,12 +10,12 @@
 
 <!-- header -->
 	<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
-	<br><br><br><br>
+	<br><br><br><br><br><br>
 	<!-- end header -->
 	
 	
 	<!-- content -->	
-	<div class="content">
+	<div class="content" style='height:400px;'>
 	<h3 align="center">아이디찾기</h3>
 	<div class="container" align="center">
 	<div class="card bg-light">

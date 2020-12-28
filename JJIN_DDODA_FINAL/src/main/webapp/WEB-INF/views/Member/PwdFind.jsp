@@ -13,12 +13,12 @@
 
 <!-- header -->
 	<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
-	<br><br><br><br>
+	<br><br><br><br><br><br>
 	<!-- end header -->
 	
 	
 	<!-- content -->	
-	<div class="content">
+	<div class="content" style='height:400px;'>
 	<h3 align="center">비밀번호 찾기</h3>
 	<div class="container" align="center">
 	<div class="card bg-light">
@@ -56,7 +56,7 @@
 	 				 <!-- <button  onclick="return  validate();">가입하기</button> --> 
 	 				 <input style="width:125px; height:37px;"  type="submit" class="btn btn-primary btn-xs" value="비밀번호 찾기"> 
 	 				<!-- <button onclick="return validate();">가입하기</button> -->
-	 				<button style="width:125px; height:37px;" type="button" class="btn btn-default" onclick="location.href='/';">취소</button></td>
+	 				<button style="width:125px; height:37px;" type="button"  class="btn btn-info" onclick="location.href='/';">취소</button></td>
 	 			
 	 		
 	</form>
