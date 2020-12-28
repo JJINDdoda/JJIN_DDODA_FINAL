@@ -16,18 +16,14 @@
 	</select>
 	<insert id="adminCalorieInsert">
 		INSERT INTO CALORIE
-		VALUES (SEQ_CALORIE.NEXTVAL, #{foodName}, #{kcal}, #{protein}, #{carbo}, #{fat}, #{natrium}, #{sacCharide})
+		VALUES (SEQ_CALORIE.NEXTVAL, #{foodName}, #{kcal}, #{foodAmount})
 	</insert>
 	<update id="adminUpdateCalorie">
 		UPDATE CALORIE
 		<set>
 			<if test="foodName != ''">FOODNAME = #{foodName},</if>
 			<if test="kcal != ''">KCAL = #{kcal},</if>
-			<if test="protein != ''">PROTEIN = #{protein},</if>
-			<if test="carbo != ''">CARBO = #{carbo},</if>
-			<if test="fat != ''">FAT = #{fat},</if>
-			<if test="natrium != ''">NATRIUM = #{natrium},</if>
-			<if test="sacCharide != ''">SACCHARIDE = #{sacCharide}</if>
+			<if test="foodAmount != ''">FOODAMOUNT = #{foodAmount}</if>
 		</set>
 		WHERE CALORIE_NO = #{calorieNo}
 	</update>

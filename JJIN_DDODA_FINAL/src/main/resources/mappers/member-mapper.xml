@@ -4,7 +4,7 @@
 
 <resultMap type="Member" id="memberResultMap">
   <result property="userName" column="USER_NAME"/>
-  <result property="memStatus" column=" MEM_STATUS "/>
+  <result property="memStatus" column="MEM_STATUS"/>
   <result property="userField" column="USER_FIELD"/>
   <result property="userBirth" column="USER_BIRTH"/>
 </resultMap>

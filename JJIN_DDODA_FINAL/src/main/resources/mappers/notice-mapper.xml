@@ -47,7 +47,7 @@
 				INSERT INTO OPENDIARY VALUES (SEQ_OPENDIARY.NEXTVAL, #{sNoticeTitle}, #{sNoticeContents}, SYSDATE, NULL, DEFAULT, DEFAULT, #{userId})
 			</when>
 			<when test="sSearchCondition.toString() == 'require'">
-				INSERT INTO REQUIRE VALUES (SEQ_REQUIRE.NEXTVAL, #{sNoticeTitle}, SYSDATE, NULL, #{sNoticeContents}, DEFAULT, NULL, NULL, DEFAULT, DEFAULT, #{userId})
+				INSERT INTO REQUIRE VALUES (SEQ_REQUIRE.NEXTVAL, #{sNoticeTitle}, SYSDATE, NULL, #{sNoticeContents}, DEFAULT, NULL, NULL, DEFAULT, #{userId}, DEFAULT)
 			</when>
 			<when test="sSearchCondition.toString() == 'mate'">
 				INSERT INTO MATE VALUES (SEQ_MATE.NEXTVAL, #{sNoticeTitle}, #{sNoticeContents}, SYSDATE, NULL, 0, 'TEST', 'TEST', 'TEST', 'TEST', 'TEST', DEFAULT, DEFAULT, DEFAULT, #{userId}, NULL)

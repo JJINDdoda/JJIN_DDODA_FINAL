@@ -8,8 +8,9 @@
 		<result property="requireModifyDate" column="REQUIRE_MODIFY_DATE"/>
 		<result property="requireContents" column="REQUIRE_CONTENTS"/>
 		<result property="requireYN" column="REQUIRE_YN"/>
-		<result property="requireOriginalFilename" column="REQUIRE_ORIGINALFILENAME"/>
-		<result property="requireRenameFilename" column="REQUIRE_RENAMEFILENAME"/>
+		<result property="userId" column="USERID"/>
+		<result property="originalFilename" column="REQUIRE_ORIGINALFILENAME"/>
+		<result property="renameFilename" column="REQUIRE_RENAMEFILENAME"/>
 		<result property="menuName" column="MENU_NAME"/>
 		<result property="rCount"	column="RCOUNT"/>
 	</resultMap>
@@ -104,7 +105,7 @@
 	<insert id="insertRequire">
 		INSERT INTO REQUIRE 
 		VALUES(SEQ_REQUIRE.NEXTVAL, #{requireTitle}, SYSDATE, SYSDATE,
-		#{requireContents}, DEFAULT, #{originalFilename}, #{renameFilename}, #{userId}, DEFAULT)
+		#{requireContents}, DEFAULT, #{originalFilename}, #{renameFilename}, DEFAULT, #{userId}, DEFAULT)
 	</insert>
 	
 	<update id="updateCount">

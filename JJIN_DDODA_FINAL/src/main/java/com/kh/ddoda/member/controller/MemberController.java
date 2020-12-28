@@ -187,6 +187,7 @@ public class MemberController {
           int listCount = service.getMemberListCount();
           PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
           ArrayList<Member> mList = service.adminSelectMemberList(pi);
+          System.out.println(mList);
           if(!mList.isEmpty()) {
              mv.addObject("mList", mList).addObject("pi", pi).setViewName("admin/Admin_Member_List");
           } else {
