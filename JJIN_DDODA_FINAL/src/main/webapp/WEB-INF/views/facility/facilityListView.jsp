@@ -201,11 +201,10 @@
     }
     
     #facilityTable{
-    	width: 100%;;
-    }
-    #facilityTable>tr{
+    	width: 100%;
     	
     }
+   
 </style>
 </head>
 <body>
@@ -262,18 +261,18 @@
 			        <span id="centerAddr"></span>
 			    </div>
 			</div>
-			<div id="facilityInfo" style="margin-left: 20px; overflow-y:scroll;">
-				<table id="facilityTable" align="center" cellpadding="10" cellspacing="0" border="1">
+			<div id="facilityInfo" style="margin-left: 20px; overflow-y:scroll;" class="table-wrap">
+				<table id="facilityTable" class="table">
 					<thead>
 						<tr>
-							<th width="30%;" height="30px;">시설명</th>
-							<th width="40%;" height="30px;">주소</th>
-							<th width="30%;" height="30px;">운동분야</th>
+							<th width="30%;" height="40px;">시설명</th>
+							<th width="40%;" height="40px;">주소</th>
+							<th width="30%;" height="40px;">운동분야</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr>
-							<td width="30%;" height="30px;"></td>
+							<td height="40px;"></td>
 						</tr>
 					</tbody>
 				</table>
@@ -1099,7 +1098,7 @@
 		    			if(data.length > 0){
 		    				for(var i in data) {
 								$tr = $("<tr>");
-								$td = $("<td width='30%;' height='30px;'>");
+								$td = $("<td  height='40px;'>");
 								$facilityName = $("<a href='facilityDetail.doa?facilityNo=" + data[i].facilityNo+"'>").text(decodeURIComponent(data[i].facilityName).replace(/\+/g, " "));
 								$facilityField = $("<td>").text(decodeURIComponent(data[i].facilityField).replace(/\+/g, " "));  //디코딩 // 모든 영역의 + 는 띄어쓰기로 변경
 								$facilityAddr = $("<td>").text(decodeURIComponent(data[i].facilityAddr).replace(/\+/g, " ")); 

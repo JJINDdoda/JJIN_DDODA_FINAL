@@ -692,7 +692,7 @@ public class CalendarController {
 				calorieResult = cService.inputMyCalorie(mycalorie);
 			}
 			if(dietResult > 0 && calorieResult > 0) {
-				return "redirect:calorieInput.doa";
+				return "redirect:calendarView.doa";
 			}
 			else {
 				return "common/errorPage";

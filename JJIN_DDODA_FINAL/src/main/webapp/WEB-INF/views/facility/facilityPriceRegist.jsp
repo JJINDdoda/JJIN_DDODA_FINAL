@@ -86,15 +86,15 @@
 		<div class="main">
 			<div class="main-name" style="height: 80px; width: 1200px;">
 				<div class="facilityInfo">
-					<div class="facilityMenu" onclick="facilityInfoClick()"></div>
+					<div class="facilityMenu" onclick="facilityInfoClick()" style="font-size: 20px; text-align: center; line-height: 80px;">시설정보입력</div>
 				</div>
 				<div class="nextMarker"><img src="../resources/images/facilityMap/nextImg.png" class="nextMarkerImg"></div>
 				<div class="facilityInfo">
-					<div class="facilityMenu" id="facilityRegistor"></div>
+					<div class="facilityMenu" id="facilityRegistor" style="font-size: 20px; text-align: center; line-height: 80px;">가격정보입력</div>
 				</div>
 				<div class="nextMarker"><img src="../resources/images/facilityMap/nextImg.png" class="nextMarkerImg"></div>
 				<div class="facilityInfo" onclick="facilityInstructorClick()">
-					<div class="facilityMenu"></div> 
+					<div class="facilityMenu" style="font-size: 20px; text-align: center; line-height: 80px;">강사정보입력</div> 
 				</div>
 				<!-- <div class="facilityInfo"><img src="../resources/images/facilityMap/facilityInstrutor.png" class="facilityImg"></div> -->
 			</div>
