@@ -46,6 +46,12 @@
 	    border-color: #00a885;
 	}
 	input,textarea {border:none;border-right:0px; border-top:0px; boder-left:0px; boder-bottom:0px;}
+	
+	@media ( min-width : 992px) and (max-width : 1904px) {
+		.main {
+			width: 80%;
+		}
+	}
 </style>
 <title>게시글 상세보기</title>
 </head>
