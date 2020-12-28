@@ -29,101 +29,142 @@
 			<li><a href="deleteMember.doa">탈퇴하기</a></li>
 		</ul>
 	</div>
+	
+	<div class="container" align="center">
+	
 	<h3 align="center">${loginUser.userName }님의 정보 보기</h3>
-	<div class="centerText">
+	
+	<div class="card bg-light">
+	<article class="card-body" style="width: 700px;">
 		<!-- 단순히 정보만 보는 것이 아니라 수정이 필요한 경우 수정이 가능하도록 form태스 작성 -->
-		<form action="updateMember.doa" method="post" name="memberInfo">
-			<table width="650" cellspacing="5">
-			    <tr>
-	 				<td>이름</td>
-	 				<td><input type="text" name="userName" value="${ loginUser.userName }" readonly></td>
-	 			</tr>
-				<tr>
-	 				<td>아이디</td>
-	 				<td><input type="text" name="userId" id="userId" value="${ loginUser.userId }" readonly></td>
-	 			</tr>
+		<form  style="width:100%;" action="updateMember.doa" method="post" name="memberInfo">
+			
+			  <!-- 이름 -->
+	 				<div class="form-row">
+	 				<div class="col form-group">
+	 				<label>이름</label> 
+	 					<input style="width:346px;" class="form-control" type="text" name="userName" value="${ loginUser.userName }" readonly>
+	 				</div>			
+	 			    </div>
+	 			    
+	 			    
+	 				<!-- 아이디 -->
+	 				<div class="form-row">
+	 					<div class="col form-group">
+	 					<label>아이디</label> 
+	 				<input style="width:346px;" type="text" name="userId" id="userId" class="form-control" value="${ loginUser.userId }" readonly>
+	 				</div>
+	 			</div>
 	 			
-	 			<tr>
-	 			    <td>비밀번호</td>
-	 			    <td><input type="password" name="userPassword" onkeyup="pwCheck();"  value="${loginUser.passWord }" required></td>
-	 			    <td><span id="pwdCheck" style="font-size: 1.3em; float:left;"></span> </td>
-	 			</tr>
 	 			
-	 			<tr>
-	 				<td>비밀번호 확인</td>
-	 				<td><input type="password" name="userPasswordChk" onkeyup="pwCheck();" placeholder="비밀번호 재확인"  value="${loginUser.passWord }" required></td>
-	 				
-	 			</tr>
+	 			  <!-- 비밀번호 -->
+	 			  
+	 			  <div class="form-row">
+	 			  <div  class="col form-group">
+	 			   <label>비밀번호 변경</label>
+	 			   <input style="width:346px;" maxlength="16" type="password" name="userPassword" class="form-control"  onkeyup="pwCheck();"  value="${loginUser.passWord }" required>
+	 			   <span id="pwdCheck"></span>
+	 			   </div>
 	 			
-	 			<tr>
-	 				<td>성별</td>
+	 			
+	 				<div>
+	 				 <label>비밀번호 재확인</label>
+	 				<input  style="width:346px;" maxlength="16" type="password" name="userPasswordChk"  class="form-control"  onkeyup="pwCheck();" placeholder="비밀번호 재확인"  value="${loginUser.passWord }" required>
+	 				</div>	
+	 			</div>
+	 			
+	 			
+	 			<div class="form-group input-group">
+	 			<div class="input-group-prepend">
+	 			 <span  class="input-group-text"><label>성 별</label> </span>
+	 			</div>
 	 				<c:if test="${loginUser.gender eq 'M' }">
-	 				<td><input type="radio" name="gender" value="M" checked >남
-	 				<input type="radio" name="gender" value="F">여</td>
+	 				<input type="radio" name="gender" value="M" checked >남
+	 				<input type="radio" name="gender" value="F">여
 	 				</c:if>
+	 				
+	 				
 	 				<c:if test="${loginUser.gender eq 'F' }">
-	 				<td><input type="radio" name="gender" value="M">남
-	 				<input type="radio" name="gender" value="F" checked >여</td>
+	 				<input type="radio" name="gender" value="M">남
+	 				<input type="radio" name="gender" value="F" checked >여
 	 				</c:if>
-	 			</tr>
-	 			<tr>
-	 				<td>이메일</td>
-	 				<td><input type="text" name="emailId" value="${loginUser.email}" placeholder="@없이 아이디만" required>
-	 				<select name="emailTag" onkeydown="inputEmailChk();">
+	 		   </div>
+	 		   
+	 		   
+	 			<!-- 이메일 -->
+	 			
+	 			
+	 			
+	 			
+	 				<div class="form-group input-group">
+	 				<div class="input-group-prepend">
+    	              
+		              <span class="input-group-text"><label>이메일</label></span>
+		             </div>
+	 				
+	 				<input style="width:136px;  height:40px;"  type="text" class="form-control"  name="emailId" value="${loginUser.email}" required placeholder="@없이 입력">
+	 				<select style="width:130px;  height:40px;" class="form-control" name="emailTag" onkeydown="inputEmailChk();">
 	 				     <option value="@gmail.com">@gmail.com</option>
 	 				     <option value="@iei.or.kr">@iei.or.kr</option>
 	 				     <option value="@naver.com">@naver.com</option>			  
 	 				     <option value="@daum.net">@daum.net</option>
-	 				   </select> 
+	 				   </select>
 	 				
-	 				</td>
-	 				<td>
-	 				  <input type="button" value="중복확인" onclick="openEmailChk();" class="btn btn-primary btn-xs"  style="width : 70px; height: 40px; font-size : 0.8em; text-align:center;">
+	 				
+	 				  <input   type="button" value="중복확인" onclick="openEmailChk();" class="btn btn-primary btn-xs"  style="width:82px; font-size : 0.8em; text-align:center; height:40px">
 	 				  <input type="hidden" name="emailCheck" value="emailUncheck">
-	 				</td>
-	 			</tr>
+	 			</div>
 	 			
-	 			<br>
-	 			<tr>
-	 			   <td>현재 전화번호</td>
-	 			   <td><input type="text" name="phone" value="${loginUser.phone }" readonly></td>
-	 			</tr>
-	 			<tr>
+	 		
+	 			 <!-- 핸드폰 -->
+	 			  <div class="form-group input-group" style="width:100%;">
+	 			   <div class="input-group-prepend">
+		            <span class="input-group-text"><label>현재 전화번호</label></span>
+		         </div>
+	 			  <div>
+	 			  <input class="form-control"  style="width: 346px; height:40px; margin-left:176px;" type="text" name="phone" value="${loginUser.phone }" readonly>
+	 			  </div>
+	 			  </div>
 	 			
-	 				<td>변경할  전화번호</td>
+	 				
 	 				<%-- <td><input type="text" name="phone" value="${loginUser.phone }" readonly></td><br><br> --%>
-	 				<td>
-	 				<select name="firstPhone" style="width: 70px;">
+	 			
+	 			<div class="form-group input-group" style="width:100%;">
+	 			 <div class="input-group-prepend">
+		            <span class="input-group-text"><label>변경할 전화번호</label></span>
+		         </div>
+	 				<select name="firstPhone"  class="form-control"  style="width: 89px; height:40px; margin-left:176px;">
 	 				    <option value="010">010</option>
 	 				  
 	 				    
 	 				</select>
-	 				- <input type="text" size="4" name="secondPhone" id="secondPhone" style="width: 70px;" onkeypress="javascript:checkInputNum();"  onkeydown="inputPhoneChk();"  maxlength="4" required  >
-	 				- <input type="text" size="4" name="lastPhone" id="lastPhone" style="width: 70px;" onkeypress="javascript:checkInputNum();"  onkeydown="inputPhoneChk();"  maxlength="4" required  >
+	 				<input style="width: 89px; height:40px;" class="form-control" type="text" size="4" name="secondPhone" id="secondPhone"  onkeypress="javascript:checkInputNum();"  onkeydown="inputPhoneChk();"  maxlength="4" required  >
+	 				<input style="width: 89px; height:40px;" class="form-control" type="text" size="4" name="lastPhone" id="lastPhone" style="width: 70px;" onkeypress="javascript:checkInputNum();"  onkeydown="inputPhoneChk();"   maxlength="4" required  >
 	 				
 	 				<%--  value="${loginUser.phone }" --%>
 	 			<%-- 	<input type="text" name="phone" value="${loginUser.phone }" required> --%>
 	 				
 	 				
-	 				</td>
-	 				<td>
-	 				  <input type="button" value="중복확인" onclick="openPhoneChk();" class="btn btn-primary btn-xs" style="width : 70px; height: 40px; font-size : 0.8em; text-align:center;">
-	 				</td>
-	 				<td>
+	 				
+	 				  <input type="button" value="중복확인" onclick="openPhoneChk();" class="btn btn-primary btn-xs"style="width:82px; margin-right:175px; font-size : 0.8em; text-align:center; height:40px">
+	 				
 	 				  <input type="hidden" name="phoneCheck" value="phoneUncheck">
-	 				</td>
-	 			</tr>
 	 			
-	 			<tr>
-	 			 <td>생년월일</td>
-	 			 <td><input type="tel" id="userBirth" name="userBirth"  value="${loginUser.userBirth }" readonly/></td>
-	 			
-	 			</tr>
+	 			</div>
 	 			
 	 			
-	 			<tr>
-	 				<td colspan="2" align="center">
-	 				<input type="submit" value="수정하기">
+	 			<div class="form-row">
+	 			<div class="col form-group">
+	 				 	   	<label>생년월일</label> 
+	 				 	   	 <input style="width:346px;"  class="form-control" type="tel" id="userBirth" name="userBirth"  value="${loginUser.userBirth }" readonly/> 
+	 				 	   	</div>
+	 			
+	 			
+	 		</div>
+	 			
+	 			
+	 				
+	 				<input style="width:346px; height:50px;" type="submit" value="수정하기" class="btn btn-primary btn-xs">
 	 				<!-- <button type="button">탈퇴하기</button> -->
 	 				<%-- <a href="memberDelete.do?userId=${ loginUser.userId }">탈퇴하기</a> --%>
 	 			
@@ -132,10 +173,12 @@
 	 					<c:param name="userId" value="${loginUser.userId }" />
 	 				</c:url>
 	 				<a href="${mDelete }" >탈퇴하기</a> --%>
-	 				</td>
-	 			</tr>
-			</table>		
+	 			
+		
+				
 		</form>
+		</article>	
+	</div>
 	</div>
 	</div>
 	

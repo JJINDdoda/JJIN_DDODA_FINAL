@@ -88,7 +88,7 @@
 	 				</div>
 	 				
 	 				
-	 			
+	 			<!-- 성별 -->
 	 				   <div class="form-group input-group">
 	 				   <div class="input-group-prepend">
 		           <span  class="input-group-text"><i class="fa fa-check" >성별</i> </span>
@@ -99,6 +99,9 @@
 	 			
 	 				</div>
 	 				
+	 				
+	 				
+	 				<!-- 이메일 -->
 	 				<div class="form-group input-group">
     	              <div class="input-group-prepend">
     	              
@@ -134,6 +137,8 @@
 	 				  <input type="hidden" name="phoneCheck" value="phoneUncheck">
 	 			
 	 			 		</div>				
+	 			
+	 			
 	 			
 	 			 <div class="form-group input-group">
 	 				   <div class="input-group-prepend">

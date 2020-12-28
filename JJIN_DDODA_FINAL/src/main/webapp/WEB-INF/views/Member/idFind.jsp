@@ -17,40 +17,44 @@
 	<!-- content -->	
 	<div class="content">
 	<h3 align="center">아이디찾기</h3>
-	<div class="centerText" align="center">
+	<div class="container" align="center">
+	<div class="card bg-light">
+	<article class="card-body" style="width: 700px;">
 		<form action="IdmailSending.doa" method="post" name="memberInfo">
-		<table width="430" cellspacing="5">
-		        <tr>
-	 				<td>이름</td>
-	 				<td><input type="text" name="userName" placeholder="이름을 입력하세요"></td>
-	 			</tr>	 		
-	 			 			
-	 			<tr>
-	 				<td>이메일</td>
-	 				<td><input type="text" placeholder="이메일" name="emailId">@
-	 				   <select name="emailTag" onkeydown="inputEmailChk();">
-	 				     <option value="@gmail.com">gmail.com</option>
-	 				     <option value="@iei.or.kr">iei.or.kr</option>
-	 				     <option value="@naver.com">naver.com</option>
-	 				     <option value="@daum.net">daum.net</option>
-	 				   </select> <a> Example) mail2im@ google.com</a>
-	 				
-	 				</td>
-	 				
-	 			</tr>
-	 							
+		
+		      <div class="form-row">
+		      <div class="col form-group">
+	 				<input  class="form-control" style="width:250px;" type="text" name="userName" placeholder="이름을 입력하세요">
+	 			</div>
+	 			</div>
+	 			
+	 			<div class="form-group input-group">
+	 			<div class="input-group-prepend">
+    	              
+		              <span class="input-group-text"></span>
+		             </div>
+	 				<input  style="width:120px;  height:40px;"  type="text" class="form-control" placeholder="이메일 입력" name="emailId">
+	 				   <select style="width:130px;  height:40px;" class="form-control" name="emailTag" onkeydown="inputEmailChk();">
+	 				     <option value="@gmail.com">@gmail.com</option>
+	 				     <option value="@iei.or.kr">@iei.or.kr</option>
+	 				     <option value="@naver.com">@naver.com</option>
+	 				     <option value="@daum.net">@daum.net</option>
+	 				   </select> 
+	 				</div>
+	 						
 	 		
-	 			<tr>
-	 				<td colspan="2" align="center">
+	 		
 	 				<!-- 사용불가 id 유효성검사 : validate()가 false면 가입 불가/ true이면 action url로 넘어감 -->
 	 				 <!-- <button  onclick="return  validate();">가입하기</button> --> 
-	 				 <input type="submit" class="" value="아이디 찾기"> 
+	 				 <input style="width:125px; height:37px;" type="submit" class="btn btn-primary btn-xs" value="아이디 찾기"> 
 	 				<!-- <button onclick="return validate();">가입하기</button> -->
-	 				<button type="button" onclick="location.href='home.doa';">취소</button></td>
+	 				<button style="width:125px; height:37px;" class="btn btn-default" type="button" onclick="location.href='home.doa';">취소</button>
 	 			
-	 			</tr>
-	 		</table>
+	 			
+	 		
 	</form>
+	</article>
+	</div>
 	</div>
 	</div>
 	

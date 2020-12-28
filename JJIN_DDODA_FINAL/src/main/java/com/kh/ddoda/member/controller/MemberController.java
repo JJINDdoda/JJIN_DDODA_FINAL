@@ -37,7 +37,7 @@ public class MemberController {
 	private JavaMailSender mailSender;
 
 	@RequestMapping(value = "login.doa", method = RequestMethod.POST)
-	public ModelAndView memberLogin(String userId, String passWord, ModelAndView mv, HttpServletRequest request) {
+	public ModelAndView memberLogin(String userId, String passWord, ModelAndView mv, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		HttpSession session = request.getSession();
 		// Member member = new Member(userId, passWord);
@@ -54,7 +54,22 @@ public class MemberController {
 			session.setAttribute("loginUser", loginUser);
 			mv.setViewName("../../index");
 
-		} else {
+		} else {		
+			 response.setCharacterEncoding("UTF-8");
+			 
+			 response.setContentType("text/html; charset=UTF-8");
+//			 
+//			 //response.setCharacterEncoding("UTF-8");// 롸 이거 아니였누
+//			 
+			 PrintWriter out=response.getWriter();
+			 
+			 out.println("<script>alert('아이디나,비밀번호가 맞지 않습니다.');location.href='LoginView.doa';</script>");
+			 
+			  
+			 out.flush();
+		 
+		     out.close();
+			 
 			mv.addObject("msg", "로그인 실패");
 			mv.setViewName("../../index");
 		}
@@ -109,8 +124,10 @@ public class MemberController {
 		System.out.println(member.toString());
 		int result = service.insertMember(member);
 		if (result > 0) {
+			
 			return "../../index";
 		} else {
+			
 			model.addAttribute("msg", "회원가입실패");
 			return "common/errorPage";
 
@@ -148,7 +165,7 @@ public class MemberController {
 		int result = service.updateMember(member);
 		if (result > 0) {
 			session.setAttribute("loginUser", member);
-			return "redirect:home.doa";
+			return "../../index";
 		} else {
 			model.addAttribute("msg", "회원 정보 수정 실패");
 			return "common/errorPage";
