@@ -70,7 +70,9 @@
 	.infoBox{
 		width: 150px;
 	}
-
+	.none {
+		display :none;
+	}
 </style>
 </head>
 <body>
@@ -83,7 +85,9 @@
 		<div id="contextMenu" class="dropdown clearfix">
             <ul class="dropdown-menu dropNewEvent" role="menu" aria-labelledby="dropdownMenu"
                 style="display:block;position:static;margin-bottom:5px;">
-                <li class="menuBar"><a tabindex="-1" style="height: 45px; padding-top: 15px;" href="#">일기작성</a></li>
+                <li class="menuBar original"><a id="insert" tabindex="-1" style="height: 45px; padding-top: 15px;" href="#">일기작성</a></li>
+                 <li class="menuBar none"><a id="detail" tabindex="-1" style="height: 45px; padding-top: 15px;" onclick="showdetail();">일기보기</a></li>
+                
                 <li class="menuBar"><a tabindex="-1" style="height: 45px; padding-top: 15px;" onclick="calorieInput()">칼로리입력</a></li>
                 <li class="menuBar"><a tabindex="-1" style="height: 45px; padding-top: 15px;" onclick="changeMyInfo()">기본정보변경</a></li>
                 <li class="divider"></li>
@@ -156,11 +160,11 @@
     var today = year + '-' + mon + '-' + day;
     
     console.log(today);
-   
+    var opendiaryNo;
   document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
     var userId = $('#userId').val();
-    var opendiaryNo;
+    
     var jevents = [${events}];
 
     var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -204,65 +208,6 @@
          });
        },
        
-      /*  eventClick : function(info) {
-          for(var i = 0 ; i<jevents.length ; i++){
-             if(jevents[i].title == info.event.title) {
-                if(jevents[i].mainImagePath != ""){
-                   $(info.el).popover({
-                      title : jevents[i].start + jevents[i].title,
-                      placement : 'top',
-                      trigger : 'hover',
-                      content : $('<div />')
-                         .append('<p><img src="'+jevents[i].imageurl+'" alt="사진이 없습니다."> </p>')
-                         .append('<div> '+jevents[i].description+'</div>'),
-                      container : 'body',
-                      html : true
-                   }).popover('show');
-                } 
-             console.log(jevents[i].imageurl);
-             }
-          }
-      }, */
-      /* select : function(info, jsEvent, view){
-          var date = info.startStr; //클릭한 날짜 = date
-          if(date == today){
-             for(var i in events){
-                console.log(events[i].start);
-                if(events[i].start !== today) {
-                   $(".fc-body").unbind('click');
-                  $(".fc-body").on('click', 'td', function (e) {
-                        $("#contextMenu")
-                          .addClass("contextOpened")
-                          .css({
-                            display: "block",
-                            left: e.pageX,
-                            top: e.pageY
-                          });
-                        return false;
-                      });
-                   return false;
-                }
-             }
-          } else if(date != today) {
-          for(var i in events){
-             if(events[i].start == date){ // 받아온 값의 날짜 == 클릭한 날짜
-                $(".fc-body").unbind('click');
-               $(".fc-body").on('click', 'td', function (e) {
-                     $("#contextMenu_detail")
-                       .addClass("contextOpened")
-                       .css({
-                         display: "block",
-                         left: e.pageX,
-                         top: e.pageY
-                       });
-                     return false;
-                   });
-               opendiaryNo = events[i]._id;
-               console.log(opendiaryNo);
-             } 
-          }
-          }
-      }, */
       dateClick: function(info) {
 	        clickDate = info.dateStr;
 	        $('#changeDate').val(clickDate);
@@ -290,6 +235,22 @@
 	        		}
 	        	}
 	        });
+	        
+	        for(var i = 0 ; i < jevents.length; i++){
+	        	if(jevents[i].start == clickDate) {
+	        		console.log(jevents[i]);
+	        		$('.none').css("display","block");
+	        		$('.original').css("display","none");
+	        		//$("#detail").attr("href", "myDiaryDetail.doa");
+	        		/* $('#detail').prop('href', 'myDiaryDetail.doa'); */
+	        		opendiaryNo = jevents[i]._id;
+	        		console.log(opendiaryNo);
+	        		
+	        	} else {
+	        		$('.none').css("display","none");
+	        		$('.original').css("display","block");
+	        	}
+	        }
 	    },
      locale : 'ko'
     });
@@ -334,6 +295,10 @@
     
   }); 
 
+  function showdetail() {
+		location.href="myDiaryDetail.doa?opendiaryNo="+opendiaryNo;
+	} 
+  
   function insertEvent(htmls) {
      if(htmls =='일기작성'){
         location.href="diaryView.doa?date="+today;

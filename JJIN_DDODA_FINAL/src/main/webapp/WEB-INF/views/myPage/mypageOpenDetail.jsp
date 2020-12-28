@@ -263,10 +263,10 @@ opacity: 0;
 	<div class="menub">
 		<ul>
 				<li></li>
-				<li><div class="name"><a href="#">회원정보 수정</a></div><div class="imgwrapper"> > </div></li>
+				<li><div class="name"><a href="myInfo.doa">회원정보 수정</a></div><div class="imgwrapper"> > </div></li>
 				<li><div class="name"><a href="opendiaryContentsList.doa?userId=${loginUser.userId }">내가 쓴글</a></div><div class="imgwrapper"> > </div></li>
 				<li><div class="name"><a href="myMateAttendList.doa?userId=${loginUser.userId }">마이 메이트</a></div><div class="imgwrapper"> > </div></li>
-				<li><div class="name"><a href="#">회원탈퇴</a></div><div class="imgwrapper"> > </div></li>
+				<li><div class="name"><a href="deleteMember.doa">회원탈퇴</a></div><div class="imgwrapper"> > </div></li>
 			</ul>
 	</div>
 	<div class="main" style="height:600px;">

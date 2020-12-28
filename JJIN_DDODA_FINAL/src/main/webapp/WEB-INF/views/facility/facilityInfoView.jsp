@@ -158,6 +158,7 @@
 	#termsInfo{
 		height: 200px;
 		border: 1px solid black;
+		padding : 10px;
 	}
 	
 	.subBtn{
@@ -178,8 +179,8 @@
 	}
 	
 	#instructorInfoImg{
-		width: 250px;
-		height: 250px;
+		width: 15%;
+		height: 80%;
 		float: left;
 		border : 2px solid darkgray;
 		background: white;
@@ -302,7 +303,7 @@
 			</tbody>
 		</table>
 		<div id="termsInfo">
-			이용약관
+			<p style="font-size:15pt;font-weight:bolder;">이용약관 </p>
 			${facilityInfo.termsOfUse }
 		</div>
 		<br><br>
@@ -315,12 +316,12 @@
 		</c:if>
 		<c:forEach items="${instructorInfo }" var="instructorInfo">
 			<div id="instructorInfoWrapping">
-				<div style="height: 300px; width: 1200px;">
-					<div id="instructorInfoImg"><img src="resources/facilityFiles/instructorPicture/${instructorInfo.instructorRename }" style="width: 250px; height: 250px; border-radius: 50%;"></div>
+				<div style="height: 250px; width: 1200px;">
+					<div id="instructorInfoImg"><img src="resources/facilityFiles/instructorPicture/${instructorInfo.instructorRename }" style="width: 100%; height: 100%; border-radius: 50%;"></div>
 					<div id = "instructorInfos">
-						<div>강사명 : ${instructorInfo.instructorName }</div>
-						<div>경력 : ${instructorInfo.carrer }</div>
-						<div>다짐 : ${instructorInfo.promise }</div>
+						<div style="height:30%;"><p style="width:8%;float:left;font-weight:bolder;">강사명 :</p> ${instructorInfo.instructorName }</div>
+						<div style="height:30%;"><p style="width:8%;float:left;font-weight:bolder;">경력 :</p> ${instructorInfo.carrer }</div>
+						<div style="height:30%;"><p style="width:8%;float:left;font-weight:bolder;">다짐 :</p>${instructorInfo.promise }</div>
 					</div>
 				</div>
 			</div>

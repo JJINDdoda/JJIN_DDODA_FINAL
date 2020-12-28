@@ -251,7 +251,7 @@ public class FacilityController {
 	
 	public String[] saveFacilityFile(@RequestParam(name="picturePath", required=false) MultipartFile[] picturePath, HttpServletRequest request) {
 		String root = request.getSession().getServletContext().getRealPath("resources");
-		String savePath = root + "\\facilityFiles\\facilityPicture";
+		String savePath = root + "//facilityFiles//facilityPicture";
 	
 		File folder = new File(savePath);
 	
@@ -267,7 +267,7 @@ public class FacilityController {
 			//원래 파일이름
 			String originPath = picturePath[i].getOriginalFilename();
 			pictureRename[i] = sdf.format(new java.sql.Date(System.currentTimeMillis())) + "_" + i + "." + originPath.substring(originPath.lastIndexOf(".")+1);
-			filePath[i] = folder + "\\" + pictureRename[i];
+			filePath[i] = folder + "//" + pictureRename[i];
 		}
 		for (int j = 0; j < pictureRename.length; j++) {
 			try {
@@ -345,10 +345,10 @@ public class FacilityController {
 			}
 		}
 		if(result > 0) {
-			return "home";
+			return "redirect:myfacilityList.doa";
 		}
 		else {
-			return "home";
+			return "redirect:myfacilityList.doa";
 		}
 		
 	}
@@ -356,7 +356,7 @@ public class FacilityController {
 	public String[] saveInstructorFile(@RequestParam(name="instructorPicture", required = false) MultipartFile[] instructorPicture, HttpServletRequest request) {
 		
 		String root = request.getSession().getServletContext().getRealPath("resources");
-		String savePath = root + "\\facilityFiles\\instructorPicture";
+		String savePath = root + "//facilityFiles//instructorPicture";
 		
 		File folder = new File(savePath);
 		
@@ -370,7 +370,7 @@ public class FacilityController {
 		for (int i = 0; i < instructorPicture.length; i++) {
 			String originPath = instructorPicture[i].getOriginalFilename();
 			instructorRename[i] = sdf.format(new java.sql.Date(System.currentTimeMillis())) + "_" + i + "." + originPath.substring(originPath.lastIndexOf(".")+1);
-			filePath[i] = folder + "\\" + instructorRename[i];
+			filePath[i] = folder + "//" + instructorRename[i];
 		}
 		for (int i = 0; i < instructorPicture.length; i++) {
 			try {
@@ -430,9 +430,9 @@ public class FacilityController {
 		File file;
 		if(pictureFiles != null) {
 			String root = request.getSession().getServletContext().getRealPath("resources");
-			String savePath = root + "\\facilityFiles\\facilityPicture";
+			String savePath = root + "//facilityFiles//facilityPicture";
 			for (int i = 0; i < pictureFiles.length; i++) {
-				file = new File(savePath + "\\" + pictureFiles[i]);
+				file = new File(savePath + "//" + pictureFiles[i]);
 				String pictureRename = pictureFiles[i];
 				if(file.exists()) {
 					fService.deleteFacilityPictureOne(pictureRename);
@@ -609,10 +609,10 @@ public class FacilityController {
 		File file;
 		if(RenamePictures != null) {
 			String root = request.getSession().getServletContext().getRealPath("resources");
-			String savePath = root + "\\facilityFiles\\instructorPicture";
+			String savePath = root + "//facilityFiles//instructorPicture";
 			for (int i = 0; i < RenamePictures.length; i++) {
 				System.out.println(RenamePictures[i]);
-				file = new File(savePath + "\\" + RenamePictures[i]);
+				file = new File(savePath + "//" + RenamePictures[i]);
 				String instructorRename = RenamePictures[i];
 				if(file.exists()) {
 					System.out.println(instructorRename);
@@ -638,10 +638,10 @@ public class FacilityController {
 		File file;
 		if(faciltiyPciture != null) {
 			String root = request.getSession().getServletContext().getRealPath("resources");
-			String savePath = root + "\\facilityFiles\\facilityPicture";
+			String savePath = root + "//facilityFiles//facilityPicture";
 			for (int i = 0; i < faciltiyPciture.size(); i++) {
 				String pictureRename = faciltiyPciture.get(i).getPictureRename();
-				file = new File(savePath + "\\" + pictureRename);
+				file = new File(savePath + "//" + pictureRename);
 				//System.out.println(pictureRename);
 				if(file.exists()) {
 					System.out.println(pictureRename);
@@ -654,10 +654,10 @@ public class FacilityController {
 		ArrayList<InstructorInfo> instructorInfo = fService.instructorInfo(facilityNo);
 		if(instructorInfo != null) {
 			String root = request.getSession().getServletContext().getRealPath("resources");
-			String savePath = root + "\\facilityFiles\\instructorPicture";
+			String savePath = root + "//facilityFiles//instructorPicture";
 			for (int i = 0; i < instructorInfo.size(); i++) {
 				String instructorRename = instructorInfo.get(i).getInstructorRename();
-				file = new File(savePath + "\\" + instructorRename);
+				file = new File(savePath + "//" + instructorRename);
 				if(file.exists()) {
 					System.out.println(instructorRename);
 					file.delete();

@@ -70,6 +70,7 @@
 	#facilityRegistor{
 		background-color: #FCE4D4;
 	}
+	
 </style>
 </head>
 <body>

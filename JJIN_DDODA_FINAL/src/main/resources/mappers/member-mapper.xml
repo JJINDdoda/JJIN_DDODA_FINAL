@@ -22,7 +22,7 @@ AND MEM_STATUS = 'N'
 <!-- 회원가입 -->
  <insert id="insertMember" parameterType="Member">
 INSERT INTO MEMBER
-VALUES (#{userId}, #{passWord}, #{userName}, #{gender}, #{email}, #{phone}, DEFAULT,#{userField}, #{userBirth})
+VALUES (#{userId}, #{passWord}, #{userName}, #{gender}, #{email}, #{phone}, 'N',#{userField}, #{userBirth})
 </insert>
 
 <!-- 회원정보수정 -->

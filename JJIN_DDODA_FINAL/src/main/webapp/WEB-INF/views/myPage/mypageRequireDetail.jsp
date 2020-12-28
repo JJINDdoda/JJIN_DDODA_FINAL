@@ -53,10 +53,11 @@ textarea {
 	<div class="content" style="height:900px;">
 		<div class="menub" >
 			<ul>
-				<li><a href="#">회원정보 수정</a></li>
-				<li><a href="opendiaryContentsList.doa?userId=${loginUser.userId }">내가 쓴글</a></li>
-				<li><a href="myMateAttendList.doa?userId=${loginUser.userId }">마이 메이트</a></li>
-				<li><a href="#">회원탈퇴</a></li>
+				<li></li>
+				<li><div class="name"><a href="myInfo.doa">회원정보 수정</a></div><div class="imgwrapper"> > </div></li>
+				<li><div class="name"><a href="opendiaryContentsList.doa?userId=${loginUser.userId }">내가 쓴글</a></div><div class="imgwrapper"> > </div></li>
+				<li><div class="name"><a href="myMateAttendList.doa?userId=${loginUser.userId }">마이 메이트</a></div><div class="imgwrapper"> > </div></li>
+				<li><div class="name"><a href="deleteMember.doa">회원탈퇴</a></div><div class="imgwrapper"> > </div></li>
 			</ul>
 		</div>
 	<div class="main" style="height:600px;">

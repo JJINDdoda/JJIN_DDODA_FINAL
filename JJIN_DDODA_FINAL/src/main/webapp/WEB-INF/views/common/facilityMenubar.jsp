@@ -29,10 +29,11 @@
 <body>
 		<div class="menub">
 		<ul>
-			<li class="dropdowns"><a href="facilityListView.doa">시설찾기</a></li>
+			<li></li>
+			<li class="dropdowns"><div class="name"><a href="facilityListView.doa">시설찾기</a></div><div class="imgwrapper"> > </div></li>
 			<c:if test="${loginUser.userField eq 'healthCeo'}">
-				<li class="dropdowns"><a href="facilityInfoRegistView.doa">시설등록</a></li>
-				<li class="dropdowns"><a href="myfacilityList.doa">내가 등록한 시설</a></li>
+				<li class="dropdowns"><div class="name more"><a href="facilityInfoRegistView.doa">시설등록</a></div><div class="imgwrapper"> > </div></li>
+				<li class="dropdowns"><div class="name more"><a href="myfacilityList.doa">내가 등록한 시설</a></div><div class="imgwrapper"> > </div></li>
 			</c:if>
 		</ul>
 	</div>

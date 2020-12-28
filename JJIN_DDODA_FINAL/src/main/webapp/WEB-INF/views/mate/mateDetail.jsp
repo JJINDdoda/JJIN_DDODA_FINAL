@@ -191,14 +191,13 @@ textarea {
 		</div>
 		<div style="text-align:right;">
 				<c:url var="mateList" value="mateList.doa">
-					<c:param name="page" value="${currentPage }"></c:param>
+					<c:param name="category" value="health"></c:param>
 				</c:url>
 				<c:url var="mateDelete" value="mateDelete.doa">
 					<c:param name="mateNo" value="${mateOne.mateNo }"></c:param>
 				</c:url>
 				<c:url var="mateUpdateView" value="mateUpdateView.doa">
 					<c:param name="mateNo" value="${mateOne.mateNo }"></c:param>
-					<c:param name="page" value="${currentPage }"></c:param>
 				</c:url>
 					<c:if test="${ loginUser.userId == mateOne.userId}">
 						<button type="button" class="btn btn-primary" onclick="askUpdate()">수정하기</button>
@@ -683,13 +682,13 @@ textarea {
 							if(element == "success") {
 								mateComList();
 							}else {
-								alert("대댓글 삭제에 실패했습니다.");
+								console.log("대댓글 삭제에 실패했습니다.");
 							}
 						}
 					});
-					alert("댓글 삭제 및 대댓글 삭제에 성공했습니다.");
+					console.log("댓글 삭제 및 대댓글 삭제에 성공했습니다.");
 				}else {
-					alert("댓글 삭제에 실패했습니다.");
+					console.log("댓글 삭제에 실패했습니다.");
 				}
 			}
 		});
