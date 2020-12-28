@@ -48,7 +48,7 @@
 	 				 <!-- <button  onclick="return  validate();">가입하기</button> --> 
 	 				 <input style="width:125px; height:37px;" type="submit" class="btn btn-primary btn-xs" value="아이디 찾기"> 
 	 				<!-- <button onclick="return validate();">가입하기</button> -->
-	 				<button style="width:125px; height:37px;" class="btn btn-default" type="button" onclick="location.href='home.doa';">취소</button>
+	 				<button style="width:125px; height:37px;" class="btn btn-info" type="button" onclick="location.href='/';">취소</button>
 	 			
 	 			
 	 		
