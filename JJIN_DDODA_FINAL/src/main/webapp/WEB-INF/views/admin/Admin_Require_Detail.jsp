@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>문의사항</title>
+<title>관리자 모드</title>
 <link rel="stylesheet" type="text/css"
 	href="/resources/css/basicStyle.css">
 <style>

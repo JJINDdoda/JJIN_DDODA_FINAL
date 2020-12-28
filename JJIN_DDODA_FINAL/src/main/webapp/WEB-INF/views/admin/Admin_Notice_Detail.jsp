@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>메이트 모집 상세보기</title>
+<title>관리자 모드</title>
 <link rel="stylesheet" type="text/css" href="/resources/css/basicStyle.css">
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=310fc683ebc82542a03a51f91a654846&libraries=services,clusterer,drawing"></script>
 <style>

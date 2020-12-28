@@ -192,13 +192,21 @@ textarea {
 					</c:if>
 					<c:if test="${!empty mateAttendList }">
 					<c:forEach items="${ mateAttendList }" var="mateAttendList" varStatus="status">
+						<input type="hidden" id="mateNo" value="${mateAttendList.mateNo }">
 						<tr>
 							<td>${ status.index+1 }</td>
 							<td>${ mateAttendList.mateTitle }</td>
 							<td>${ mateAttendList.userId }</td>
 							<td>${ mateAttendList.mateDate }</td>
-							<td><button id="mymateOut" onclick="openChart)">채팅방 입장</button></td>
-							<td><button id="mymateOut" onclick="mateOut(${myContentsList.mateNo})">메이트 나가기</button></td>
+							<td>
+								<c:if test="${mateAttendList.mateEnd == 'N' }">
+									<button onclick="beforeOpen()">오픈 전</button>
+								</c:if>
+								<c:if test="${mateAttendList.mateEnd == 'Y' }">
+									<button id="mymateOut" onclick="window.open('chatInsert.doa?mateNo=${mateAttendList.mateNo}&userId=${loginUser.userId }', '채팅방 입장', 'width=430px, height=650px, location=no, status=no, scrollbars=yes');">채팅방 입장</button>
+								</c:if>
+							</td>
+							<td><button id="mymateOut" onclick="mateOut()">메이트 나가기</button></td>
 						</tr>
 					</c:forEach>
 					</c:if>
@@ -215,11 +223,13 @@ textarea {
 	<script>
 	function mateOut(mateNo) {
 		var sessionId = $("#sessionId").val();
+		var mateNo = $("#mateNo").val();
+		console.log("sessionId ==> " + sessionId + ", mateNo ==> " + mateNo);
 		var ask = confirm("모집글에서 나가시겠습니까?");
 		if(ask) {
 			$.ajax({
 				url : "mymateOut.doa",
-				type : "get",
+				type : "post",
 				data : { "mateNo" : mateNo, "userId" : sessionId },
 				success : function(data) {
 					if(data == 'success') {
