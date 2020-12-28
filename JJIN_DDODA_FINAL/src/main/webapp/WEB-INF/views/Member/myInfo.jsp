@@ -164,7 +164,7 @@ textarea {
 	<!-- end header -->
 	
 		<!-- content -->	
-	<div class="content">
+	<div class="content" style="height:800px;">
 	
 	
 	<div class="menub">

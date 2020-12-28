@@ -23,241 +23,7 @@
     <link rel="stylesheet" href="resources/fullcalendar-4.3.1/packages/core/main.css">
     <link rel="stylesheet" href="resources/fullcalendar-4.3.1/packages/daygrid/main.css">
     
-   <script>
-
-   //today : 오늘 날짜
-    var now = new Date();
-    var year= now.getFullYear();
-    var mon = (now.getMonth()+1)>9 ? ''+(now.getMonth()+1) : '0'+(now.getMonth()+1);
-    var day = now.getDate()>9 ? ''+now.getDate() : '0'+now.getDate();
-    var today = year + '-' + mon + '-' + day;
-    
-    console.log(today);
    
-  document.addEventListener('DOMContentLoaded', function() {
-    var calendarEl = document.getElementById('calendar');
-    var userId = $('#userId').val();
-    var opendiaryNo;
-    var events = [${events}];
-
-    var calendar = new FullCalendar.Calendar(calendarEl, {
-      plugins: [ 'interaction', 'dayGrid' ],
-      //defaultDate: '2020-12-12',   달력 로드될 때,기본으로 표기하는 값 미지정 시 현재 날짜 
-      //navLinks : true,   달력상의 날짜를 클릭할 수 있는지 여부, 클릭 시 일/주달력으로 넘어감 boolean 
-      editable: true,   //boolean, 이벤트드래그, 리사이징 등의 편집 여부를 설정함
-      eventLimit: true, // boolean, 달력에 셀크기보다 많은 이벤트 존재 시 +more로 표기함
-      selectable: true,
-      droppable: true,
-      
-     
-       /* ****************
-        *  일기 일정 받아옴 
-        * ************** */
-       events: function (info, successCallback, failureCallback) {
-         $.ajax({
-           type: "get",
-           url: "diaryList.doa",
-           data: {
-             "userId" : userId
-           },
-           dataType : "json",
-           success: function (data) {
-             if(data !=null) {
-                $.each(data, function(index, element) {
-                   events.push({
-                      _id : element.opendiaryNo,
-                      title : '<일기> '+element.opendiaryTitle,
-                      start : element.opendiaryDate,
-                      description : element.opendiaryContents,
-                      end : element.opendiaryDate,
-                      backgroundColor: "#7bb8b3",
-                      borderColor : "#7bb8b3",
-                      imageurl : "/resources/diaryUploadFiles/"+userId+"/"+element.mainImagePath
-                   });
-               });
-             }
-            successCallback(events);
-           }
-         });
-       },
-       
-       eventClick : function(info) {
-          for(var i = 0 ; i<events.length ; i++){
-             if(events[i].title == info.event.title) {
-                if(events[i].mainImagePath != ""){
-                   $(info.el).popover({
-                      title : events[i].start + events[i].title,
-                      placement : 'top',
-                      trigger : 'hover',
-                      content : $('<div />')
-                         .append('<p><img src="'+events[i].imageurl+'" alt="사진이 없습니다."> </p>')
-                         .append('<div> '+events[i].description+'</div>'),
-                      container : 'body',
-                      html : true
-                   }).popover('show');
-                } 
-             console.log(events[i].imageurl);
-             }
-          }
-      },
-      select : function(info, jsEvent, view){
-          var date = info.startStr; //클릭한 날짜 = date
-          if(date == today){
-             for(var i in events){
-                console.log(events[i].start);
-                if(events[i].start !== today) {
-                   $(".fc-body").unbind('click');
-                  $(".fc-body").on('click', 'td', function (e) {
-                        $("#contextMenu")
-                          .addClass("contextOpened")
-                          .css({
-                            display: "block",
-                            left: e.pageX,
-                            top: e.pageY
-                          });
-                        return false;
-                      });
-                   return false;
-                }
-             }
-          } else if(date != today) {
-          for(var i in events){
-             if(events[i].start == date){ // 받아온 값의 날짜 == 클릭한 날짜
-                $(".fc-body").unbind('click');
-               $(".fc-body").on('click', 'td', function (e) {
-                     $("#contextMenu_detail")
-                       .addClass("contextOpened")
-                       .css({
-                         display: "block",
-                         left: e.pageX,
-                         top: e.pageY
-                       });
-                     return false;
-                   });
-               opendiaryNo = events[i]._id;
-               console.log(opendiaryNo);
-             } 
-          }
-          }
-      },
-      dateClick: function(info) {
-	        clickDate = info.dateStr;
-	        $('#changeDate').val(clickDate);
-	        console.log(clickDate);
-	        document.getElementById("contextMenu").style.display = 'block';
-	        $.ajax({
-	        	url : "selectMyInfoDate.doa", //날짜에 대한 기본정보를 가져옴
-	        	data : {"clickDate" : clickDate},
-	        	type : "get",
-	        	success : function(result){
-	        		
-	        		if(result.length  != 0){
-	        			$('#myHeight').val(result.height);
-		        		$('#myWeight').val(result.weight);
-		        		$('#myBMI').val(result.bmi);
-		        		$('#myInfoBtn').val('수정하기');
-		        		$("#formId").attr("action", "updateChangeMyInfo.doa");
-	        		}
-	        		else{
-	        			$('#myHeight').val(result.height);
-		        		$('#myWeight').val(result.weight);
-		        		$('#myBMI').val(result.bmi);
-		        		$('#myInfoBtn').val('입력하기');
-		        		$("#formId").attr("action", "changeMyInfo.doa");
-	        		}
-	        	}
-	        });
-	    },
-     locale : 'ko'
-    });
-  //날짜 클릭시 카테고리 선택메뉴
-    var $contextMenu = $("#contextMenu");
-     
-     /* console.log(opendiaryNo); */
-    $contextMenu.on("click", "a", function (e) {
-      e.preventDefault();
-
-         if ($(this).data().role !== 'close' ) {
-            insertEvent($(this).html());
-         } 
-           $contextMenu.removeClass("contextOpened");
-           $contextMenu.hide();
-    });
-
-    $('body').on('click', function () {
-      $contextMenu.removeClass("contextOpened");
-      $contextMenu.hide();
-    });
-  //날짜 클릭시 카테고리 선택메뉴
-    var $contextMenu_detail = $("#contextMenu_detail");
-     
-     /* console.log(opendiaryNo); */
-    $contextMenu_detail.on("click", "a", function (e) {
-      e.preventDefault();
-
-         if ($(this).data().role !== 'close' ) {
-            updateEvent(opendiaryNo, $(this).html());
-         } 
-           $contextMenu_detail.removeClass("contextOpened");
-           $contextMenu_detail.hide();
-    });
-
-    $('body').on('click', function () {
-      $contextMenu_detail.removeClass("contextOpened");
-      $contextMenu_detail.hide();
-    });
-    calendar.render();
-  });
-
-  function insertEvent(htmls) {
-     if(htmls =='일기작성'){
-        location.href="diaryView.doa?date="+today;
-     } 
-  }
-  function updateEvent(opendiaryNo,html) {
-     if(html == '일기작성'){
-        location.href="myDiaryDetail.doa?opendiaryNo="+opendiaryNo;
-     }
-  }
- 
-  
-//기본정보입력 div띄워주기
-	function changeMyInfo(){
-		document.getElementById("myInfo").style.display = 'block';
-	}
-	
-	//몸무게를 입력했을 때 bmi변경
-	$('#myWeight').keyup(function(){
-		var myHeight = $('#myHeight').val();
-		var myWeight = $('#myWeight').val();
-		console.log(myHeight);
-		console.log(myWeight);
-		var bmiHeight = myHeight/100;
-		var myBMI = myWeight/(bmiHeight*bmiHeight);
-		$('#myBMI').val(myBMI);
-	});
-	
-	//키를 입력했을 때 bmi 변경
-	$('#myHeight').keyup(function(){
-		var myHeight = $('#myHeight').val();
-		var myWeight = $('#myWeight').val();
-		console.log(myHeight);
-		console.log(myWeight);
-		var bmiHeight = myHeight/100;
-		var myBMI = myWeight/(bmiHeight*bmiHeight);
-		$('#myBMI').val(myBMI);
-	});
-	
-	//close를 눌렀을 때 사이드바 사라짐
-	function contextClose(){
-		document.getElementById("contextMenu").style.display = 'none';
-	}
-	
-	//칼로리 입력 페이지로 이동
-	function calorieInput(){
-		location.href = "calorieInput.doa?clickDate="+clickDate;
-	}
-</script>
 <style>
 
   body {
@@ -268,7 +34,7 @@
   }
 
   #calendar {
-    max-width: 900px;
+    max-width: 830px;
     margin: 0 auto;
   }
   
@@ -276,7 +42,7 @@
     	position: fixed;
     	display: none;
     	z-index: 2;
-    	margin-left: 150px;
+    	margin-left: 3%;
 	}
 	
 	#contextMenu .dropdown-menu {
@@ -380,6 +146,243 @@
     <script src="resources/fullcalendar-4.3.1/packages/list/main.js"></script>
     <script src="resources/fullcalendar-4.3.1/packages/list/main.min.js"></script>
     
+    <script>
+
+   //today : 오늘 날짜
+    var now = new Date();
+    var year= now.getFullYear();
+    var mon = (now.getMonth()+1)>9 ? ''+(now.getMonth()+1) : '0'+(now.getMonth()+1);
+    var day = now.getDate()>9 ? ''+now.getDate() : '0'+now.getDate();
+    var today = year + '-' + mon + '-' + day;
+    
+    console.log(today);
+   
+  document.addEventListener('DOMContentLoaded', function() {
+    var calendarEl = document.getElementById('calendar');
+    var userId = $('#userId').val();
+    var opendiaryNo;
+    var jevents = [${events}];
+
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+      plugins: [ 'interaction', 'dayGrid' ],
+      //defaultDate: '2020-12-12',   달력 로드될 때,기본으로 표기하는 값 미지정 시 현재 날짜 
+      //navLinks : true,   달력상의 날짜를 클릭할 수 있는지 여부, 클릭 시 일/주달력으로 넘어감 boolean 
+      editable: true,   //boolean, 이벤트드래그, 리사이징 등의 편집 여부를 설정함
+      eventLimit: true, // boolean, 달력에 셀크기보다 많은 이벤트 존재 시 +more로 표기함
+      selectable: true,
+      droppable: true,
+      
+     
+       /* ****************
+        *  일기 일정 받아옴 
+        * ************** */
+       events: function (info, successCallback, failureCallback) {
+         $.ajax({
+           type: "get",
+           url: "diaryList.doa",
+           data: {
+             "userId" : userId
+           },
+           dataType : "json",
+           success: function (data) {
+             if(data !=null) {
+                $.each(data, function(index, element) {
+                   jevents.push({
+                      _id : element.opendiaryNo,
+                      title : '<일기> '+element.opendiaryTitle,
+                      start : element.opendiaryDate,
+                      description : element.opendiaryContents,
+                      end : element.opendiaryDate,
+                      backgroundColor: "#7bb8b3",
+                      borderColor : "#7bb8b3",
+                      imageurl : "/resources/diaryUploadFiles/"+userId+"/"+element.mainImagePath
+                   });
+               });
+             }
+            successCallback(jevents);
+           }
+         });
+       },
+       
+      /*  eventClick : function(info) {
+          for(var i = 0 ; i<jevents.length ; i++){
+             if(jevents[i].title == info.event.title) {
+                if(jevents[i].mainImagePath != ""){
+                   $(info.el).popover({
+                      title : jevents[i].start + jevents[i].title,
+                      placement : 'top',
+                      trigger : 'hover',
+                      content : $('<div />')
+                         .append('<p><img src="'+jevents[i].imageurl+'" alt="사진이 없습니다."> </p>')
+                         .append('<div> '+jevents[i].description+'</div>'),
+                      container : 'body',
+                      html : true
+                   }).popover('show');
+                } 
+             console.log(jevents[i].imageurl);
+             }
+          }
+      }, */
+      /* select : function(info, jsEvent, view){
+          var date = info.startStr; //클릭한 날짜 = date
+          if(date == today){
+             for(var i in events){
+                console.log(events[i].start);
+                if(events[i].start !== today) {
+                   $(".fc-body").unbind('click');
+                  $(".fc-body").on('click', 'td', function (e) {
+                        $("#contextMenu")
+                          .addClass("contextOpened")
+                          .css({
+                            display: "block",
+                            left: e.pageX,
+                            top: e.pageY
+                          });
+                        return false;
+                      });
+                   return false;
+                }
+             }
+          } else if(date != today) {
+          for(var i in events){
+             if(events[i].start == date){ // 받아온 값의 날짜 == 클릭한 날짜
+                $(".fc-body").unbind('click');
+               $(".fc-body").on('click', 'td', function (e) {
+                     $("#contextMenu_detail")
+                       .addClass("contextOpened")
+                       .css({
+                         display: "block",
+                         left: e.pageX,
+                         top: e.pageY
+                       });
+                     return false;
+                   });
+               opendiaryNo = events[i]._id;
+               console.log(opendiaryNo);
+             } 
+          }
+          }
+      }, */
+      dateClick: function(info) {
+	        clickDate = info.dateStr;
+	        $('#changeDate').val(clickDate);
+	        console.log(clickDate);
+	        document.getElementById("contextMenu").style.display = 'block';
+	        $.ajax({
+	        	url : "selectMyInfoDate.doa", //날짜에 대한 기본정보를 가져옴
+	        	data : {"clickDate" : clickDate},
+	        	type : "get",
+	        	success : function(result){
+	        		
+	        		if(result.length  != 0){
+	        			$('#myHeight').val(result.height);
+		        		$('#myWeight').val(result.weight);
+		        		$('#myBMI').val(result.bmi);
+		        		$('#myInfoBtn').val('수정하기');
+		        		$("#formId").attr("action", "updateChangeMyInfo.doa");
+	        		}
+	        		else{
+	        			$('#myHeight').val(result.height);
+		        		$('#myWeight').val(result.weight);
+		        		$('#myBMI').val(result.bmi);
+		        		$('#myInfoBtn').val('입력하기');
+		        		$("#formId").attr("action", "changeMyInfo.doa");
+	        		}
+	        	}
+	        });
+	    },
+     locale : 'ko'
+    });
+  //날짜 클릭시 카테고리 선택메뉴
+    var $contextMenu = $("#contextMenu");
+     
+     /* console.log(opendiaryNo); */
+    $contextMenu.on("click", "a", function (e) {
+      e.preventDefault();
+
+         if ($(this).data().role !== 'close' ) {
+            insertEvent($(this).html());
+         } 
+           $contextMenu.removeClass("contextOpened");
+           $contextMenu.hide();
+    });
+
+    $('body').on('click', function () {
+      $contextMenu.removeClass("contextOpened");
+      $contextMenu.hide();
+    });
+  //날짜 클릭시 카테고리 선택메뉴
+    /* var $contextMenu_detail = $("#contextMenu_detail");
+     
+     /* console.log(opendiaryNo); */
+    /* $contextMenu_detail.on("click", "a", function (e) {
+      e.preventDefault();
+
+         if ($(this).data().role !== 'close' ) {
+            updateEvent(opendiaryNo, $(this).html());
+         } 
+           $contextMenu_detail.removeClass("contextOpened");
+           $contextMenu_detail.hide();
+    });
+
+    $('body').on('click', function () {
+      $contextMenu_detail.removeClass("contextOpened");
+      $contextMenu_detail.hide();
+    });
+    */
+    calendar.render();
+    
+  }); 
+
+  function insertEvent(htmls) {
+     if(htmls =='일기작성'){
+        location.href="diaryView.doa?date="+today;
+     } 
+  }
+  /* function updateEvent(opendiaryNo,html) {
+     if(html == '일기작성'){
+        location.href="myDiaryDetail.doa?opendiaryNo="+opendiaryNo;
+     }
+  } */
+ 
+  
+//기본정보입력 div띄워주기
+	function changeMyInfo(){
+		document.getElementById("myInfo").style.display = 'block';
+	}
+	
+	//몸무게를 입력했을 때 bmi변경
+	$('#myWeight').keyup(function(){
+		var myHeight = $('#myHeight').val();
+		var myWeight = $('#myWeight').val();
+		console.log(myHeight);
+		console.log(myWeight);
+		var bmiHeight = myHeight/100;
+		var myBMI = myWeight/(bmiHeight*bmiHeight);
+		$('#myBMI').val(myBMI);
+	});
+	
+	//키를 입력했을 때 bmi 변경
+	$('#myHeight').keyup(function(){
+		var myHeight = $('#myHeight').val();
+		var myWeight = $('#myWeight').val();
+		console.log(myHeight);
+		console.log(myWeight);
+		var bmiHeight = myHeight/100;
+		var myBMI = myWeight/(bmiHeight*bmiHeight);
+		$('#myBMI').val(myBMI);
+	});
+	
+	//close를 눌렀을 때 사이드바 사라짐
+	function contextClose(){
+		document.getElementById("contextMenu").style.display = 'none';
+	}
+	
+	//칼로리 입력 페이지로 이동
+	function calorieInput(){
+		location.href = "calorieInput.doa?clickDate="+clickDate;
+	}
+</script>
     
     
     

@@ -15,7 +15,7 @@
   flex-direction: column; 
   justify-content: center;
   width: 100%;
-  min-height: 100%;
+  height : 600px;
   padding: 20px;
 }
 #formContent {
@@ -28,8 +28,8 @@
   max-width: 450px;
   position: relative;
   padding: 0px;
-  -webkit-box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
-  box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
+  -webkit-box-shadow: 0 20px 20px 0 rgba(0,0,0,0.3);
+  box-shadow: 0 20px 30px 0 rgba(0,0,0,0.3);
   text-align: center;
 }
 
@@ -284,8 +284,9 @@ input[type=password]:placeholder {
 <!-- <div class="fadeIn first">
       <img src="../resources/assets/mainlogo.jpg" id="icon" alt="User Icon"  style="width:60%; height:90px;"/>
     </div> -->
-
-
+<div id="formFooter" style="border-radius: 0 0 0 0;padding-bottom: 20px;padding-top: 20px;">
+	<h3 style="margin-bottom:0px;" >Login</h3>
+</div>
 	<c:if test="${empty sessionScope.loginUser }">
 		<form action="login.doa" method="post" style="padding-top:30px; padding-bottom:30px;">
 				    <input type="text" name="userId" class="fadeIn second" placeholder="ID">		

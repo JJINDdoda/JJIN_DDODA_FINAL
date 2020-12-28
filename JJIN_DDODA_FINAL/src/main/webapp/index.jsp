@@ -32,35 +32,35 @@
                                         <div class="home_text ">
                                             <h2 class="text-white">Welcome to <strong>DDO:DA</strong></h2>
                                             <h1 class="text-white">더이상, 다이어트 실패하지 마세요</h1>
-                                            <h3 class="text-white">- We will be with <strong>YOU</strong>  -</h3>
+                                            <h3 class="text-white">- 알맞은 운동센터를 찾으세요? 검색해보세요! -</h3>
                                         </div>
 
                                         <div class="home_btns m-top-40">
-                                            <a href="" class="btn btn-primary m-top-20">Search</a>
+                                            <a href="facilityListView.doa" class="btn btn-primary m-top-20">Search</a>
                                            
                                         </div>
                                     </div><!-- End off slid item -->
                                     <div class="slid_item">
                                         <div class="home_text ">
                                             <h2 class="text-white">Welcome to <strong>DDO:DA</strong></h2>
-                                            <h1 class="text-white">더이상, 다이어트 실패하지 마세요</h1>
-                                            <h3 class="text-white">- We will be with <strong>YOU</strong>  -</h3>
+                                            <h1 class="text-white">건강한 삶을 가져보세요</h1>
+                                            <h3 class="text-white">- 우리는 캘린더를 서비스를 제공해드립니다. -</h3>
                                         </div>
 
                                         <div class="home_btns m-top-40">
-                                            <a href="" class="btn btn-primary m-top-20">Search</a>
+                                            <a href="calendarView.doa" class="btn btn-primary m-top-20">Calendar</a>
                                            
                                         </div>
                                     </div><!-- End off slid item -->
                                     <div class="slid_item">
                                         <div class="home_text ">
                                             <h2 class="text-white">Welcome to <strong>DDO:DA</strong></h2>
-                                            <h1 class="text-white">더이상, 다이어트 실패하지 마세요</h1>
-                                            <h3 class="text-white">- We will be with <strong>YOU</strong>  -</h3>
+                                            <h1 class="text-white">혼자하는 다짐은 오래가지 못합니다.</h1>
+                                            <h3 class="text-white">- 당신의 운동 메이트들을 찾아보세요.  -</h3>
                                         </div>
 
                                         <div class="home_btns m-top-40">
-                                            <a href="" class="btn btn-primary m-top-20">Search</a>
+                                            <a href="mateList.doa?category=health" class="btn btn-primary m-top-20">Mate</a>
                                             
                                         </div>
                                     </div><!-- End off slid item -->
@@ -127,7 +127,7 @@
                                     <div class="business_items text-center">
                                         <div class="business_item" style="height:300px;">
                                             <div class="business_img">
-                                                <img src="assets/images/about-img1.jpg" alt="" />
+                                                <img src="/resources/assets/about-img1.jpg" alt="" />
                                             </div>
                                         </div>
                                     </div>
