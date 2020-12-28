@@ -189,7 +189,7 @@ textarea {
 		<div class="main-name">
 			<h2 class="main-name-h2">제목 : ${mateOne.mateTitle }</h2>
 		</div>
-		<div>
+		<div style="text-align:right;">
 				<c:url var="mateList" value="mateList.doa">
 					<c:param name="page" value="${currentPage }"></c:param>
 				</c:url>
@@ -217,7 +217,7 @@ textarea {
 						<input type="button" id="openChat" name="openChat" class="btn btn-primary"  value="채팅방 오픈">
 						</c:if>
 						</c:if>
-					<a href="${mateList }">목록으로</a>
+					<button type="button"class="btn btn-primary" onclick="${mateList }">목록으로</button>
 					</div>
 		<div class="table-wrap">
 			<table align="center" cellpadding="10" cellspacing="0"width="500" class="table" id="mymate">
@@ -658,7 +658,7 @@ textarea {
 				console.log(data.pi.currentPage);
 				
 				$tr = $("<tr>");
-				$startPage =$("<td style='width:50px;'>").text(start);
+				$startPage =$("<td style='width:50px;'>").text(data.pi.currentPage);
 				
 				$tr.append($startPage);
 				$getCount.append($tr);
