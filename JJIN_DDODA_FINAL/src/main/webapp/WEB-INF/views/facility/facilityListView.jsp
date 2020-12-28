@@ -37,11 +37,11 @@
 		border:none;
 	}
 	
-	.facilityInfo{
+	/* .facilityInfo{
 		height: 80px;
-		width: 150px;
+		width: 200px;
 		float: left;
-	}
+	} */
 	
 	.facilityImg{
 		height: 80px;
@@ -153,8 +153,8 @@
 	}
 	
 	#facilityInfo {
-		width: 500px;
-		height: 500px;
+		width: 800px;
+		height: 600px;
 		float: left;
 	}
 	
@@ -200,6 +200,12 @@
     	width: 200px;
     }
     
+    #facilityTable{
+    	width: 100%;;
+    }
+    #facilityTable>tr{
+    	
+    }
 </style>
 </head>
 <body>
@@ -212,13 +218,9 @@
 	<!-- content -->	
 	
 	<div class="content" style="height:1000px;">
-		<div class="menub" style="height:500px; position: fixed;">
-			<ul>
-				<li><a href="facilityListView.doa">시설정보</a></li>
-				<li><a href="facilityRegistrationView.doa">시설등록</a></li>
-			</ul>
-		</div>
-		<div class="main" style="margin-left: 180px;">
+		<jsp:include page="../common/facilityMenubar.jsp"></jsp:include>
+		<div class="main">
+		<br><br>
 			<div class="submenuBar">
 				<input type="button" value="myArround" name="myArround" id="myArround" class="mapkind" onclick="myArroundClick()">
 				<input type="button" value="city" name="city" id="city" class="mapkind" onclick="selectDisplay()"> 
@@ -260,19 +262,18 @@
 			        <span id="centerAddr"></span>
 			    </div>
 			</div>
-			<div id="facilityInfo" style="margin-left: 10px; overflow:scroll;">
-				<table id="facilityTable" align="center" cellpadding="10" cellspacing="0" border="1" width="500" class="table">
+			<div id="facilityInfo" style="margin-left: 20px; overflow-y:scroll;">
+				<table id="facilityTable" align="center" cellpadding="10" cellspacing="0" border="1">
 					<thead>
 						<tr>
-							<th>시설명</th>
-							<th>운동분야</th>
+							<th width="30%;" height="30px;">시설명</th>
+							<th width="40%;" height="30px;">주소</th>
+							<th width="30%;" height="30px;">운동분야</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr>
-							<td>
-								
-							</td>
+							<td width="30%;" height="30px;"></td>
 						</tr>
 					</tbody>
 				</table>
@@ -1098,11 +1099,13 @@
 		    			if(data.length > 0){
 		    				for(var i in data) {
 								$tr = $("<tr>");
-								$td = $("<td width='100'>");
+								$td = $("<td width='30%;' height='30px;'>");
 								$facilityName = $("<a href='facilityDetail.doa?facilityNo=" + data[i].facilityNo+"'>").text(decodeURIComponent(data[i].facilityName).replace(/\+/g, " "));
 								$facilityField = $("<td>").text(decodeURIComponent(data[i].facilityField).replace(/\+/g, " "));  //디코딩 // 모든 영역의 + 는 띄어쓰기로 변경
+								$facilityAddr = $("<td>").text(decodeURIComponent(data[i].facilityAddr).replace(/\+/g, " ")); 
 								$td.append($facilityName);
 								$tr.append($td);
+								$tr.append($facilityAddr);
 								$tr.append($facilityField);
 								$tableBody.append($tr);
 							}

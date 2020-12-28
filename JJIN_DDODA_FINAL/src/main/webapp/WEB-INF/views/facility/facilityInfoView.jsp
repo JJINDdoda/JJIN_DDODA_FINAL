@@ -284,14 +284,21 @@
 				</tr>
 			</thead>
 			<tbody>
-				<c:forEach items="${facilityPrice }" var="facilityPrice">
+				<c:if test="${empty facilityPrice }">
 					<tr>
-						<td>${facilityPrice.months }</td>
-						<td>${facilityPrice.price }</td>
-						<td>${facilityPrice.options }</td>
-						<td>${facilityPrice.benefits }</td>
+						<td colspan="4">등록된 가격정보가 없습니다.</td>
 					</tr>
-				</c:forEach>
+				</c:if>
+				<c:if test="${!empty facilityPrice }">
+					<c:forEach items="${facilityPrice }" var="facilityPrice">
+						<tr>
+							<td>${facilityPrice.months }</td>
+							<td>${facilityPrice.price }</td>
+							<td>${facilityPrice.options }</td>
+							<td>${facilityPrice.benefits }</td>
+						</tr>
+					</c:forEach>
+				</c:if>
 			</tbody>
 		</table>
 		<div id="termsInfo">
