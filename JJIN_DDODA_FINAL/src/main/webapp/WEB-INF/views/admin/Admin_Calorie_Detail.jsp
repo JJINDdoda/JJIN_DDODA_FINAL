@@ -172,6 +172,10 @@ textarea {
 					<td width="70">음식총량</td>
 					<td>${calorie.foodAmount }</td>
 				</tr>
+				<tr>
+					<td width="70">단위</td>
+					<td>${calorie.unit }</td>
+				</tr>
 			</table>
 		</div>
 		<hr>

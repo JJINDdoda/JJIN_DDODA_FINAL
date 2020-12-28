@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="CalorieMapper">
-	<resultMap type="Calorie" id="calorieResultMap">
+	<resultMap type="AdminCalorie" id="calorieResultMap">
 		<result property="calorieNo" column="CALORIE_NO"/>
 	</resultMap>
 	<select id="getCalorieListCount" resultType="int">
@@ -16,7 +16,7 @@
 	</select>
 	<insert id="adminCalorieInsert">
 		INSERT INTO CALORIE
-		VALUES (SEQ_CALORIE.NEXTVAL, #{foodName}, #{kcal}, #{foodAmount})
+		VALUES (SEQ_CALORIE.NEXTVAL, #{foodName}, #{kcal}, #{foodAmount}, #{unit})
 	</insert>
 	<update id="adminUpdateCalorie">
 		UPDATE CALORIE

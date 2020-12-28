@@ -160,6 +160,10 @@ textarea {
 				<td><input type="text" name="foodAmount" value="${calorie.foodAmount }"></td>
 			</tr>
 			<tr>
+				<td>단위</td>
+				<td><input type="text" name="unit" value="${calorie.unit }"></td>
+			</tr>
+			<tr>
 				<td colspan="2" align="center">
 					<input type="submit" value="수정하기" class="btn btn-primary">
 					<button type="button" class="btn btn-primary" onclick="location.href='noticeRequireList.doa';">목록으로</button>
