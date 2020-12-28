@@ -6,6 +6,11 @@ import java.util.HashMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.ddoda.calendar.domain.Calorie;
+import com.kh.ddoda.calendar.domain.Diary;
+import com.kh.ddoda.calendar.domain.MemberInfo;
+import com.kh.ddoda.calendar.domain.MyCalorie;
+import com.kh.ddoda.calendar.domain.MyDiet;
 import com.kh.ddoda.calendar.store.CalendarStore;
 import com.kh.ddoda.opendiary.domain.DiaryImg;
 import com.kh.ddoda.opendiary.domain.Opendiary;
@@ -75,5 +80,67 @@ public class CalendarServiceImpl implements CalendarService{
 	public int deleteAllFile(int opendiaryNo) {
 		return cStore.deleteAllFile(opendiaryNo);
 	}
+	
+	@Override
+	public int memberInfoInput(MemberInfo memberInfo) {
+		return cStore.memberInfoInput(memberInfo);
+	}
+
+	@Override
+	public MemberInfo selectMyInfoDate(String changeDate) {
+		return cStore.selectMyInfoDate(changeDate);
+	}
+
+	@Override
+	public int updateChangeMyInfo(MemberInfo memberInfo) {
+		return cStore.updateChangeMyInfo(memberInfo);
+	}
+
+	@Override
+	public ArrayList<String> selectCalorie() {
+		return cStore.selectCalorie();
+	}
+
+	@Override
+	public Calorie changeBreakfastFoodName(String foodName) {
+		return cStore.changeBreakfastFoodName(foodName);
+	}
+
+	@Override
+	public ArrayList<MemberInfo> getMyInfo(String userId) {
+		return cStore.getMyInfo(userId);
+	}
+
+	@Override
+	public ArrayList<HashMap<String, String>> getCalorie(String userId) {
+		return cStore.getCalorie(userId);
+	}
+
+	@Override
+	public ArrayList<MyDiet> getMealKinds(HashMap<String, String> mealHash) {
+		return cStore.getMealKinds(mealHash);
+	}
+
+	@Override
+	public int inputMydiet(MyDiet mydiet) {
+		return cStore.inputMydiet(mydiet);
+	}
+
+	@Override
+	public int inputMyCalorie(MyCalorie mycalorie) {
+		return cStore.inputMyCalorie(mycalorie);
+	}
+	
+	@Override
+	public ArrayList<MyCalorie> myCalorieGetDate(int mydietNo) {
+		return cStore.myCalorieGetDate(mydietNo);
+	}
+	
+	@Override
+	public int deleteBreakfastInfo(int mydietNo) {
+		return cStore.deleteBreakfastInfo(mydietNo);
+	}
+
+
 
 }
