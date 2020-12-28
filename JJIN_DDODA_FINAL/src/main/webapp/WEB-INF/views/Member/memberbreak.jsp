@@ -183,25 +183,31 @@ textarea {
 	</div>
 	<div  class="main">
 		<div class="centerText">
-			 <div class="col-lg-12" >
-			 <h4 align="center" style="width:80%;">탈퇴 동의 </h4>
+			 <div class="col-lg-12" style="align:center;">
+			 <h4 align="center" style="width:80%; padding-left:145px;">(탈퇴) 동의 개인정보 처리에 대한 동의 철회 </h4>
+			 <p>개인정보 처리에 대한 동의 철회
+네이버 예약 서비스 이용 시 동의하셨던 개인정보 수집 및 이용 동의와 제3자 제공 동의를 철회하실 수 있습니다.
+동의 철회 시 아래 안내 사항을 먼저 확인하여 주세요</p>
 			 <div class="panel-body" style="border: 1px solid #ccc">
-			  <p>야식먹으면 나가야지</p>
+			  <textarea  class="form-control" rows="13">1. 개인정보 제공 및 이용 동의 철회는 모든 예약 및 주문 건이 완료 또는 취소로 거래가 종결된 상태에서 가능합니다.
+2. 동의 철회 시 기존 예약 및 주문 이력은 철회 요청 익일 모두 삭제되며,  리뷰는 익명 처리 되어 DDO:DA 서비스 내에서 사용됩니다.
+3. 전자상거래법에 의해 5년 이내 예약 및 주문 건에 대한 개인정보는 유지되며, 5분이 경과되는 시점에 삭제 처리됩니다.
+4. 동의 철회 시 서비스 이용을 통해 받으시던 프로모션이나 이벤트가 모두 중단됩니다.</textarea>
 			 </div>
 			 
 			 
 			<form action="deleteMember.doa" name="form" method="post">
 			     <div class="form-group">
 			        <label class="checkbox-inline">
-			           <input type="checkbox" name="agree">동의합니다.
+			           <input type="checkbox" name="agree">동의 철회 시 안내 사항을 확인하였습니다.
 			        </label>
 			     </div>
 			
 		 			 	<c:url var="mDelete" value="memberDelete.doa">
 		 					<c:param name="userId" value="${loginUser.userId }" />
 		 				</c:url>
-		 				<button type="button" class="btn btn-danger" onclick="return chk();">탈퇴하기</button>&nbsp;&nbsp;
-		 				<a class="btn btn-info" onclick="nochk()">취소</a> 
+		 				<button style="float:right;" type="button" class="btn btn-danger" onclick="return chk();">탈퇴하기</button>&nbsp;&nbsp;
+		 				<a style="float:right;" class="btn btn-success" onclick="nochk()">취소하기</a> 
 			
 			
 			</form>

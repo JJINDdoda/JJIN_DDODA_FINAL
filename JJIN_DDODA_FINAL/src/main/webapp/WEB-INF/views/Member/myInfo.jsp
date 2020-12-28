@@ -179,7 +179,7 @@ textarea {
 	<div class="container" align="center">
 	<h3 align="center">${loginUser.userName }님의 정보 보기</h3>
 	
-	<div class="card bg-light">
+	<div class="card bg-light" style="padding-left:200px;">
 	<article class="card-body" style="width: 700px;">
 		<!-- 단순히 정보만 보는 것이 아니라 수정이 필요한 경우 수정이 가능하도록 form태스 작성 -->
 		<form  style="width:100%;" action="updateMember.doa" method="post" name="memberInfo">
@@ -309,7 +309,8 @@ textarea {
 	 			
 	 			
 	 				
-	 				<input style="width:346px; height:50px;" type="submit" value="수정하기" class="btn btn-primary btn-xs">
+	 				<input style="width:173px; height:50px;" type="submit" value="수정하기" class="btn btn-primary btn-xs">
+	 				<button style="width:173px; height:50px;" class="btn btn-info" type="button" onclick="location.href='/';">메인페이지로</button>
 	 				<!-- <button type="button">탈퇴하기</button> -->
 	 				<%-- <a href="memberDelete.do?userId=${ loginUser.userId }">탈퇴하기</a> --%>
 	 			
