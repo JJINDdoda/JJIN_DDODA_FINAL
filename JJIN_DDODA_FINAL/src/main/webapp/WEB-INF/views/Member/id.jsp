@@ -19,7 +19,7 @@
 	<input type="text" value="${memberd.userId }">
 	
 	
-	<button type="button" onclick="location.href='home.doa';">메인페이지로</button>
+	<button type="button" onclick="location.href='/';">메인페이지로</button>
 	
 	</div>
 		<!-- footer -->

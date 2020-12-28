@@ -68,13 +68,13 @@
 	 			</tr>
 	 			<tr>
 	 				<td>이메일</td>
-	 				<td><input type="text" name="emailId" value="${loginUser.email}" required>@
+	 				<td><input type="text" name="emailId" value="${loginUser.email}" placeholder="@없이 아이디만" required>
 	 				<select name="emailTag" onkeydown="inputEmailChk();">
-	 				     <option value="@gmail.com">gmail.com</option>
-	 				     <option value="@iei.or.kr">iei.or.kr</option>
-	 				     <option value="@naver.com">naver.com</option>			  
-	 				     <option value="@daum.net">daum.net</option>
-	 				   </select> <a> Example) mail2im@ iei.or.kr</a>
+	 				     <option value="@gmail.com">@gmail.com</option>
+	 				     <option value="@iei.or.kr">@iei.or.kr</option>
+	 				     <option value="@naver.com">@naver.com</option>			  
+	 				     <option value="@daum.net">@daum.net</option>
+	 				   </select> 
 	 				
 	 				</td>
 	 				<td>

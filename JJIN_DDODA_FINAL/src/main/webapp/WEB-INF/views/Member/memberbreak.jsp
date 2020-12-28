@@ -37,7 +37,7 @@
 		 <div class="col-lg-12" >
 		 <h4 align="center">탈퇴 동의 </h4>
 		 <div class="panel-body" style="border: 1px solid #ccc">
-		  <p>탈퇴에 동의하십니까? 동의하시냐구요  </p>
+		  <p>야식먹으면 나가야지</p>
 		 </div>
 		 
 		 

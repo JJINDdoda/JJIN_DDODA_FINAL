@@ -27,13 +27,13 @@
 	 			 			
 	 			<tr>
 	 				<td>이메일</td>
-	 				<td><input type="text" placeholder="이메일" name="emailId">@
+	 				<td><input type="text" placeholder="이메일" name="emailId" placeholder="@빼고 입력">
 	 				   <select name="emailTag" onkeydown="inputEmailChk();">
-	 				     <option value="@gmail.com">gmail.com</option>
-	 				     <option value="@iei.or.kr">iei.or.kr</option>
-	 				     <option value="@naver.com">naver.com</option>
-	 				     <option value="@daum.net">daum.net</option>
-	 				   </select> <a> Example) mail2im@ google.com</a>
+	 				     <option value="@gmail.com">@gmail.com</option>
+	 				     <option value="@iei.or.kr">@iei.or.kr</option>
+	 				     <option value="@naver.com">@naver.com</option>
+	 				     <option value="@daum.net">@daum.net</option>
+	 				   </select> 
 	 				
 	 				</td>
 	 				
@@ -46,7 +46,7 @@
 	 				 <!-- <button  onclick="return  validate();">가입하기</button> --> 
 	 				 <input type="submit" class="" value="비밀번호 찾기"> 
 	 				<!-- <button onclick="return validate();">가입하기</button> -->
-	 				<button type="button" onclick="location.href='home.doa';">취소</button></td>
+	 				<button type="button" onclick="location.href='/';">취소</button></td>
 	 			
 	 			</tr>
 	 		</table>

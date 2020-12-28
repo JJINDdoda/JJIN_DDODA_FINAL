@@ -10,7 +10,7 @@
 	.centerText table {
 		margin: auto;
 	}
-	span.guide {
+	.guide {
 		display :none;
 		font-size : 12px;
 		top : 12px;
@@ -18,10 +18,18 @@
 	}
 	span.ok {color : green;}
 	span.error {color:red;}
+	span.idLength {color:red;}
 	
 	.formcontrol{
-	width:100%;
+	width:800px;
 	}
+	#pwdCheck{
+	font-size :12px;
+	top : 12px;
+    right : 10px;
+	}
+	/* .align:: -webkit-input-placeholder{text-align:center} */
+	
 	
 </style>
 </head>
@@ -37,38 +45,45 @@
 	<div class="content">
 	<h3 align="center">회원가입</h3>
 	<div class="card bg-light">
-	<article class="card-body mx-auto" style="max-width: 400px;">
+	<article class="card-body" style="width: 700px;">
 		<form  style="width:100%;"  action="insertMember.doa" method="post" name="memberInfo">
 		  
-		        	<div class="form-group input-group">
-	 				 	<div class="input-group-prepend">
-	 				 	   <span class="input-group-text"> <i class="fa fa-user">이름</i> </span>
+		  <!-- 이름-->
+		        	<div class="form-row">
+	 				 	<div class="col form-group">
+	 				 	   	<label class="fa fa-user">이름</label>  
+	 				 	   	<input style="width:346px;" type="text" name="userName"  class="form-control" placeholder="이름을 입력하세요"  required >
 	 				 	</div>
-	 				<input type="text" name="userName"  class="form-control" placeholder="이름을 입력하세요"  required >
+	 				
 	 			      </div>
 	 				
-	 				
-	 				<div class="form-group input-group">
-	 					<div class="input-group-prepend">
-		              <span class="input-group-text"> <i class="fa fa-id-card">아이디</i> </span>
+	 				<!-- 아이디 -->
+	 				<div class="form-row">
+	 					<div class="col form-group">
+		              	<label class="fa fa-id-card">아이디</label> 
 		             
-		             </div>
-	 				<input type="text" name="userId" id="userId" class="form-control" placeholder="아이디를 입력하세요"  required >
+		             <input style="width:346px;" type="text" name="userId" id="userId" class="form-control" onkeyup="chk(this);" placeholder="아이디를 입력하세요" required >
+		 				<span class="guide idLength" id="idLength"></span>
 		 				<span class="guide ok">사용 가능한 아이디 입니다.</span>
 		 				<span class="guide error">이 아이디는 사용할 수 없습니다.</span>
-		 				<input type="hidden" id="idCheck" value="0">	 				
+		 				<input type="hidden" id="idCheck" value="0">	 	
+		             </div>
+	 							
 	 			   </div>
 	 			   
-	 			   
-	 			   <div class="form-group input-group">
-	 			   	<div class="input-group-prepend">
-		           <span class="input-group-text"> <i class="fa fa-lock">비밀번호</i> </span>
+	 			   <!-- 비밀번호 -->
+	 			   <div class="form-row">
+	 			   	<div  class="col form-group">
+	 			   	 <label class="fa fa-lock">비밀번호</label> 
+		          <input style="width:346px;" maxlength="16"  type="password" name="userPassword"  class="form-control"  onkeyup="pwCheck();" placeholder="비밀번호를 입력하세요"  required >
+	 				<span id="pwdCheck"></span>
+		          
+		          
 	      	       </div>
-	 				<input type="password" name="userPassword"  class="form-control"  onkeyup="pwCheck();" placeholder="비밀번호를 입력하세요"  required >
-	 				<span id="pwdCheck" style="font-size: 1.3em; float:left;"></span>
+	 				
 	 			
 	 				<div>
-	 				<input type="password" name="userPasswordChk" class="form-control"  onkeyup="pwCheck();" placeholder="비밀번호 재확인" required>
+	 				<input  style="width:346px;" maxlength="16"  type="password" name="userPasswordChk" class="form-control"  onkeyup="pwCheck();" placeholder="비밀번호 재확인" required>
 	 				</div>
 	 				</div>
 	 				
@@ -89,16 +104,16 @@
     	              
 		              <span class="input-group-text"> <i class="fa fa-envelope">이메일</i> </span>
 		             </div>
-	 				<input type="text"   placeholder="Example) mail2im" name="emailId" required >@
-	 				   <select style="max-width: 120px; height:26px;" class="custom-select" name="emailTag" onkeydown="inputEmailChk();">
-	 				     <option value="@gmail.com">gmail.com</option>
-	 				     <option value="@iei.or.kr">iei.or.kr</option>
-	 				     <option value="@naver.com">naver.com</option>			  
-	 				     <option value="@daum.net">daum.net</option>
+	 				<input style="width:136px;  height:40px;" type="text" class="form-control"  placeholder="@없이 아이디만" name="emailId" required >
+	 				   <select style="width:130px;  height:40px;" class="form-control"  name="emailTag" onkeydown="inputEmailChk();">
+	 				     <option value="@gmail.com">@gmail.com</option>
+	 				     <option value="@iei.or.kr">@iei.or.kr</option>
+	 				     <option value="@naver.com">@naver.com</option>			  
+	 				     <option value="@daum.net">@daum.net</option>
 	 				   </select> 
 	 				
 	 				
-	 				  <input type="button" value="중복확인" onclick="openEmailChk();" class="btn btn-primary btn-lg btn-block"  style="width : 70px; height: 40px; font-size : 0.8em; text-align:center;">
+	 				  <input style="width:82px; font-size : 0.8em; text-align:center; height:40px" type="button" value="중복확인" onclick="openEmailChk();" class="btn btn-primary btn-lg btn-block" >
 	 				  <input type="hidden" name="emailCheck" value="emailUncheck">
 	 			</div>
 	 			
@@ -108,13 +123,13 @@
     	         <div class="input-group-prepend">
 		            <span class="input-group-text"> <i class="fa fa-phone">전화번호</i> </span>
 		         </div>
-	 				<select class="form-control"  style="width: 33%; height:40px;" name="firstPhone" >
+	 				<select class="form-control"  style="width: 89px; height:40px; margin-left:176px;" name="firstPhone" >
 	 				    <option value="010">010</option> 				   		
 	 				</select>
-	 				<input class="form-control"  type="text" size="4" name="secondPhone" id="secondPhone" style="width: 33%; height:40px;" onkeypress="javascript:checkInputNum();"  onkeydown="inputPhoneChk();"  maxlength="4" required  >
-	 				<input class="form-control"  type="text" size="4" name="lastPhone" id="lastPhone" style="width: 33%; height:40px;" onkeypress="javascript:checkInputNum();"  onkeydown="inputPhoneChk();"  maxlength="4" required  >	 				
+	 				<input class="form-control" placeholder="-없이 번호만" type="text" size="4" name="secondPhone" id="secondPhone" style="width:  89px; height:40px;" onkeypress="javascript:checkInputNum();"  onkeydown="inputPhoneChk();"  maxlength="4" required  >
+	 				<input class="form-control" placeholder="-없이 번호만" type="text" size="4" name="lastPhone" id="lastPhone" style="width:  89px; height:40px;" onkeypress="javascript:checkInputNum();"  onkeydown="inputPhoneChk();"  maxlength="4" required  >	 				
 	 				
-	 				  <input type="button" value="중복확인" onclick="openPhoneChk();" class="btn btn-primary btn-lg btn-block" style="width : 70px; height: 40px; font-size : 0.8em; text-align:center;">
+	 				  <input  type="button" value="중복확인" onclick="openPhoneChk();" class="btn btn-primary btn-lg btn-block" style="margin-right:183px; width : 82px; height: 40px; font-size : 0.8em; text-align:center;">
 	 				
 	 				  <input type="hidden" name="phoneCheck" value="phoneUncheck">
 	 			
@@ -130,21 +145,22 @@
 	 			</div>
 	 		
 	 		
-	 		 <div class="form-group input-group">
+	 		 <div class="form-group">
 	 				   <div class="input-group-prepend">
 		           <span  class="input-group-text"><i class="fa fa-birthday-cake" >생년월일</i> </span>
-	      	       </div>
-	 			 <input   style="width: 150px; height:40px;" type="tel" id="userBirth" name="userBirth" placeholder="ex) 20200723" class="form-control"  maxlength="8" required />
+	      	       
+	 			 <input  style="width:346px;" type="tel" id="userBirth" name="userBirth" placeholder="ex) 20200723" class="form-control"  maxlength="8" required />
 	 			     <span class="eheck_font" id="birth_check"></span>
 	 			
 	 			</div>
+	 			</div>
 	 		
 	 			
-	 				<!-- 사용불가 id 유효성검사 : validate()가 false면 가입 불가/ true이면 action url로 넘어감 -->
-	 				 <!-- <button  onclick="return  validate();">가입하기</button> --> 
-	 				 <input type="submit"   class="btn btn-primary btn-block" value="가입하기"> 
+	 				<!-- 사용불가 id 유효성검사 : validate()가 false면 가입 불가/ true이면 action url로 넘어감   class="btn btn-primary btn-block"-->
+	 				 <!-- <button  onclick="return  validate();">가입하기</button>  class="btn btn-primary" --> 
+	 				 <input style="width: 120px; height:40px;" type="submit"  class="btn btn-primary"  value="가입하기"> 
 	 				<!-- <button onclick="return validate();">가입하기</button> -->
-	 				<button type="button"  class="btn btn-info" onclick="location.href='/';">홈으로</button></td>
+	 				<button style="width: 120px; height:40px;" type="button"  class="btn btn-danger" onclick="location.href='/';">취소</button>
 	 			
 	 			
 	 		
@@ -346,14 +362,26 @@
 		}
 	
 		//아이디 중복검사 (ajax)
-		 $("#userId").on("blur", function() {
-			var userId = $(this).val(); ///#userId 인풋태그 = this
+		/* function idDup(){
+			
+		} */
+		
+		 /* $("#userId").on("blur", function() {
+			
+		}); */
+		
+		function chk(obj){
+			var userId = $(obj).val(); ///#userId 인풋태그 = this
 			//아이디가 5글자 미만인 경우도 검사
 			 if(userId.length < 5){
 				$(".guide").hide();
 				$("#idCheck").val(0);
-				alert("아이디는 5글자 이상이어야 합니다.");
+				$("#idLength").show();
+				$("#idLength").text('아이디를 5글자 입력해주세요.');
 				return false;
+			}else{
+				$("#idLength").hide();
+				$("#idLength").text('');
 			}  
 			$.ajax({
 				url : "dupId.doa",
@@ -376,10 +404,7 @@
 					
 				}
 			});
-		});
-		
-		
-		
+		}
 		
 		
 		/*  $(function(){
