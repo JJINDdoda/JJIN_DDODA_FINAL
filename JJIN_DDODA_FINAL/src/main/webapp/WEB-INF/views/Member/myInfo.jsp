@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -247,12 +248,16 @@ textarea {
 		              <span class="input-group-text"><label>이메일</label></span>
 		             </div>
 	 				
-	 				<input style="width:136px;  height:40px;"  type="text" class="form-control"  name="emailId" value="${loginUser.email}" required placeholder="@없이 입력">
+	 				<c:set var="email" value="${loginUser.email}"/>
+					<c:set var="id" value="${ fn:substringBefore(email, '@')}" />
+					<c:set var="url" value="${ fn:substringAfter(email, '@')}" />
+	 				
+	 				<input style="width:136px;  height:40px;"  type="text" class="form-control"  name="emailId" value="${id }" required placeholder="@없이 입력">
 	 				<select style="width:130px;  height:40px;" class="form-control" name="emailTag" onkeydown="inputEmailChk();">
-	 				     <option value="@gmail.com">@gmail.com</option>
-	 				     <option value="@iei.or.kr">@iei.or.kr</option>
-	 				     <option value="@naver.com">@naver.com</option>			  
-	 				     <option value="@daum.net">@daum.net</option>
+	 				     <option <c:if test="${url == 'gmail.com'}" >selected</c:if> >@gmail.com</option>
+	 				     <option <c:if test="${url == 'iei.or.kr'}" >selected</c:if> >@iei.or.kr</option>
+	 				     <option <c:if test="${url == 'naver.com'}" >selected</c:if> >@naver.com</option>			  
+	 				     <option <c:if test="${url == 'daum.net'}" >selected</c:if> >@daum.net</option>
 	 				   </select>
 	 				
 	 				

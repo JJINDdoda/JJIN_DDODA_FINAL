@@ -189,7 +189,7 @@ public class MemberController {
 	      int result = service.deleteMember(userId);
 	      if (result > 0) {
 	         session.invalidate();
-	         return "home";
+	         return "../../index";
 	      } else {
 	         model.addAttribute("msg", "회원탈퇴에 실패하였습니다.");
 	         return "common/errorPage";
