@@ -134,5 +134,4 @@ public class Require {
 				+ requireContents + ", requireYN=" + requireYN + ", originalFilename=" + originalFilename
 				+ ", renameFilename=" + renameFilename + ", rCount=" + rCount + ", menuName=" + menuName + "]";
 	}
-	
 }

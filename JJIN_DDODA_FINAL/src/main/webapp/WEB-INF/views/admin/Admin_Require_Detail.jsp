@@ -1,118 +1,327 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<link rel="stylesheet" type="text/css" href="/resources/css/basicStyle.css">
+<title>문의사항</title>
+<link rel="stylesheet" type="text/css"
+	href="/resources/css/basicStyle.css">
 <style>
-	.card {position:relative;display:flex;flex-direction:column;min-width:0;word-wrap:break-word;background-color:#fff;background-clip:border-box;border:1px solid rgba(0,0,0,.125);border-radius:.25rem;}
-	.text-dark {color:#212529!important}
-	.bg-light {background-color:#f8f9fa!important}
-	.mb-3 {margin-bottom:1rem!important}
-	.card-header {padding:.5rem 1rem;margin-bottom:0;background-color:rgba(0,0,0,.03);border-bottom:1px solid rgba(0,0,0,.125)}
-	.card-body {flex:1 1 auto;padding:1rem 1rem}
-	.card-title {margin-bottom:.5rem}
-	.card-text:last-child{margin-bottom:0}
-	/*Button*/
-	.btn{
-	    -webkit-transition: all 0.6s;
-	    transition: all 0.6s;
-	    font-size:14px;
-	    font-weight: 600;
-	    border:1px solid;
+.main-name-h2 {
+	font-family: 'Wemakeprice-Regular';
+	color: #424242;
+	font-size : 1.7em;
+}
+.menub {
+	margin-left:6%;
+	width:150px;
+	height : 570px;
+	background-color:white;
+	text-align:left;
+	float:left;
+	border : 1px solid #edd5c5;
+	border-top : 1px solid #f7bf99;
+}
+
+.menub>ul li {
+	padding-left : 15px;
+}
+.menub>ul li:first-child {
+	border-left : 1px solid #f7bf99;
+	background-color:#f7bf99;
+	height:40px;
+	margin-top:0;
+}
+.menub>ul>li a {
+	font-family: 'NanumSquareR';
+	color:#797979;
+	position:relative;
+}
+.menub>ul>li:hover a, .menub>ul>li:hover .imgwrapper {
+	color : #f7bf99;
+	-webkit-transition: all 0.5s ease;
+  	transition: all 0.5s ease;
+}
+.name {
+	width:100px;
+	float:left;
+}
+.more {
+	width:100px;
+}
+.menub>ul>li .imgwrapper {
+	width:120px;
+	text-align:right;
+	color : #707070;
+}
+.menub>ul li .imgwrapper img {
+	width:10px;
+}
+.main {
+	width : 94%;
+	margin-left : 5%;
+}
+.table, table {
+	font-family: 'NanumSquareR';
+	font-size : 0.6em;
+}
+.tableComment {
+	font-size : 0.2em;
+}
+
+.table tr {
+	width : 100%;
+	border-top : 1px solid white;
+}
+.table tr td {
+	padding-top : 10px;
+	padding-bottom : 10px;
+	text-align :center;
+	font-size : 1.3em;
+}
+input[type="text"] {
+	width: 100%;
+}
+textarea {
+	width : 100%;
+	resize : none;
+}
+
+.btndelete {
+	width:68%;
+	text-align:right;
 	}
-	.btn-primary{
-	    color: #fff;
-	    background-color: #f7bf99;
-	    border:1px solid;
-	    border-color: #f7bf99;
-	}
-	.btn-primary:hover{
-	    background-color: #f6f6f6;
-	    border-color: #f6f6f6;
-	    color:#f6ac79;
-	}
-	.btn-default{
-	    color: #fff;
-	    background-color: transparent;
-	    border:1px solid;
-	    border-color: #b6b6b6;
-	}
-	.btn-default:hover{
-	    color: #fff;
-	    background-color: #00a885;
-	    border-color: #00a885;
-	}
-	input,textarea {border:none;border-right:0px; border-top:0px; boder-left:0px; boder-bottom:0px;}
-	
-	@media ( min-width : 992px) and (max-width : 1904px) {
+.addReply{
+	width:7%;
+	text-align:right;
+}
+@media ( max-width : 991px) {
+		.menub {
+			width:85%;
+			height : 50px;
+		}
+		.menub>ul {
+			height :100%;
+		}
+		.menub>ul li:first-child {
+			width : 0px;
+			height : 100%;
+		}
+		.menub>ul li:nth-child(2){
+			width : 20%;
+			padding-left : 30px;
+		}
+		.menub li {
+			width: 25%;
+			padding-left : 20px;
+		}
+		.menub>ul>li .imgwrapper {
+			display:none;
+		}
 		.main {
-			width: 80%;
+			width : 90%;
+		}
+		.btndelete {
+			width:63%;
+			text-align:right;
+		}
+		.addReply{
+			width:7%;
+			text-align:right;
 		}
 	}
+	.menuSelect { 
+		width: 200px; /* 원하는 너비설정 */ 
+		padding: .4em .4em; /* 여백으로 높이 설정 */ 
+		font-family: inherit; /* 폰트 상속 */ 
+		background: url(/resources/assets/down_arrow.png) no-repeat 95% 50%; /* 네이티브 화살표 대체 */ 
+		background-size : 10px 10px;
+		border: 1px solid #999; border-radius: 0px; /* iOS 둥근모서리 제거 */ 
+		-webkit-appearance: none; /* 네이티브 외형 감추기 */ 
+		-moz-appearance: none; 
+		appearance: none; 
+	}
+	.searchSelect { 
+		width: 100px; /* 원하는 너비설정 */ 
+		padding: .1em .1em; /* 여백으로 높이 설정 */ 
+		font-family: inherit; /* 폰트 상속 */ 
+		background: url(/resources/assets/down_arrow.png) no-repeat 95% 50%; /* 네이티브 화살표 대체 */ 
+		background-size : 10px 10px;
+		border: 1px solid #999; border-radius: 0px; /* iOS 둥근모서리 제거 */ 
+		-webkit-appearance: none; /* 네이티브 외형 감추기 */ 
+		-moz-appearance: none; 
+		appearance: none; 
+	}
+	.select-wrapper {
+		width : 20%;
+		text-align:right;
+		float:left;
+	}
+	.table-wrap {
+		margin-top : 20px;
+		float:left;
+		width : 45%;
+		height : 450px;
+		border-bottom : 1px solid lightgray;
+		margin-bottom : 15px;
+	}
+	.searchText {
+		width: 20%;
+	}
+	.content {
+		height : 650px;
+	}
+	.btn{
+	 	padding : 3px 3px;
+	}
+	.tableComment tbody {margin:5px;}
+	.tableComment tbody tr {border : 1px solid lightgray;}
+	.tableComment tr td, .mateComReplyTb tr td {
+		float:left;
+	}
+	.tableComment>tr>td {
+		border-top : 1px splid white;
+	}
+	.first {
+		margin-right : 10px;
+	}
+	.third {
+		text-align : right;
+		width : 90%;
+	}
 </style>
-<title>게시글 상세보기</title>
 </head>
 <body>
 	<!-- header -->
 	<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
-	<br><br><br><br>
+	<br>
+	<br>
+	<br>
+	<br>
 	<!-- end header -->
 
-	<!-- content -->	
+	<!-- content -->
 	<div class="content">
-		<jsp:include page="/WEB-INF/views/common/admin_menubar.jsp"/>
-		<div class="main">
-		<div style="width:450px; height:100%; border:1px solid red; float:left; margin-right:30px;">
-			<div class="card text-dark bg-light mb-3" style="width: 100%; height: 100%;">
-			  <div class="card-header">제목 : ${require.requireTitle }</div>
-			  <div class="card-header">작성자 : ${require.userId }</div>
-			  <div class="card-body">
-			    <h5 class="card-title">${require.requireContents }</h5>
-			  </div>
-			</div>
-		</div>
 		<form action="addReply.doa" method="post">
-			<input type="hidden" name="requireNo" value="${require.requireNo }">
-			<input type="hidden" name="userId" value="${loginUser.userId }">
-			<div style="width:450px; height:530px; border:1px solid green; float:left;">
-				<div class="card text-dark bg-light mb-3" style="width: 100%; height: 100%;">
-				  <div class="card-header">제목 : 
-				  	<c:if test="${!empty reply.rComTitle }">
-				  		${reply.rComTitle }
-				  	</c:if>
-				  	<c:if test="${empty reply.rComTitle }">
-				  		<input type="text" name="rComTitle">
-				  	</c:if>
-				  </div>
-				  <div class="card-header">작성자 : ${loginUser.userId }</div>
-				  <div class="card-body">
-				  	<c:if test="${!empty reply.rComContents }">
-				  		<h5 class="card-title">${reply.rComContents }</h5>
-				  	</c:if>
-				  	<c:if test="${empty reply.rComContents }">
-				  		<h5 class="card-title"><textarea style="width: 100%; height: 100%;" name="rComContents"></textarea></h5>
-				  	</c:if>
-				  </div>
-				</div>
+		<div class="main">
+			<div class="main-name">
+				<h2 class="main-name-h2">문의사항 상세보기</h2>
 			</div>
-			<c:if test="${empty reply.rComTitle }">
-			<button type="submit" class="insert btn btn-primary" style="float: right; margin-top: 20px; margin-right: 35px;">답변올리기</button>
-			<a onclick="location.href='adminRequireList.doa';" class="insert btn btn-primary" style="float: right; margin-top: 20px; margin-right: 20px;">목록으로</a>
-		</c:if>
-		<c:if test="${!empty reply.rComTitle }">
-			<button onclick="location.href='adminRequireList.doa';" class="insert btn btn-primary" style="float: right; margin-top: 20px; margin-right: 35px;">목록으로</button>
-		</c:if>
-		</form>
+			<div class="third">
+				<input type="hidden" name="requireNo" value="${require.requireNo }">
+				<input type="hidden" name="userId" value="${loginUser.userId }">
+				<c:url var="adminRequireList" value="adminRequireList.doa">
+					<c:param name="page" value="${currentPage }"></c:param>
+				</c:url>
+				<c:url var="requireUpdate" value="adminRequireUpdateView.doa">
+					<c:param name="requireNo" value="${require.requireNo }"/>
+					<c:param name="page" value="${pi.currentPage }"/>
+				</c:url>
+				<c:url var="requireDelete" value="adminRequireDelete.doa">
+					<c:param name="requireNo" value="${require.requireNo }"/>
+				</c:url>
+				<c:if test="${empty reply.rComTitle }">
+					<button type="submit" class="btn btn-primary">등록하기</button>
+				</c:if>
+				<c:if test="${!empty reply.rComTitle }">
+					<button type="button" class="btn btn-primary" onClick="location.href='${requireUpdate }'">수정하기</button>
+					<button type="button" class="btn btn-primary"  onClick="location.href='${requireDelete }'">삭제하기</button>
+				</c:if>
+				<button type="button"  class="btn btn-primary"  onClick="location.href='${adminRequireList }'">목록으로</button>
+			</div>
+			<div class="table-wrap first">
+				<table align="center" width="800" cellspacing="0"
+					style="clear: right;" class="table table-hover table-responsive">
+					<tr align="center" valign="middle">
+						<!-- valign : 수직 가운데 -->
+						<th colspan="2">${require.requireNo }번글 상세보기</th>
+					</tr>
+					<tr>
+						<td height="15" width="70">제목</td>
+						<td>${require.requireTitle }</td>
+					</tr>
+					<tr>
+						<td>작성자</td>
+						<td>${require.userId }</td>
+					</tr>
+					<tr>
+						<td>작성날짜</td>
+						<td>${require.requireDate }</td>
+					</tr>
+					<tr height="100">
+						<td>내용</td>
+						<td>${require.requireContents }</td>
+					</tr>
+					<tr>
+						<td>첨부파일</td>
+						<td><c:if test="${!empty require.originalFilename }">
+								<img
+									src="/resources/requireUploadFiles/${require.userId}/${require.renameFilename}"
+									width="250" height="200"><br>
+									<a href="/resources/requireUploadFiles/${require.userId}/${require.renameFilename}" download>
+									${require.renameFilename } </a>
+							</c:if></td>
+					</tr>
+				</table>
+			</div>
+			<div class="table-wrap second">
+			<table align="center" width="800" cellspacing="0"
+					style="clear: right;" class="table table-hover table-responsive">
+					<tr align="center" valign="middle">
+						<th colspan="2"> 관리자 답변 </th>
+					</tr>
+					<tr>
+						<td height="15" width="70">제목</td>
+						<c:if test="${!empty reply.rComTitle }">
+							<td>${reply.rComTitle }</td>
+						</c:if>
+						<c:if test="${empty reply.rComTitle }">
+							<td><input type="text" name="rComTitle"></td>
+						</c:if>
+					</tr>
+					<tr>
+						<td>작성자</td>
+						<td>${loginUser.userId }</td>
+					</tr>
+					<tr height="330">
+						<td>내용</td>
+						<c:if test="${!empty reply.rComContents }">
+							<td>${reply.rComContents }</td>
+						</c:if>
+						<c:if test="${empty reply.rComContents }">
+							<td><textarea cols="50" rows="15" name="rComContents"></textarea></td>
+						</c:if>
+					</tr>
+				</table>
+			</div>
+			
 		</div>
+		</form>
 	</div>
+	<script>
+		
+		function deleteRequire() {
+			var answer = confirm("정말로 삭제하시겠습니까?");
+			if (answer) {
+				location.href = '${requireDelete}';
+			}
+			/* location.href='${requireUpdate}'; */
+		}
+	</script>
 	<!-- end content -->
-	
+
 	<!-- footer -->
-	<br><br><br><br><br><br>
-	<jsp:include page="/WEB-INF/views/common/footer.jsp"/>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 	<!-- end footer -->
 </body>
 </html>

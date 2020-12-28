@@ -8,9 +8,15 @@
 		<result property="requireModifyDate" column="REQUIRE_MODIFY_DATE"/>
 		<result property="requireContents" column="REQUIRE_CONTENTS"/>
 		<result property="requireYN" column="REQUIRE_YN"/>
+
 		<result property="userId"	column="USERID"/>
 		<result property="originalFilename"	column="REQUIRE_ORIGINALFILENAME"/>
 		<result property="renameFilename"	column="REQUIRE_RENAMEFILENAME"/>
+
+		<result property="userId" column="USERID"/>
+		<result property="originalFilename" column="REQUIRE_ORIGINALFILENAME"/>
+		<result property="renameFilename" column="REQUIRE_RENAMEFILENAME"/>
+
 		<result property="menuName" column="MENU_NAME"/>
 		<result property="rCount"	column="RCOUNT"/>
 	</resultMap>

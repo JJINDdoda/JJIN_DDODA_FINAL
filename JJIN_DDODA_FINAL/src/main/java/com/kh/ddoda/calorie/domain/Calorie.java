@@ -5,27 +5,18 @@ public class Calorie {
 	private int calorieNo;
 	private String foodName;
 	private int kcal;
-	private int protein;
-	private int carbo;
-	private int fat;
-	private int natrium;
-	private int sacCharide;
+	private int foodAmount;
 	
 	public Calorie() {
 		super();
 	}
 
-	public Calorie(int calorieNo, String foodName, int kcal, int protein, int carbo, int fat, int natrium,
-			int sacCharide) {
+	public Calorie(int calorieNo, String foodName, int kcal, int foodAmount) {
 		super();
 		this.calorieNo = calorieNo;
 		this.foodName = foodName;
 		this.kcal = kcal;
-		this.protein = protein;
-		this.carbo = carbo;
-		this.fat = fat;
-		this.natrium = natrium;
-		this.sacCharide = sacCharide;
+		this.foodAmount = foodAmount;
 	}
 
 	public int getCalorieNo() {
@@ -52,49 +43,17 @@ public class Calorie {
 		this.kcal = kcal;
 	}
 
-	public int getProtein() {
-		return protein;
+	public int getFoodAmount() {
+		return foodAmount;
 	}
 
-	public void setProtein(int protein) {
-		this.protein = protein;
-	}
-
-	public int getCarbo() {
-		return carbo;
-	}
-
-	public void setCarbo(int carbo) {
-		this.carbo = carbo;
-	}
-
-	public int getFat() {
-		return fat;
-	}
-
-	public void setFat(int fat) {
-		this.fat = fat;
-	}
-
-	public int getNatrium() {
-		return natrium;
-	}
-
-	public void setNatrium(int natrium) {
-		this.natrium = natrium;
-	}
-
-	public int getSacCharide() {
-		return sacCharide;
-	}
-
-	public void setSacCharide(int sacCharide) {
-		this.sacCharide = sacCharide;
+	public void setFoodAmount(int foodAmount) {
+		this.foodAmount = foodAmount;
 	}
 
 	@Override
 	public String toString() {
-		return "Calorie [calorieNo=" + calorieNo + ", foodName=" + foodName + ", kcal=" + kcal + ", protein=" + protein
-				+ ", carbo=" + carbo + ", fat=" + fat + ", natrium=" + natrium + ", sacCharide=" + sacCharide + "]";
+		return "Calorie [calorieNo=" + calorieNo + ", foodName=" + foodName + ", kcal=" + kcal + ", foodAmount="
+				+ foodAmount + "]";
 	}
 }
