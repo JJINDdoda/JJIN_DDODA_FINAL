@@ -234,31 +234,33 @@ public class CalendarController {
 				if ( !reloadFile[i].getOriginalFilename().equals("")) {
 					dimg = new DiaryImg();
 					imgRenamePath = saveFileName( request, reloadFile[i], session, i);
-					if (imgMainYn == i) {
-						dimg.setUserId(userId);
-						dimg.setImgRenamePath(imgRenamePath);
-						dimg.setImgMainYn("Y");
-						dimg.setImgPath( reloadFile[i].getOriginalFilename());
-							if(menuName.contains("Y")) {
-								dimg.setMenuName("마이일기");
-							}else {
-								dimg.setMenuName("마이일기");
+					if(imgMainYn != null) {
+						if (imgMainYn == i) {
+							dimg.setUserId(userId);
+							dimg.setImgRenamePath(imgRenamePath);
+							dimg.setImgMainYn("Y");
+							dimg.setImgPath( reloadFile[i].getOriginalFilename());
+								if(menuName.contains("Y")) {
+									dimg.setMenuName("마이일기");
+								}else {
+									dimg.setMenuName("마이일기");
+								}
+							imgupdate.put("imgRenamePath", imgRenamePath);
+							imgupdate.put("opendiaryNo", folderNo);
+							cService.updateMyDiaryImage(imgupdate);
 							}
-						imgupdate.put("imgRenamePath", imgRenamePath);
-						imgupdate.put("opendiaryNo", folderNo);
-						cService.updateMyDiaryImage(imgupdate);
-					} else {
-						dimg.setUserId(userId);
-						dimg.setImgRenamePath(imgRenamePath);
-						dimg.setImgMainYn("N");
-						dimg.setImgPath(reloadFile[i].getOriginalFilename());
-							if(menuName.contains("Y")) {
-								dimg.setMenuName("마이일기");
-							}else {
-								dimg.setMenuName("마이일기");
-							}
-					}
-					dimgs.add(dimg);
+						} else {
+							dimg.setUserId(userId);
+							dimg.setImgRenamePath(imgRenamePath);
+							dimg.setImgMainYn("N");
+							dimg.setImgPath(reloadFile[i].getOriginalFilename());
+								if(menuName.contains("Y")) {
+									dimg.setMenuName("마이일기");
+								}else {
+									dimg.setMenuName("마이일기");
+								}
+						}
+						dimgs.add(dimg);
 				}
 			}
 		}

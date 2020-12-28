@@ -126,25 +126,27 @@ public class MateController {
 	}
 	
 	//메이트 댓글 리스트
-	@RequestMapping(value="mateComList.doa", method=RequestMethod.GET)
-	public void mateComList(HttpServletResponse response, int mateNo,
-					@RequestParam(value="page", required=false)Integer page) throws Exception {
-		int currentPage = (page != null) ? page : 1;
-		int listCount = mService.getListCount();
-		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
-		
-//		HashMap<String, Object> map =  new HashMap<String, Object>();
-//		map.put("pi", pi);
-//		map.put("mateNo", mateNo);
-		//아직 댓글 페이징 처리 안함
-		ArrayList<MateComment> mateComList = mService.selectMateCom(mateNo, pi);
-		for(MateComment mateCom : mateComList) {
-			mateCom.setMateComContents(URLEncoder.encode(mateCom.getMateComContents(), "utf-8"));
+		@RequestMapping(value="mateComList.doa", method=RequestMethod.GET)
+		public void mateComList(ModelAndView mv, HttpServletRequest request, HttpServletResponse response, int mateNo,
+						@RequestParam(value="page", required=false)Integer page) throws Exception {
+			int currentPage = (page != null) ? page : 1;
+			int listCount = mService.getListCount();
+			PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+			
+			
+			//아직 댓글 페이징 처리 안함
+			ArrayList<MateComment> mateComList = mService.selectMateCom(mateNo, pi);
+			for(MateComment mateCom : mateComList) {
+				mateCom.setMateComContents(URLEncoder.encode(mateCom.getMateComContents(), "utf-8"));
+			}
+			
+			HashMap<String, Object> map =  new HashMap<String, Object>();
+			map.put("pi", pi);
+			map.put("mateComList", mateComList);
+			
+			Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+			gson.toJson(map, response.getWriter());
 		}
-		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
-		gson.toJson(mateComList, response.getWriter());
-		System.out.println(pi +","+currentPage);
-	}
 	
 	//메이틑 대댓글 등록
 	@ResponseBody

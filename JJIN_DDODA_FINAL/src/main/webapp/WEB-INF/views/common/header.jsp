@@ -43,6 +43,27 @@
 
 
 <style>
+/*  제목용 폰트 */
+@font-face {
+    font-family: 'Wemakeprice-Bold';
+    src: url('/resources/fonts/Wemakeprice_TTF/Wemakeprice-Bold.ttf') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+/*  메뉴바용 폰트 */
+@font-face {
+    font-family: 'Wemakeprice-Regular';
+    src: url('/resources/fonts/Wemakeprice_TTF/Wemakeprice-Regular.ttf') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+/*  바디용 폰트 */
+@font-face {
+    font-family: 'NanumSquareR';
+    src: url('/resources/fonts/NanumFontSetup_TTF_SQUARE/NanumSquareR.ttf') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
 .dropdown-btn {
   background-color: #ea2129;
   color: white;
@@ -84,6 +105,11 @@
 	.dropdowns:hover .dropbtns {background-color: white;}
 	.dropcontents li {
 		position : relative;
+	}
+	.navbar-brand > img {
+		 width:150px;
+		 height:47px;
+		 padding-top:10px;
 	}
 }
 </style>
@@ -130,7 +156,7 @@
                             <i class="fa fa-bars"></i>
                         </button>
                         <a class="navbar-brand" href="/">
-                            <img src="../resources/assets/mainlogo.jpg" class="logo" alt="" style="width:150px;height:40px;">
+                            <img src="../resources/assets/mainlogo.jpg" class="logo" alt="" style="width:150px;height:50px;padding-top:5px;">
                             <!--<img src="assets/images/footer-logo.png" class="logo logo-scrolled" alt="">-->
                         </a>
 

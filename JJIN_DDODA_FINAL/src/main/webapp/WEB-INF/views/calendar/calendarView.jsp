@@ -21,21 +21,22 @@
    <!--  <link rel="stylesheet" href="resources/css/fullcalendar/main.css"> -->
     <link rel="stylesheet" href="resources/fullcalendar-4.3.1/packages/core/main.css">
     <link rel="stylesheet" href="resources/fullcalendar-4.3.1/packages/daygrid/main.css">
+    
 	<script>
 
-  document.addEventListener('DOMContentLoaded', function() {
-    var calendarEl = document.getElementById('calendar');
-    var userId = $('#userId').val();
-    
-    //today : 오늘 날짜
+	//today : 오늘 날짜
     var now = new Date();
     var year= now.getFullYear();
     var mon = (now.getMonth()+1)>9 ? ''+(now.getMonth()+1) : '0'+(now.getMonth()+1);
     var day = now.getDate()>9 ? ''+now.getDate() : '0'+now.getDate();
     var today = year + '-' + mon + '-' + day;
-    var opendiaryNo;
-    console.log(today);
     
+    console.log(today);
+	
+  document.addEventListener('DOMContentLoaded', function() {
+    var calendarEl = document.getElementById('calendar');
+    var userId = $('#userId').val();
+    var opendiaryNo;
     var events = [];
 
     var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -46,6 +47,7 @@
       eventLimit: true, // boolean, 달력에 셀크기보다 많은 이벤트 존재 시 +more로 표기함
       selectable: true,
       droppable: true,
+      
      
 	    /* ****************
 	     *  일기 일정 받아옴 
@@ -77,29 +79,31 @@
 	        }
 	      });
 	    },
-	    eventRender : function(info) {
-		    for(var i in events){
-			    	$(info.el).popover({
-			    		title : $('<div />', {
-			    			text : events[i].start + events[i].title
-			    		}).append('<p><img src="'+events[i].imageurl+'"> </p>'),
-			    		placement : 'top',
-			    		trigger : 'hover',
-			    		content : events[i].description,
-			    		container : 'body',
-			    		html : true
-			    	}).popover('show');
-			    	console.log(events[i].start);
-		    	
+	    
+	    eventClick : function(info) {
+		    for(var i = 0 ; i<events.length ; i++){
+		    	if(events[i].title == info.event.title) {
+		    		if(events[i].mainImagePath != ""){
+				    	$(info.el).popover({
+				    		title : events[i].start + events[i].title,
+				    		placement : 'top',
+				    		trigger : 'hover',
+				    		content : $('<div />')
+				    			.append('<p><img src="'+events[i].imageurl+'" alt="사진이 없습니다."> </p>')
+				    			.append('<div> '+events[i].description+'</div>'),
+				    		container : 'body',
+				    		html : true
+				    	}).popover('show');
+		    		} 
+		    	console.log(events[i].imageurl);
+		    	}
 		    }
 		},
 		select : function(info, jsEvent, view){
 	    	var date = info.startStr; //클릭한 날짜 = date
-	    	
 	    	if(date == today){
 	    		for(var i in events){
 	    			if(events[i].start != today) {
-	    				alert("hello");
 	    				$(".fc-body").unbind('click');
 						$(".fc-body").on('click', 'td', function (e) {
 						      $("#contextMenu")
@@ -116,8 +120,7 @@
 	    		}
     		} else if(date != today) {
 	    	for(var i in events){
-	    		if(events[i].start == date){
-	    			/* location.href="myDiaryDetail.doa?opendiaryNo="+events[i]._id; */
+	    		if(events[i].start == date){ // 받아온 값의 날짜 == 클릭한 날짜
 	    			$(".fc-body").unbind('click');
 					$(".fc-body").on('click', 'td', function (e) {
 					      $("#contextMenu_detail")
@@ -145,7 +148,7 @@
       e.preventDefault();
 
   	    if ($(this).data().role !== 'close' ) {
-  	    	insertEvent(today, $(this).html());
+  	    	insertEvent($(this).html());
   	    } 
   	      $contextMenu.removeClass("contextOpened");
   	      $contextMenu.hide();
@@ -163,7 +166,7 @@
       e.preventDefault();
 
   	    if ($(this).data().role !== 'close' ) {
-  	    	newEvent(opendiaryNo, $(this).html());
+  	    	updateEvent(opendiaryNo, $(this).html());
   	    } 
   	      $contextMenu_detail.removeClass("contextOpened");
   	      $contextMenu_detail.hide();
@@ -176,13 +179,19 @@
     calendar.render();
   });
 
-  function newEvent(opendiaryNo,html) {
-	  console.log(opendiaryNo +", "+html);
-	  location.href="myDiaryDetail.doa?opendiaryNo="+opendiaryNo;
+  function insertEvent(htmls) {
+	  if(htmls =='일기쓰기'){
+		  location.href="diaryView.doa?date="+today;
+	  } else if(html == '식단쓰기') {
+		  
+	  }
   }
-  function insertEvent(opendiaryNo,html) {
-	  console.log(opendiaryNo +", "+html);
-	  location.href="diaryView.doa?date="+today;
+  function updateEvent(opendiaryNo,html) {
+	  if(html == '일기보기'){
+		  location.href="myDiaryDetail.doa?opendiaryNo="+opendiaryNo;
+	  } else if(html == '식단보기') {
+		  
+	  }
   }
  
 </script>
@@ -235,8 +244,8 @@
         </div>
 	</div>
 	
-	<div style="width:80%;float:left;">
-        <div id="calendar"></div>
+	<div style="width:100%;float:left;text-align:center;margin:0 auto">
+        <div id="calendar" style="margin:0 auto;"></div>
     </div>
     </div>
     <!-- /.container -->
@@ -274,6 +283,7 @@
     <script src="resources/fullcalendar-4.3.1/packages/rrule/main.js"></script>
     <script src="resources/fullcalendar-4.3.1/packages/list/main.js"></script>
     <script src="resources/fullcalendar-4.3.1/packages/list/main.min.js"></script>
+    
     
     
     

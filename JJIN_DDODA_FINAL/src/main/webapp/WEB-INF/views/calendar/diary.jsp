@@ -7,9 +7,96 @@
 <title>다이어리 쓰기</title>
 <link rel="stylesheet" type="text/css" href="/resources/css/basicStyle.css">
 <style>
+.main-name-h2 {
+	font-family: 'Wemakeprice-Regular';
+	color: #424242;
+	margin-bottom :2%;
+}
+.menub {
+	margin-left:6%;
+	width:150px;
+	background-color:white;
+	text-align:left;
+	float:left;
+	border : 1px solid #edd5c5;
+	border-top : 1px solid #f7bf99;
+}
+.menub>ul li {
+	padding-left : 15px;
+}
+.menub>ul li:first-child {
+	border-left : 1px solid #f7bf99;
+	background-color:#f7bf99;
+	height:40px;
+	margin-top:0;
+}
+.menub>ul>li a {
+	font-family: 'NanumSquareR';
+	color:#797979;
+	position:relative;
+}
+.menub>ul>li:hover a, .menub>ul>li:hover .imgwrapper {
+	color : #f7bf99;
+	-webkit-transition: all 0.5s ease;
+  	transition: all 0.5s ease;
+}
+.name {
+	width:30px;
+	float:left;
+}
+.more {
+	width:60px;
+}
+.menub>ul>li .imgwrapper {
+	width:120px;
+	text-align:right;
+	color : #707070;
+}
+.menub>ul li .imgwrapper img {
+	width:10px;
+}
+.main {
+	width : 68%;
+}
+.table {
+	font-family: 'NanumSquareR';
+}
+.table tr {
+	width : 100%;
+}
+.table tr td {
+	padding-top : 10px;
+	padding-bottom : 10px;
+	text-align :left;
+	font-size : 1.5em;
+}
+input[type="text"] {
+	width: 100%;
+}
+textarea {
+	width : 100%;
+}
+
 @media ( max-width : 991px) {
+		.menub {
+			width:85%;
+		}
+		.menub>ul {
+			height :100%;
+		}
+		.menub>ul li:first-child {
+			width : 0px;
+			height : 100%;
+		}
+		.menub>ul li:nth-child(2){
+			width : 20%;
+		}
 		.menub li {
-		width: 25%;
+			width: 25%;
+			padding-left : 20px;
+		}
+		.menub>ul>li .imgwrapper {
+			display:none;
 		}
 	}
 </style>
@@ -24,15 +111,16 @@
 	<div class="content">
 	<div class="menub">
 		<ul>
-			<li><a href="#">메인</a></li>
-			<li><a href="#">기본 정보</a></li>
-			<li><a href="#">마이 일기</a></li>
-			<li><a href="#">마이 식단</a></li>
+			<li></li>
+			<li><div class="name"><a>메인</a></div><div class="imgwrapper"> > </div></li>
+			<li><div class="name more"><a>기본 정보</a></div><div class="imgwrapper"> > </div></li>
+			<li><div class="name more"><a>마이 일기</a></div><div class="imgwrapper"> > </div></li>
+			<li><div class="name more"><a>마이 식단</a></div><div class="imgwrapper"> > </div></li>
 		</ul>
 	</div>
 	<div class="main">
 		<div class="main-name">
-			<h4 class="main-name-h2">${date } 일기쓰기</h4>
+			<h4 class="main-name-h2">${date } 오늘의 일기</h4>
 		</div>
 		<div class="table-wrap">
 		<form id="diaryToday" action="insertMyDiary.doa" method="post" name="diaryToday"   enctype="multipart/form-data"  onsubmit="return checkvalue();">
@@ -42,35 +130,35 @@
 			<table class="table">
 				<tr>
 					<td>
-					일기를 공개하시겠습니까? <input type="radio" id="openYn" name="openYn" value="Y" />네 
-					<input type="radio" id="openYn" name="openYn" value="N" checked="checked" />아니요
+					일기를 공개하시겠습니까? <input type="radio" id="openYn" name="openYn" value="Y" /> 네 
+					<input type="radio" id="openYn" name="openYn" value="N" checked="checked" /> 아니요
 					</td>
 				</tr>
 				<tr>
 					<td>
-					<input style="width:90%; height:30px;" type="text" name="opendiaryTitle" id="opendiaryTitle" placeholder="제목을 입력해주세요">
+					<input style="height:30px;" type="text" name="opendiaryTitle" id="opendiaryTitle" placeholder="제목을 입력해주세요">
 					</td>
 				</tr>
 				<tr>
 					<td>
-					<textarea cols="100" rows="7" name="opendiaryContents" id="opendiaryContents" placeholder="내용을 입력해주세요" style="resize:none;"></textarea>
+					<textarea rows="7" name="opendiaryContents" id="opendiaryContents" placeholder="내용을 입력해주세요" style="resize:none;"></textarea>
 					</td>
 				</tr>
 				<tr>
 				<td>
 					<div class="form-group" id="file-list">
-					<p>사진 업로드 시 대표사진을 지정해주세요</p>
-                            <div class="btn-group" style="width:100%;text-align:left;" ><button type="button" onclick="addFile()">파일추가</button></div>
+					<p style="margin-bottom:5px;">사진 업로드 시 대표사진을 지정해주세요</p>
+                            <div class="btn-group" style="width:100%;text-align:left;margin-bottom:5px;" ><button type="button" onclick="addFile()">파일추가</button></div>
                             <div class="file-group" style="width:100%;">
                                  <div style="width:50%;margin-right:0px;float:left;"><input type="file" name="fileImg" id="uploadfile"></div>
-                                 <div style="width:45%;margin-right:0px;float:left;text-align:left;margin-left:10px;">
-                                 대표사진 선택 : <input type="checkbox" name="imgMainYn" value="0" style="width:20px;height:20px;margin:0px;"  onclick='checkMain(this);'></div>
+                                 <div style="width:45%;margin-right:0px;float:left;text-align:left;margin-left:10px;height:24px;">
+                                 <p style="width:80px;float:left;">대표사진 선택 : </p><input type="checkbox" name="imgMainYn" value="0" style="width:20px;height:20px;margin:0px;"  onclick='checkMain(this);'></div>
                             </div>
                     </div>
 				</td>
 				</tr>
 				<tr>
-					<td><input type="submit" value="작성하기"></td>
+					<td style="text-align:right;"><input type="submit" class="btn btn-primary" value="작성하기"></td>
 				</tr>
 			</table>
 		</form>
@@ -110,7 +198,7 @@
 	          	}
 	           var str = "<div class='file-group' style='width:100%;'>" +
 	           			 "<div style='width:50%;margin-right:0px;float:left;'><input type='file' name='fileImg' id='uploadfile'></div>" +
-	           			 "<div style='width:25%;margin-right:0px;float:left;text-align:left;margin-left:10px;'>대표사진 선택 : " +
+	           			 "<div style='width:25%;margin-right:0px;float:left;text-align:left;margin-left:10px;height:24px;'><p style='width:80px;float:left;'>대표사진 선택 : </p> " +
 	           			 "<input type='checkbox' name='imgMainYn' value='"+fCount+"' style='width:20px;height:20px;margin:0px;' onclick='checkMain(this);'></div>" +
 	           			 "<div style='width:10%;margin-right:0px;float:left;'>" +
 	           			 "<a href='#this' class='btn' name='file-delete' style='padding-top : 0px;padding-bottom : 0px;'>삭제</a></div>" + 

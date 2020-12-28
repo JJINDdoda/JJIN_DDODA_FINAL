@@ -15,11 +15,157 @@
 	}
 	.main {width:75%; float:left;}
 	.menub li, table {color : black;} */
+	
+	 .main-name-h2 {
+	font-family: 'Wemakeprice-Regular';
+	color: #424242;
+	font-size : 1.7em;
+}
+.menub {
+	margin-left:6%;
+	width:150px;
+	height : 570px;
+	background-color:white;
+	text-align:left;
+	float:left;
+	border : 1px solid #edd5c5;
+	border-top : 1px solid #f7bf99;
+}
+
+.menub>ul li {
+	padding-left : 15px;
+}
+.menub>ul li:first-child {
+	border-left : 1px solid #f7bf99;
+	background-color:#f7bf99;
+	height:40px;
+	margin-top:0;
+}
+.menub>ul>li a {
+	font-family: 'NanumSquareR';
+	color:#797979;
+	position:relative;
+}
+.menub>ul>li:hover a, .menub>ul>li:hover .imgwrapper {
+	color : #f7bf99;
+	-webkit-transition: all 0.5s ease;
+  	transition: all 0.5s ease;
+}
+
+.name {
+	width:100px;
+	float:left;
+}
+.more {
+	width:100px;
+}
+.menub>ul>li .imgwrapper {
+	width:120px;
+	text-align:right;
+	color : #707070;
+}
+.menub>ul li .imgwrapper img {
+	width:10px;
+}
+.main {
+	width : 68%;
+	margin-left : 5%;
+}
+.table {
+	font-family: 'NanumSquareR';
+	font-size : 0.6em;
+}
+.table tr {
+	width : 100%;
+	border-top : 1px solid white;
+}
+.table tr td {
+	padding-top : 10px;
+	padding-bottom : 10px;
+	text-align :center;
+	font-size : 1.5em;
+}
+input[type="text"] {
+	width: 100%;
+}
+textarea {
+	width : 100%;
+}
+	.content {
+		height : 600px;
+	}
+
+
+@media ( max-width : 991px) {
+		.menub {
+			width:85%;
+			height : 50px;
+		}
+		.menub>ul {
+			height :100%;
+		}
+		.menub>ul li:first-child {
+			width : 0px;
+			height : 100%;
+		}
+		.menub>ul li:nth-child(2){
+			width : 20%;
+			padding-left : 30px;
+		}
+		.menub li {
+			width: 25%;
+			padding-left : 20px;
+		}
+		.menub>ul>li .imgwrapper {
+			display:none;
+		}
+		.main {
+			width : 90%;
+		}
+		.content {
+			height : 700px;
+		}
+	}
+	.menuSelect { 
+		width: 200px; /* 원하는 너비설정 */ 
+		padding: .4em .4em; /* 여백으로 높이 설정 */ 
+		font-family: inherit; /* 폰트 상속 */ 
+		background: url(/resources/assets/down_arrow.png) no-repeat 95% 50%; /* 네이티브 화살표 대체 */ 
+		background-size : 10px 10px;
+		border: 1px solid #999; border-radius: 0px; /* iOS 둥근모서리 제거 */ 
+		-webkit-appearance: none; /* 네이티브 외형 감추기 */ 
+		-moz-appearance: none; 
+		appearance: none; 
+	}
+	.searchSelect { 
+		width: 100px; /* 원하는 너비설정 */ 
+		padding: .1em .1em; /* 여백으로 높이 설정 */ 
+		font-family: inherit; /* 폰트 상속 */ 
+		background: url(/resources/assets/down_arrow.png) no-repeat 95% 50%; /* 네이티브 화살표 대체 */ 
+		background-size : 10px 10px;
+		border: 1px solid #999; border-radius: 0px; /* iOS 둥근모서리 제거 */ 
+		-webkit-appearance: none; /* 네이티브 외형 감추기 */ 
+		-moz-appearance: none; 
+		appearance: none; 
+	}
+	.select-wrapper {
+		width : 20%;
+		text-align:right;
+		float:left;
+	}
+	.table-wrap {
+		margin-top : 20px;
+		float:left;
+		width : 100%;
+		height : 450px;
+	}
+	.searchText {
+		width: 20%;
+	}
 	.table-wrap {height : 450px;}
 	.imglist-wrap {border:1px solid none;position: relative; height: 100%; width: 100%; display: block;}
 	.imglist {list-style:none; padding-left:0; position: relative; height: 100%; width: 690px;}
 	.imglist li {width:25%;float:left; height:50%;}
-	#searchArea {position:relative;}
 	.imgEach {border : 1px solid none;top: 10px; left: 460px;}
 	.imgEach-wrapper:hover {border : 5px solid #f7bf99;}
 	@media ( max-width : 991px) {
@@ -43,13 +189,19 @@
 	<div class="content">
 	<div class="menub">
 		<ul>
-			<li><a href="opendiaryList.doa">공유일기 게시판</a></li>
-			<li><a href="mateList.doa">메이트 커뮤니티</a></li>
+			<li></li>
+			<li><div class="name"><a href="opendiaryList.doa">공유일기 게시판</a></div><div class="imgwrapper"> > </div></li>
+			<li><div class="name more"><a href="mateList.doa?category=health">메이트 커뮤니티</a></div><div class="imgwrapper"> > </div></li>
 		</ul>
 	</div>
 	<div class="main">
 		<div class="main-name">
-			<h4 class="main-name-h2">일기 공유 게시판</h4>
+			<h4 class="main-name-h2">공유일기 게시판</h4>
+		</div>
+		<div style="width:100%;float:left;text-align:right;padding-right:10px;">
+		<c:if test="${ !empty sessionScope.loginUser}">
+				<button align="center" class="btn btn-primary" onclick="openInsertView()">글쓰기</button>
+		</c:if>
 		</div>
 		<div class="table-wrap">
 			<c:choose>
@@ -76,7 +228,12 @@
 										<c:forEach items="${diaryImgList }" var="diaryImgList">
 										<c:choose>
 											<c:when test="${diaryImgList.opendiaryNo == opendList.opendiaryNo}">
+												<c:if test="${diaryImgList.menuName eq '마이일기' }">
+													<td colspan="3"><img src="/resources/diaryUploadFiles/${diaryImgList.userId }/${diaryImgList.imgRenamePath}" width="150" height="130"></td>
+												</c:if>
+												<c:if test="${diaryImgList.menuName eq '공유일기' }">
 												<td colspan="3"><img src="/resources/opendiaryUploadFiles/${diaryImgList.userId }/${diaryImgList.opendiaryNo }/${diaryImgList.imgRenamePath}" width="150" height="130"></td>
+												</c:if>
 											</c:when>
 										</c:choose>
 										</c:forEach>
@@ -137,9 +294,9 @@
 			</c:choose>
 		</div>	
 		<br><br>
-		<div id="searchArea" align="center">
+		<div id="searchArea" align="center" width="1000px">
 			<form action="openDiarySearch.doa" method="get">
-			<select id="searchCondition" name="searchCondition">
+			<select id="searchCondition" name="searchCondition" class="searchSelect">
 				<option value="all"
 					<c:if test="${search.searchCondition =='all' }">selected</c:if>>전체</option>
 				<option value="writer"
@@ -149,13 +306,10 @@
 				<option value="content"
 					<c:if test="${search.searchCondition =='content' }">selected</c:if>>내용</option>
 			</select>
-			<input type="text" name="searchValue" value="${search.searchValue }">
+			<input type="text" name="searchValue" value="${search.searchValue }" style="width:20%;">
 			<input type="submit" value="검색">
 			</form>		
 		</div>
-		<c:if test="${ !empty sessionScope.loginUser}">
-				<button align="center" onclick="openInsertView()">글쓰기</button>
-		</c:if>
 		</div>
 	</div>
 	<!-- end content -->
