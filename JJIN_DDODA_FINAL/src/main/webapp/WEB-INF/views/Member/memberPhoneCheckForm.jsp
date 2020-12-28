@@ -185,8 +185,16 @@
         </form>
         <div id="msg"></div>
         <br>
-        <input id="cancelBtn" type="button" value="취소" onclick="window.close()"><br>
-        <input id="useBtn" type="button" value="사용하기" onclick="sendCheckValue()">
+        <div class="col-xs-12" style="width:100%;margin:0 auto;text-align:center">
+        	<!-- <input id="useBtn" type="button"  value="사용하기" onclick="sendCheckValue()">
+        	<input id="cancelBtn" type="button" value="취소" onclick="window.close()"> -->
+        	
+        	<button style="float:left;margin-right:10px;margin-left:37%;" type="button" class="btn btn-primary" onclick="window.close()">취소</button>
+        	<button style="display: none; " id="useBtn" type="button" class="btn btn-primary btn-sm" onclick="sendCheckValue()">사용하기</button>
+        	 </div>
+       <!--  <div class="col-xs-12" style="width:50%;text-align:right;">
+        	
+            </div> -->
     </div>
 </div>    
 </body>

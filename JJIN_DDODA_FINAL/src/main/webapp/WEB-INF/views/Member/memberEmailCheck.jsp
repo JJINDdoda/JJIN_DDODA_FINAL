@@ -188,10 +188,10 @@
 		<br>
         <div id="msg"></div>
         <br>
-        <div class="col-xs-12">
+        <div class="col-xs-12" style="width:50%;text-align:right;">
         	<input id="cancelBtn" type="button" value="취소" onclick="window.close()">
         	 </div>
-        <div class="col-xs-12">
+        <div class="col-xs-12" style="width:50%;text-align:right;">
         	<input id="useBtn" type="button"  value="사용하기" onclick="sendCheckValue()">
             </div>
        
