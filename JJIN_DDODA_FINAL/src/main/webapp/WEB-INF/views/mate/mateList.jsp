@@ -228,12 +228,13 @@ textarea {
 						<td align="center">${mate.mateDate }</td>
 						<td align="center">최대모집인원 : ${max }</td>
 						<td align="center">${mate.mateView }</td>
-						<c:if test="${mate.mateEnd == 'N'}">
+						<%-- <c:if test="${mate.mateEnd == 'N'}">
 							<td align="center">모집중</td>
 						</c:if>
 						<c:if test="${mate.mateEnd == 'Y'}">
 							<td align="center">모집완료</td>
-						</c:if>
+						</c:if> --%>
+						<td align="center">${mate.mateEnd }</td>
 				</tr>
 				<%-- </c:if> --%>
 			</c:forEach>

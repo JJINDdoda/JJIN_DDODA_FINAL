@@ -84,7 +84,7 @@ public class MateController {
 		String path = null;
 		result = mService.insertMate(mate);
 		if(result>0) {
-			path = "redirect:mateList.doa";
+			path = "redirect:mateList.doa?category=health";
 		} else {
 			model.addAttribute("msg", "공지사항 등록 실패!");
 			path = "common/errorPage";
