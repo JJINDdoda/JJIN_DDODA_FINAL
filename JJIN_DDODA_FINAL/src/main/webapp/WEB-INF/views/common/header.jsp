@@ -112,6 +112,10 @@
 		 padding-top:10px;
 	}
 }
+
+.dropdown-contents {display : none;}
+.dropdowns:hover .dropdown-contents{display:block;}
+.dropdowns:hover .dropdown-contents>a:hover{background-color : gray; color:white;}
 </style>
 </head>
 <body data-spy="scroll" data-target=".navbar-collapse">
