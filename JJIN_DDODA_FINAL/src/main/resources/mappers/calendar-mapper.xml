@@ -1,25 +1,115 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="calendarMapper">
-	<resultMap type="MemberInfo" id="MemberInfoResultMap">
-		<result property="userInfoNo" column="USERINFO_NO"/>
+<mapper namespace="CalendarMapper">
+
+	<resultMap type="MemberInfo" id="memberInfoResultMap">
+		<id property="userInfoNo" column="USERINFO_NO"/>
+		<result property="userId" column="USERID"/>
+		<result property="height" column="HEIGHT"/>
+		<result property="weight" column="WEIGHT"/>
+		<result property="bmi" column="BMI"/>
+		<result property="changeDate" column="CHANGE_DATE"/>
 	</resultMap>
 	
-	<insert id="insertMemberInfo">
+	<resultMap type="MyCalorie" id="myCalorieResultMap">
+		<id property="calorieNo" column="CALORIE_NO"/>
+		<result property="foodName" column="FOODNAME"/>
+		<result property="kcal" column="KCAL"/>
+		<result property="foodAmount" column="FOODAMOUNT"/>
+		<result property="MydietNo" column="MYDIET_NO"/>
+	</resultMap>
+	
+	<resultMap type="Diary" id="diaryResultMap">
+		<id property="diaryNo" column="DIARY_NO"/>
+		<result property="diaryTitle" column="DIARY_TITLE"/>
+		<result property="diaryContents" column="DIARY_CONTENTS"/>
+		<result property="diaryDate" column="DIARY_DATE"/>
+		<result property="diaryModiryDate" column="DIARY_MODIFY_DATE"/>
+		<result property="diaryOpenYn" column="DIARY_OPENYN"/>
+		<result property="userId" column="USERID"/>
+		<result property="mainImagepath" column="MAIN_IMAGEPATH"/>
+	</resultMap>
+
+	<resultMap type="MyDiet" id="myDietResultMap">
+		<id property="mydietNo" column="MYDIET_NO"/>
+		<result property="mydietmeal" column="MYDIET_MEAL"/>
+		<result property="mydietConsumption" column="MYDIET_CONSUMPTION"/>
+		<result property="mydietDate" column="MYDIET_DATE"/>
+		<result property="userId" column="USERID"/>
+	</resultMap>
+	
+	<resultMap type="HashMap" id="myCalorieHashMap">
+		<id column="TOTAL" property="total"/>
+		<id column="MYDIET_DATE" property="mydietDate"/>
+	</resultMap>
+	
+	<insert id="memberInfoInput">
 		INSERT INTO MEMBERINFO
-		VALUES (SEQ_MEMBERINFO.NEXTVAL, #{userId}, #{gender}, #{age}, #{height}, #{weight}, #{period}, #{goal})
+		VALUES(SEQ_MEMBERINFO.NEXTVAL, #{userId}, #{height}, #{weight}, #{bmi}, #{changeDate})
 	</insert>
 	
-	<select id="selectOne" resultMap="MemberInfoResultMap">
+	<select id="selectMyInfoDate" resultMap="memberInfoResultMap">
 		SELECT * FROM MEMBERINFO
-		WHERE USERID=#{userId}
+		WHERE CHANGE_DATE = #{changeDate}
 	</select>
 	
-	<update id="updateMemberInfo">
+	<update id="updateChangeMyInfo">
 		UPDATE MEMBERINFO
-		SET GENDER=#{gender}, HEIGHT=#{height}, WEIGHT=#{weight}, PERIOD=#{period}, GOAL=#{goal}
-		WHERE USERID=#{userId}
+		SET HEIGHT=#{height}, WEIGHT=#{weight}, BMI=#{bmi}
+		WHERE USERID=#{userId} AND CHANGE_DATE=#{changeDate}
 	</update>
 	
-
+	<select id="selectCalorie" resultType="string">
+		SELECT FOODNAME FROM CALORIE
+	</select>
+	
+	<select id="changeBreakfastFoodName" resultType="Calorie">
+		SELECT * FROM CALORIE
+		WHERE FOODNAME=#{foodName}
+	</select>
+	
+	<select id="getDiary" resultMap="diaryResultMap">
+		
+	</select>
+	
+	<select id="getMyInfo" resultMap="memberInfoResultMap">
+		SELECT BMI, CHANGE_DATE FROM MEMBERINFO
+		WHERE USERID = #{userId}
+	</select>
+	
+	<select id="getCalorie" resultMap="myCalorieHashMap">
+		SELECT SUM(MYDIET_CONSUMPTION) AS TOTAL, MYDIET_DATE FROM MYDIET
+		WHERE USERID=#{userId} group by MYDIET_DATE
+	</select>
+	
+	<select id="getMealKinds" resultMap="myDietResultMap">
+		SELECT * FROM MYDIET
+		WHERE MYDIET_DATE=#{changeDate} AND USERID=#{userId}
+	</select>
+	
+	<insert id="inputMydiet">
+		INSERT INTO MYDIET
+		VALUES (SEQ_MYDIET.NEXTVAL, #{mydietmeal}, #{mydietConsumption}, #{mydietDate}, #{userId})
+	</insert>
+	
+	<insert id="inputMyCalorie">
+		INSERT INTO MYCALORIE
+		VALUES (SEQ_MYCALORIE.NEXTVAL, #{foodName}, #{kcal}, #{foodAmount}, #{unit}, SEQ_MYDIET.CURRVAL)
+	</insert>
+	
+	<select id="myCalorieGetDate" resultMap="myCalorieResultMap">
+		SELECT * FROM MYCALORIE
+		WHERE MYDIET_NO=#{mydietNo}
+	</select>
+	
+	<delete id="deleteBreakfastMyCalorie">
+		DELETE FROM MYCALORIE
+		WHERE MYDIET_NO=#{mydietNo}
+	</delete>
+	
+	<delete id="deleteBreakfastMyDiet">
+		DELETE FROM MYDIET
+		WHERE MYDIET_NO=#{mydietNo}
+	</delete>
+	
 </mapper>

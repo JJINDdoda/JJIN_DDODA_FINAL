@@ -22,7 +22,13 @@
 		<typeAlias type="com.kh.ddoda.facility.domain.FacilityPrice" alias="FacilityPrice"/>
 		<typeAlias type="com.kh.ddoda.chat.domain.Chat" alias="Chat"/>
 		<typeAlias type="com.kh.ddoda.member.domain.Member" alias="member"/>
-		<typeAlias type="com.kh.ddoda.calorie.domain.Calorie" alias="Calorie"/>
+		<!-- <typeAlias type="com.kh.ddoda.calorie.domain.Calorie" alias="Calorie"/> -->
+		
+		<typeAlias type="com.kh.ddoda.calendar.domain.MemberInfo" alias="MemberInfo"/>
+		<typeAlias type="com.kh.ddoda.calendar.domain.MyCalorie" alias="MyCalorie"/>
+		<typeAlias type="com.kh.ddoda.calendar.domain.Calorie" alias="Calorie"/>
+		<typeAlias type="com.kh.ddoda.calendar.domain.Diary" alias="Diary"/>
+		<typeAlias type="com.kh.ddoda.calendar.domain.MyDiet" alias="MyDiet"/>
 	</typeAliases>
 	<mappers>
 		<mapper resource="mappers/mate-mapper.xml"/>
@@ -34,5 +40,6 @@
 		<mapper resource="mappers/facility-mapper.xml"/>
 		<mapper resource="mappers/calorie-mapper.xml"/>
 		<mapper resource="mappers/chat-mapper.xml"/>
+		<mapper resource="mappers/calendar-mapper.xml"></mapper>
 	</mappers>
 </configuration>
