@@ -56,7 +56,7 @@ public class MemberController {
 
 		} else {
 			mv.addObject("msg", "로그인 실패");
-			mv.setViewName("common/errorPage");
+			mv.setViewName("../../index");
 		}
 		return mv;
 
