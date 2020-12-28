@@ -8,6 +8,7 @@
 <meta charset="UTF-8">
 <title>캘린더</title>
 <link rel=" shortcut icon" href="image/favicon.ico">
+<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 
     <!-- <link rel="stylesheet" href="resources/vendor/css/fullcalendar.min.css" />
     <link rel="stylesheet" href="resources/vendor/css/bootstrap.min.css">
@@ -37,7 +38,7 @@
     var calendarEl = document.getElementById('calendar');
     var userId = $('#userId').val();
     var opendiaryNo;
-    var events = [];
+    var events = [${events}];
 
     var calendar = new FullCalendar.Calendar(calendarEl, {
       plugins: [ 'interaction', 'dayGrid' ],
@@ -139,6 +140,34 @@
           }
           }
       },
+      dateClick: function(info) {
+	        clickDate = info.dateStr;
+	        $('#changeDate').val(clickDate);
+	        console.log(clickDate);
+	        document.getElementById("contextMenu").style.display = 'block';
+	        $.ajax({
+	        	url : "selectMyInfoDate.doa", //날짜에 대한 기본정보를 가져옴
+	        	data : {"clickDate" : clickDate},
+	        	type : "get",
+	        	success : function(result){
+	        		
+	        		if(result.length  != 0){
+	        			$('#myHeight').val(result.height);
+		        		$('#myWeight').val(result.weight);
+		        		$('#myBMI').val(result.bmi);
+		        		$('#myInfoBtn').val('수정하기');
+		        		$("#formId").attr("action", "updateChangeMyInfo.doa");
+	        		}
+	        		else{
+	        			$('#myHeight').val(result.height);
+		        		$('#myWeight').val(result.weight);
+		        		$('#myBMI').val(result.bmi);
+		        		$('#myInfoBtn').val('입력하기');
+		        		$("#formId").attr("action", "changeMyInfo.doa");
+	        		}
+	        	}
+	        });
+	    },
      locale : 'ko'
     });
   //날짜 클릭시 카테고리 선택메뉴
@@ -181,20 +210,53 @@
   });
 
   function insertEvent(htmls) {
-     if(htmls =='일기쓰기'){
+     if(htmls =='일기작성'){
         location.href="diaryView.doa?date="+today;
-     } else if(html == '식단쓰기') {
-        
-     }
+     } 
   }
   function updateEvent(opendiaryNo,html) {
-     if(html == '일기보기'){
+     if(html == '일기작성'){
         location.href="myDiaryDetail.doa?opendiaryNo="+opendiaryNo;
-     } else if(html == '식단보기') {
-        
      }
   }
  
+  
+//기본정보입력 div띄워주기
+	function changeMyInfo(){
+		document.getElementById("myInfo").style.display = 'block';
+	}
+	
+	//몸무게를 입력했을 때 bmi변경
+	$('#myWeight').keyup(function(){
+		var myHeight = $('#myHeight').val();
+		var myWeight = $('#myWeight').val();
+		console.log(myHeight);
+		console.log(myWeight);
+		var bmiHeight = myHeight/100;
+		var myBMI = myWeight/(bmiHeight*bmiHeight);
+		$('#myBMI').val(myBMI);
+	});
+	
+	//키를 입력했을 때 bmi 변경
+	$('#myHeight').keyup(function(){
+		var myHeight = $('#myHeight').val();
+		var myWeight = $('#myWeight').val();
+		console.log(myHeight);
+		console.log(myWeight);
+		var bmiHeight = myHeight/100;
+		var myBMI = myWeight/(bmiHeight*bmiHeight);
+		$('#myBMI').val(myBMI);
+	});
+	
+	//close를 눌렀을 때 사이드바 사라짐
+	function contextClose(){
+		document.getElementById("contextMenu").style.display = 'none';
+	}
+	
+	//칼로리 입력 페이지로 이동
+	function calorieInput(){
+		location.href = "calorieInput.doa?clickDate="+clickDate;
+	}
 </script>
 <style>
 
@@ -209,6 +271,39 @@
     max-width: 900px;
     margin: 0 auto;
   }
+  
+  #contextMenu {
+    	position: fixed;
+    	display: none;
+    	z-index: 2;
+    	margin-left: 150px;
+	}
+	
+	#contextMenu .dropdown-menu {
+    	border: none;
+    	height: 200px;
+	}
+	
+	.dropNewEvent {
+	    font-size: 13px;
+	}
+	 
+	 
+	#myInfo{
+		display : none;
+		width: 700px;
+		height: 150px;
+		margin: auto;
+	}
+	
+	#myInfoBtn{
+		float: right;
+		margin-right: 50px;
+	}
+	
+	.infoBox{
+		width: 150px;
+	}
 
 </style>
 </head>
@@ -216,43 +311,43 @@
    <!-- header -->
    <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
    <br><br><br><br>
-   <!-- end header -->
-
-   <!-- content -->   
-   <div class="content" style="margin-left:2%;margin-right:2%;height:900px;">
-
-      <div class="container" style="float:left;width:200px;">
-   <input type="hidden" id="userId" name="userId" value="${loginUser.userId }">
-        <!-- 일자 클릭시 메뉴오픈 -->
-        <div id="contextMenu" class="dropdown clearfix" style="width:200px;margin-right:0px;position:absolute;z-index:2;display:none;">
+   
+   
+   <div>
+		<div id="contextMenu" class="dropdown clearfix">
             <ul class="dropdown-menu dropNewEvent" role="menu" aria-labelledby="dropdownMenu"
                 style="display:block;position:static;margin-bottom:5px;">
-                <li><a tabindex="-1" href="#">일기쓰기</a></li>
-                <li><a tabindex="-1" href="#">식단쓰기</a></li>
+                <li class="menuBar"><a tabindex="-1" style="height: 45px; padding-top: 15px;" href="#">일기작성</a></li>
+                <li class="menuBar"><a tabindex="-1" style="height: 45px; padding-top: 15px;" onclick="calorieInput()">칼로리입력</a></li>
+                <li class="menuBar"><a tabindex="-1" style="height: 45px; padding-top: 15px;" onclick="changeMyInfo()">기본정보변경</a></li>
                 <li class="divider"></li>
-                <li><a tabindex="-1" href="#" data-role="close">Close</a></li>
+                <li class="menuBar"><a tabindex="-1" onclick="contextClose()" style="height: 45px;" data-role="close">Close</a></li>
             </ul>
         </div>
-        <!-- 일자 클릭시 수정 메뉴오픈 -->
-        <div id="contextMenu_detail" class="dropdown clearfix" style="width:200px;margin-right:0px;position:absolute;z-index:2;display:none;">
-            <ul class="dropdown-menu dropNewEvent" role="menu" aria-labelledby="dropdownMenu"
-                style="display:block;position:static;margin-bottom:5px;">
-                <li><a tabindex="-1" href="#" class="detailMydiary">일기보기</a></li>
-                <li><a tabindex="-1" href="#">식단보기</a></li>
-                <li class="divider"></li>
-                <li><a tabindex="-1" href="#" data-role="close">Close</a></li>
-            </ul>
-        </div>
-   </div>
-   
-   <div style="width:100%;float:left;text-align:center;margin:0 auto">
-        <div id="calendar" style="margin:0 auto;"></div>
-    </div>
-    </div>
-    <!-- /.container -->
-    <!-- end content -->
-   
-   <!-- footer -->
+        
+		<div id='calendar'></div>
+		
+		<div id="myInfo">
+			<c:if test="${empty memberInfo }">
+				<form action="changeMyInfo.doa" method="post" id="formId">
+					<fieldset>
+						<legend>기본정보 입력</legend>
+						키 : <input type="text" class="infoBox" id="myHeight" name="myHeight" required> cm &nbsp;&nbsp;
+						몸무게 : <input type="text" class="infoBox" id="myWeight" name="myWeight" required> kg &nbsp;&nbsp;
+						BMI : <input type="text" class="infoBox" id="myBMI" name="myBMI" readonly>
+						<br><br>
+						<input type="hidden" id="changeDate" name="changeDate" value="">
+						
+						<input type="submit" id="myInfoBtn" value="입력하기">
+						
+						
+					</fieldset>
+				</form>
+			</c:if>
+		</div>
+	</div>
+	
+	
    <br><br><br>
    <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
    <!-- end footer -->
