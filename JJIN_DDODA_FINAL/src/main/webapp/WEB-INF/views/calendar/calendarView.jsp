@@ -103,7 +103,8 @@
 	    	var date = info.startStr; //클릭한 날짜 = date
 	    	if(date == today){
 	    		for(var i in events){
-	    			if(events[i].start != today) {
+	    			console.log(events[i].start);
+	    			if(events[i].start !== today) {
 	    				$(".fc-body").unbind('click');
 						$(".fc-body").on('click', 'td', function (e) {
 						      $("#contextMenu")

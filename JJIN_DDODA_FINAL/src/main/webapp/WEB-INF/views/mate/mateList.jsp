@@ -61,7 +61,7 @@
 }
 .main {
 	width : 68%;
-	margin-left : 5%;
+	margin-left : 2%;
 }
 .table {
 	font-family: 'NanumSquareR';

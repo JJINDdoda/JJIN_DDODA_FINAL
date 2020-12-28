@@ -130,9 +130,7 @@ public class OpendiaryStoreLogic implements OpendiaryStore{
 	}
 
 	@Override
-	public ArrayList<OpendiaryComment> opendiaryComList(HashMap<String, Object> map) {
-		PageInfo pi = (PageInfo)map.get("pi");
-		int opendiaryNo = (int)map.get("opendiaryNo");
+	public ArrayList<OpendiaryComment> opendiaryComList(int opendiaryNo, PageInfo pi) {
 		int offset = (pi.getCurrentPage()-1) * pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		return (ArrayList)sqlSession.selectList("OpendiaryMapper.opendiaryComList", opendiaryNo, rowBounds);

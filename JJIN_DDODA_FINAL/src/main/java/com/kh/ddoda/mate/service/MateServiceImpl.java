@@ -146,6 +146,11 @@ public class MateServiceImpl implements MateService{
 		return mStore.myContentsList(userId, pi);
 	}
 
+	@Override
+	public int getComListCount() {
+		return mStore.getComListCount();
+	}
+
 	
 
 }

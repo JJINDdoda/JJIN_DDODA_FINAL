@@ -193,7 +193,7 @@ textarea {
 					<c:if test="${!empty mateAttendList }">
 					<c:forEach items="${ mateAttendList }" var="mateAttendList" varStatus="status">
 						<tr>
-							<td>${ status.index }</td>
+							<td>${ status.index+1 }</td>
 							<td>${ mateAttendList.mateTitle }</td>
 							<td>${ mateAttendList.userId }</td>
 							<td>${ mateAttendList.mateDate }</td>

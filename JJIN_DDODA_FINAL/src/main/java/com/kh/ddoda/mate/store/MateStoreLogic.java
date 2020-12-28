@@ -168,6 +168,11 @@ public class MateStoreLogic implements MateStore{
 		return (ArrayList)sqlSession.selectList("MateMapper.myContentList", userId, rowBounds);
 	}
 
+	@Override
+	public int getComListCount() {
+		return sqlSession.selectOne("MateMapper.getComListCount");
+	}
+
 	
 	
 }

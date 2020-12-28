@@ -115,8 +115,8 @@ public class OpendiaryServiceImpl implements OpendiaryService{
 	}
 
 	@Override
-	public ArrayList<OpendiaryComment> opendiaryComList(HashMap<String, Object> map) {
-		return odStore.opendiaryComList(map);
+	public ArrayList<OpendiaryComment> opendiaryComList(int opendiaryNo, PageInfo pi) {
+		return odStore.opendiaryComList(opendiaryNo, pi);
 	}
 
 	@Override

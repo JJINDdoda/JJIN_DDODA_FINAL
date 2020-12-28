@@ -23,6 +23,7 @@
 	float:left;
 	border : 1px solid #edd5c5;
 	border-top : 1px solid #f7bf99;
+	height : 550px;
 }
 
 .menub>ul li {
@@ -285,7 +286,7 @@ textarea {
 				</div>
 			</c:if>
 		</c:if>
-		<div style="width:90%;float:left;">
+		<div style="width:90%;float:left;height:100px;">
 		<c:if test="${ empty sessionScope.loginUser  }">
 			
 		</c:if>
@@ -342,7 +343,9 @@ textarea {
 						<tr><td></td></tr>
 				</table>
 				</tr>
-				
+				<table align="center" width="500" cellspacing="0" id="mateComReplyList">
+						<tr><td></td></tr>
+				</table>
 			</tbody>
 		</table>
 		
@@ -552,6 +555,9 @@ textarea {
 				$tableBody = $("#mateComTb tbody");
 				$tableBody.html("");
 				
+				$getCount = $("#mateComReplyList");
+				$getCount.html("");
+				
 				var $tr;
 				var $userId;
 				var $mateComContents;
@@ -560,6 +566,10 @@ textarea {
 				var $mateComReply;
 				var $btn;
 				var $td;
+				
+				var $startPage
+				var $endPage
+				var $endPage
 				$("#mateComCount").text("댓글 목록");
 				if(data.mateComList.length >0) {
 					for(var i in data.mateComList) {
@@ -598,7 +608,6 @@ textarea {
 							data : {"mateNo":mateNo, "mateComRefNo" : mateCommentNo },
 							dataType : "json",
 							success: function(element) {
-								console.log("1element" + element + mateNo +mateCommentNo );
 								$replyBody = $("#mateComReplyTb");
 								$replyBody.html("");
 								
@@ -616,12 +625,13 @@ textarea {
 										$replyUserId = $("<td >").text("-->  " + decodeURIComponent(element[j].userId));
 										/* $position = $("<td width='100' colspan='2'>").text("->"); */
 										if(sessionId == mateComReplyId) {
-											$replyContents = $("<td width='100'>").text(decodeURIComponent(element[j].mateComContents));
+											$replyContents = $("<td style='text-align:left;padding-left:20px;'>").text(decodeURIComponent(element[j].mateComContents));
 											$replyDate = $("<td>").text(element[j].mateComDate);
 											
 											$trr.append($replyUserId);
-											$trr.append($replyContents);
 											$trr.append($replyDate);
+											$trr.append($replyContents);
+											
 											$replyDelete = $("<td colspan='2'>")
 											.append("<button type='button' id='mateComReply'  style='width:40px;' onclick='mateComeReplyDelete("+element[j].mateComNo+")'>삭제</button>");
 											$trr.append($replyDelete);
@@ -633,8 +643,6 @@ textarea {
 											$trr.append($replyDate);
 										}
 										$tr.after($trr);
-										
-										console.log("2element"+element);
 									}
 								}
 							}
@@ -646,6 +654,14 @@ textarea {
 					$tr.append($mateComContents);
 					$tableBody.append($tr);
 				}
+				console.log(data.pi);
+				console.log(data.pi.currentPage);
+				
+				$tr = $("<tr>");
+				$startPage =$("<td style='width:50px;'>").text(start);
+				
+				$tr.append($startPage);
+				$getCount.append($tr);
 			}
 		})
 	}
@@ -717,7 +733,6 @@ textarea {
 					"<button type='button' id='mateComReply' onclick='mateComReplyInsert("+mateComNo+")'>답글등록</button>"+
 					"<button type='button' id='mateComReply' >취소</button></td></tr>");
 			console.log("view : "+mateComNo);
-			return false;
 			$("#mateComReply").on("click", function(e) {
 	               e.preventDefault();
 	               removeReply($(this));

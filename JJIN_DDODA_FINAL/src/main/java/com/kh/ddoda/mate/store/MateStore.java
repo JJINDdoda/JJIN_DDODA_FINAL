@@ -18,6 +18,11 @@ public interface MateStore {
 	 */
 	public int getListCount();
 	/**
+	 * 메이트 댓글 전체 수 조회
+	 * @return
+	 */
+	public int getComListCount();
+	/**
 	 * 메이트 전체 조회
 	 * @param pi
 	 * @return

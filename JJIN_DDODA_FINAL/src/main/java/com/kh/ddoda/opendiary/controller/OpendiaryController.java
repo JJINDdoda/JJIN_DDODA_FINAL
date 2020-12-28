@@ -165,7 +165,7 @@ public class OpendiaryController {
 		//폴더 경로 생성 
 		String root = request.getSession().getServletContext().getRealPath("resources");
 		String savePath = root + "//opendiaryUploadFiles//"+userId +"//"+folderNo;
-		System.out.println("saveFileName에서의 folderNo : "+ folderNo);
+		System.out.println("saveFileName에서의 savePath : "+ savePath);
 		File folder = new File(savePath); //폴더 만들기
 		if( ! folder.exists()) {
 			folder.mkdirs();
@@ -425,17 +425,21 @@ public class OpendiaryController {
 		//댓글 갯수 받아오기
 		int listCount = odService.getComReplyListCount();
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
-		HashMap<String, Object> map =  new HashMap<String, Object>();
-		map.put("pi", pi);
-		map.put("opendiaryNo", opendiaryNo);
+//		HashMap<String, Object> map =  new HashMap<String, Object>();
+//		map.put("pi", pi);
+//		map.put("opendiaryNo", opendiaryNo);
 		//아직 댓글 페이징 처리 안함
-		ArrayList<OpendiaryComment> opendiaryComList = odService.opendiaryComList(map);
+		ArrayList<OpendiaryComment> opendiaryComList = odService.opendiaryComList(opendiaryNo, pi);
 		for(OpendiaryComment opendiaryCom : opendiaryComList) {
 			opendiaryCom.setOpenComContents(URLEncoder.encode(opendiaryCom.getOpenComContents(),"utf-8"));
 		}
+		HashMap<String, Object> map =  new HashMap<String, Object>();
+		map.put("pi", pi);
+		map.put("opendiaryComList", opendiaryComList);
+		
+		
 		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
-		gson.toJson(opendiaryComList, response.getWriter());
-		gson.toJson(pi);
+		gson.toJson(map, response.getWriter());
 		System.out.println("오픈다이어리 댓글 리스트" +pi +","+currentPage);
 	}
 	

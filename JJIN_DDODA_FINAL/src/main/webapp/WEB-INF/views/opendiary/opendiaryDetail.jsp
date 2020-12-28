@@ -61,7 +61,7 @@
 }
 .main {
 	width : 68%;
-	margin-left : 5%;
+	margin-left : 1%;
 }
 .table, table {
 	font-family: 'NanumSquareR';
@@ -92,10 +92,12 @@ textarea {
 .btndelete {
 	width:68%;
 	text-align:right;
+	border-top:none;
 	}
 .addReply{
 	width:7%;
 	text-align:right;
+	border-top:none;
 }
 @media ( max-width : 991px) {
 		.menub {
@@ -124,7 +126,7 @@ textarea {
 			width : 90%;
 		}
 		.btndelete {
-			width:63%;
+			width:10%;
 			text-align:right;
 		}
 		.addReply{
@@ -249,6 +251,9 @@ textarea {
 transition: opacity 1s ease-in-out; 
 opacity: 0;
 }
+.table > tbody > tr td {
+	border-top : none;
+}
 </style>
 
 </head>
@@ -342,7 +347,7 @@ opacity: 0;
 		</table>
 		
 		<!-- 댓글 목록 -->
-		<table align="center" width="500" cellspacing="0" id="opendComTb">
+		<table align="center" width="500" cellspacing="0" id="opendComTb" class="table tableComment">
 			<thead>
 			<tr>
 				<td colspan="5"><b id="opendComCount"></b></td>
@@ -361,6 +366,9 @@ opacity: 0;
 						</tr>
 						<tr><td></td></tr>
 				</table>
+				<table align="center" width="500" cellspacing="0" id="opendComReplyList">
+						<tr><td></td></tr>
+				</table>
 				</tr>
 			</tbody>
 		</table>
@@ -374,7 +382,6 @@ opacity: 0;
 	<!-- end footer -->
 	<script>
 	
-	$(document).ready(function() {
 		
 	var opendiaryNo = $("#opendiaryNo").val();
 	var sessionId = $("#sessionId").val();
@@ -424,18 +431,13 @@ opacity: 0;
 				type : "get",
 				data : {"opendiaryNo" : opendiaryNo},
 				dataType : "json",
-				success : function(data,pi) {
+				success : function(data) {
 					$tableBody = $("#opendComTb tbody");
 					$tableBody.html("");
 					
-					/* var $tr;
-					var $userId;
-					var $openComContents;
-					var $openComDate;
-					var $modifyCom;
-					var $openComReply;
-					var $btn;
-					var $td; */
+					$getCount = $("#opendComReplyList");
+					$getCount.html("");
+					
 					var $tr;
 					var $userId;
 					var $mateComContents;
@@ -444,66 +446,42 @@ opacity: 0;
 					var $mateComReply;
 					var $btn;
 					var $td;
+					
+					var $startPage
+					var $endPage
+					var $endPage
 					$("#opendComCount").text("댓글");
-					if(data.length >0) {
-						for(var i in data) {
+					if(data.opendiaryComList.length >0) {
+						for(var i in data.opendiaryComList) {
 							/* opendCommentNo = data[i].openComNo;
 							console.log(opendCommentNo); */
-							var opendComId = data[i].openComUser;
-							openCommentNo = data[i].openComNo;
+							var opendComId = data.opendiaryComList[i].openComUser;
+							openCommentNo = data.opendiaryComList[i].openComNo;
 							var idx = Number()
-							console.log(pi.currentPage);
+							console.log(data.pi.currentPage);
 							
-							/* $tr = $("<tr style='font-weight:bolder;'>");
-							$userId = $("<td width='100' style='margin-left:20px;margin-top:7px;padding-right:15px;border-right:1px solid black;'>").text(data[i].openComUser);
-							$openComDate = $("<td width='100' style='margin-top:7px;'>").text(data[i].openComDate);
-							if(sessionId == "") {
-								$openComContents = $("<td width='100%' height='25' style='text-align:left;padding-left:20px;margin-top:10px;' >").text(decodeURIComponent(data[i].openComContents).replace(/\+/g, " "));
-								
-								$tr.append($userId);
-								$tr.append($openComDate);
-								$tr.append($openComContents);
-							} else {
-								$openComContents = $("<td width='100%' height='25' style='text-align:left;padding-left:20px;margin-top:10px;'>").text(decodeURIComponent(data[i].openComContents).replace(/\+/g, " "));
-								
-								$modifyCom = $("<tdclass='addReply'>")
-								.append("<button type='button' id='mateComReply' onclick='openComReplyView(this," +data[i].openComNo+ ")'>답글 </button>");
-								
-								$tr.append($userId);
-								$tr.append($openComDate);
-								$tr.append($openComContents);
-								$tr.append($modifyCom);
-							}
-							if(sessionId == opendComId) {
-								$btn = $("<td class='btndelete'>").append("<button type='button' onclick='openComReplyDelete("+ data[i].openComNo +")'>삭제</button>");
-								$tr.append($btn);
-							}
-							$tableBody.append($tr); */
-								openCommentNo = data[i].openComNo;
-								var comuser = data[i].openComUser;
-								
 								$tr = $("<tr style='font-weight:bolder;'>");
-								$userId = $("<td colspan='5' style='margin-left:20px;margin-top:7px;padding-right:15px;border-right:1px solid black;'>").text(data[i].openComUser);
-								$mateComDate = $("<td width='100' style='margin-top:7px;'>").text(data[i].openComDate);
-								$mateComContents = $("<td  width='100%' height='25' style='text-align:left;padding-left:20px;margin-top:10px;'>").text(decodeURIComponent(data[i].openComContents).replace(/\+/g, " "));
+								$userId = $("<td  style='margin-left:20px;margin-top:5px;padding-right:15px;border-right:1px solid black;border-top:none;'>").text(data.opendiaryComList[i].openComUser);
+								$mateComDate = $("<td width='80' style='margin-top:5px;border-top:none;'>").text(data.opendiaryComList[i].openComDate);
+								$mateComContents = $("<td  width='65%' height='25' style='text-align:left;padding-left:20px;margin-top:5px;border-top:none;'>").text(decodeURIComponent(data.opendiaryComList[i].openComContents).replace(/\+/g, " "));
 								if(sessionId == "") {
 									$tr.append($userId);
 									$tr.append($mateComDate);
 									$tr.append($mateComContents);
 								} else if(sessionId != "" && sessionId == opendComId) {
-									$btn = $("<td class='btndelete'>").append("<button type='button' onclick='openComReplyDelete("+ data[i].openComUser +")'>삭제</button>");
+									$btn = $("<td class='btndelete' style='border-top:none;width:6%;'>").append("<button type='button' onclick='openComReplyDelete("+ data.opendiaryComList[i].openComNo +")'>삭제</button>");
 									$tr.append($userId);
 									$tr.append($mateComDate);
+									$tr.append($mateComContents);
 									$tr.append($btn);
 									
 									if(sessionId != ""){
-										$modifyCom = $("<td class='addReply'>")
-										.append("<button type='button' id='mateComReply' onclick='openComReplyView(this," +data[i].openComUser+ ")'>답글</button>");
+										$modifyCom = $("<td class='addReply' style='border-top:none;width:6%;'>")
+										.append("<button type='button' id='mateComReply' onclick='openComReplyView(this," +data.opendiaryComList[i].openComNo+ ")'>답글</button>");
 										
 										$tr.append($modifyCom);
 										
 									} 
-									$tr.append($mateComContents);
 								}  
 								$tableBody.append($tr);
 							
@@ -536,8 +514,9 @@ opacity: 0;
 												$replyDate = $("<td>").text(element[j].openComDate);
 												
 												$trr.append($replyUserId);
-												$trr.append($replyContents);
 												$trr.append($replyDate);
+												$trr.append($replyContents);
+												
 												$replyDelete = $("<td colspan='2'>")
 												.append("<button type='button' id='openComReply' onclick='openComReplyDelete("+element[j].openComNo+")'>삭제</button>");
 												$trr.append($replyDelete);
@@ -545,8 +524,9 @@ opacity: 0;
 												$replyContents = $("<td width='100' colspan='3'>").text(decodeURIComponent(element[j].openComContents));
 												$replyDate = $("<td>").text(element[j].openComDate);
 												$trr.append($replyUserId);
-												$trr.append($replyContents);
 												$trr.append($replyDate);
+												$trr.append($replyContents);
+												
 											}
 											$tr.after($trr);
 											
@@ -562,6 +542,11 @@ opacity: 0;
 						$tr.append($mateComContents);
 						$tableBody.append($tr);
 					}
+					$tr = $("<tr>");
+					$startPage =$("<td style='width:50px;'>").text(data.pi.startPage);
+					
+					$tr.append($startPage);
+					$getCount.append($tr);
 				}
 			});
 		}
@@ -580,7 +565,6 @@ opacity: 0;
 						"<button type='button' id='openComReply' onclick='openComReplyInsert("+openComNo+")'>답글등록</button>"+
 						"<button type='button' id='openComReplyDelete' >취소</button></td></tr>");
 				console.log("view : "+openComNo);
-				return false;
 				$("#openComReplyDelete").on("click", function(e) {
 		               e.preventDefault();
 		               removeReply($(this));
@@ -588,6 +572,7 @@ opacity: 0;
 			}
 		}
 		function removeReply(obj) {
+			rCount = 1
 			obj.parent().parent().remove();
 		}
 		//--------대댓글 등록
@@ -596,21 +581,21 @@ opacity: 0;
 				var ask = confirm("대댓글 등록을 완료하시겠습니까?");
 				if(ask) {
 				if(openComReplyCon != "") {
-				$.ajax({
-					url : "addOpenComReply.doa",
-					type : "post",
-					data : { "openComContents" : openComReplyCon, "opendiaryNo" : opendiaryNo, "refNo" : refNo },
-					success : function(data) {
-						if(data == "success") {
-							$("#openComReplyCon").val("");
-							/* $("#mateComReplyInsertTb").remove(); */
-							alert("댓글 등록에 성공했습니다.");
-							openComList();
-						}else {
-							alert("댓글 등록에 실패했습니다.");
+					$.ajax({
+						url : "addOpenComReply.doa",
+						type : "post",
+						data : { "openComContents" : openComReplyCon, "opendiaryNo" : opendiaryNo, "refNo" : refNo },
+						success : function(data) {
+							if(data == "success") {
+								$("#openComReplyCon").val("");
+								/* $("#mateComReplyInsertTb").remove(); */
+								alert("댓글 등록에 성공했습니다.");
+								openComList();
+							}else {
+								alert("댓글 등록에 실패했습니다.");
+							}
 						}
-					}
-				}); 
+					}); 
 				} else {
 					alert("답글 내용을 입력해주세요");
 					return false;
@@ -638,7 +623,7 @@ opacity: 0;
 				return false;
 			}
 		}
-	});
+
 	var slideIndex = 1;
 	showSlides(slideIndex);
 

@@ -229,17 +229,17 @@ textarea {
 										<c:choose>
 											<c:when test="${diaryImgList.opendiaryNo == opendList.opendiaryNo}">
 												<c:if test="${diaryImgList.menuName eq '마이일기' }">
-													<td colspan="3"><img src="/resources/diaryUploadFiles/${diaryImgList.userId }/${diaryImgList.imgRenamePath}" width="150" height="130"></td>
+													<td colspan="3" height='130'><img src="/resources/diaryUploadFiles/${diaryImgList.userId }/${diaryImgList.imgRenamePath}" width="150" height="130"></td>
 												</c:if>
 												<c:if test="${diaryImgList.menuName eq '공유일기' }">
-												<td colspan="3"><img src="/resources/opendiaryUploadFiles/${diaryImgList.userId }/${diaryImgList.opendiaryNo }/${diaryImgList.imgRenamePath}" width="150" height="130"></td>
+												<td colspan="3" height='130'"><img src="/resources/opendiaryUploadFiles/${diaryImgList.userId }/${diaryImgList.opendiaryNo }/${diaryImgList.imgRenamePath}" width="150" height="130"></td>
 												</c:if>
 											</c:when>
 										</c:choose>
-										</c:forEach>
 										<c:if test="${ opendList.mainImagePath == null }">
-												<td colspan="3" width="150" height="142">NO IMAGE</td>
-										</c:if>
+													<td colspan="3" width="150" height="142">NO IMAGE</td>
+											</c:if>
+										</c:forEach>
 									</c:if>
 									</tr>
 									<tr>

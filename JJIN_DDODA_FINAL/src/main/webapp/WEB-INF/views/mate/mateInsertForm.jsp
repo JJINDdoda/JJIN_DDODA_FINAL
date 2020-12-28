@@ -160,6 +160,9 @@ textarea {
 	.searchText {
 		width: 20%;
 	}
+	.return {
+		padding : 6px 6px;
+	}
 </style>
 </head>
 <body>
@@ -227,8 +230,8 @@ textarea {
 			</tr>
 			<tr>
 				<td colspan="2" align="center">
-					<input type="submit" value="수정하기"class="btn btn-primary">
-					<button type="button" onclick="mateList.doa?category=health">목록으로</button>
+					<input type="submit" value="등록하기"class="btn btn-primary">
+					<button type="button" onclick="location.href='mateList.doa?category=health'" class="return">목록으로</button>
 				</td>
 			</tr>
 		</table>

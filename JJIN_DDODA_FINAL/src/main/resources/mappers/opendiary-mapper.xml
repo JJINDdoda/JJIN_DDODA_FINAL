@@ -193,5 +193,4 @@
 		DELETE FROM OPENDIARY WHERE OPENDIARY_NO = #{opendiaryNo}
 	</delete>
 	
-	
 </mapper>

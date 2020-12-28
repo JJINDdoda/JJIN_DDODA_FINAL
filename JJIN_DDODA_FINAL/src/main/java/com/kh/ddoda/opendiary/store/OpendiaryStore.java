@@ -128,7 +128,7 @@ public interface OpendiaryStore {
 	/**
 	 * 특정
 	 */
-	public ArrayList<OpendiaryComment> opendiaryComList (HashMap<String, Object> map);
+	public ArrayList<OpendiaryComment> opendiaryComList (int opendiaryNo, PageInfo pi);
 	/**
 	 * 공유일기 대댓글 작성
 	 * @param opendiaryCom

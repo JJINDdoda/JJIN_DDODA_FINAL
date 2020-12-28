@@ -178,6 +178,8 @@
 		SELECT * FROM MATE
 		WHERE USERID = #{userId} ORDER BY MATE_DATE DESC
 	</select> 
-	
+	<select id="getComListCount" resultType="int">
+		SELECT COUNT(*) FROM MATE_COMMENTS
+	</select>
 	
 </mapper>

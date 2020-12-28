@@ -130,7 +130,7 @@ public class MateController {
 		public void mateComList(ModelAndView mv, HttpServletRequest request, HttpServletResponse response, int mateNo,
 						@RequestParam(value="page", required=false)Integer page) throws Exception {
 			int currentPage = (page != null) ? page : 1;
-			int listCount = mService.getListCount();
+			int listCount = mService.getComListCount();
 			PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
 			
 			
