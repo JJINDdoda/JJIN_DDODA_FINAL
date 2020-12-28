@@ -43,30 +43,30 @@
 	<select id="markerList" resultMap="facilityResultMap">
 		<if test="kinds == 'health' and county != 'null' and city != 'null'">
 			SELECT * FROM EXERCISE_FACILITY
-			WHERE FACILITY_ADDR LIKE #{city} || '%' || #{county} || '%' AND FACILITY_FIELD='health'
+			WHERE FACILITY_ADDR LIKE #{city} || '%' || #{county} || '%' AND FACILITY_FIELD='health' AND TERMS_YN = 'Y'
 		</if>
 		<if test="kinds == 'yoga' and county != 'null' and city != 'null'">
 			SELECT * FROM EXERCISE_FACILITY
-			WHERE FACILITY_ADDR LIKE #{city} || '%' || #{county} || '%' AND FACILITY_FIELD='yoga'
+			WHERE FACILITY_ADDR LIKE #{city} || '%' || #{county} || '%' AND FACILITY_FIELD='yoga' AND TERMS_YN = 'Y'
 		</if>
 		<if test="kinds == 'fila' and county != 'null' and city != 'null'">
 			SELECT * FROM EXERCISE_FACILITY
-			WHERE FACILITY_ADDR LIKE #{city} || '%' || #{county} || '%' AND FACILITY_FIELD='fila'
+			WHERE FACILITY_ADDR LIKE #{city} || '%' || #{county} || '%' AND FACILITY_FIELD='fila' AND TERMS_YN = 'Y'
 		</if>
 		<if test="kinds == 'health' and county == 'null' and city != 'null'">
 			SELECT * FROM EXERCISE_FACILITY
-			WHERE FACILITY_ADDR LIKE #{city} || '%' AND FACILITY_FIELD='health'
+			WHERE FACILITY_ADDR LIKE #{city} || '%' AND FACILITY_FIELD='health' AND TERMS_YN = 'Y'
 		</if>
 		<if test="kinds == 'yoga' and county == 'null' and city != 'null'">
 			SELECT * FROM EXERCISE_FACILITY
-			WHERE FACILITY_ADDR LIKE #{city} || '%' AND FACILITY_FIELD='yoga'
+			WHERE FACILITY_ADDR LIKE #{city} || '%' AND FACILITY_FIELD='yoga' AND TERMS_YN = 'Y'
 		</if>
 		<if test="kinds == 'fila' and county == 'null' and city != 'null'">
 			SELECT * FROM EXERCISE_FACILITY
-			WHERE FACILITY_ADDR LIKE #{city} || '%' AND FACILITY_FIELD='fila'
+			WHERE FACILITY_ADDR LIKE #{city} || '%' AND FACILITY_FIELD='fila' AND TERMS_YN = 'Y'
 		</if>
 		<if test="county == 'null' and city == 'null'">
-			SELECT * FROM EXERCISE_FACILITY
+			SELECT * FROM EXERCISE_FACILITY AND TERMS_YN = 'Y'
 		</if>
 		
 	</select>
@@ -74,30 +74,30 @@
 	<select id="markerPoints" resultType="String">
 		<if test="kinds == 'health' and county != 'null' and city != 'null'">
 			SELECT LATI_LONG FROM EXERCISE_FACILITY
-			WHERE FACILITY_ADDR LIKE #{city} || '%' || #{county} || '%' AND FACILITY_FIELD='health'
+			WHERE FACILITY_ADDR LIKE #{city} || '%' || #{county} || '%' AND FACILITY_FIELD='health' AND TERMS_YN = 'Y'
 		</if>
 		<if test="kinds == 'yoga' and county != 'null' and city != 'null'">
 			SELECT LATI_LONG FROM EXERCISE_FACILITY
-			WHERE FACILITY_ADDR LIKE #{city} || '%' || #{county} || '%' AND FACILITY_FIELD='yoga'
+			WHERE FACILITY_ADDR LIKE #{city} || '%' || #{county} || '%' AND FACILITY_FIELD='yoga' AND TERMS_YN = 'Y'
 		</if>
 		<if test="kinds == 'fila' and county != 'null' and city != 'null'">
 			SELECT LATI_LONG FROM EXERCISE_FACILITY
-			WHERE FACILITY_ADDR LIKE #{city} || '%' || #{county} || '%' AND FACILITY_FIELD='fila'
+			WHERE FACILITY_ADDR LIKE #{city} || '%' || #{county} || '%' AND FACILITY_FIELD='fila' AND TERMS_YN = 'Y'
 		</if>
 		<if test="kinds == 'health' and county == 'null' and city != 'null'">
 			SELECT LATI_LONG FROM EXERCISE_FACILITY
-			WHERE FACILITY_ADDR LIKE #{city} || '%' AND FACILITY_FIELD='health'
+			WHERE FACILITY_ADDR LIKE #{city} || '%' AND FACILITY_FIELD='health' AND TERMS_YN = 'Y'
 		</if>
 		<if test="kinds == 'yoga' and county == 'null' and city != 'null'">
 			SELECT LATI_LONG FROM EXERCISE_FACILITY
-			WHERE FACILITY_ADDR LIKE #{city} || '%' AND FACILITY_FIELD='yoga'
+			WHERE FACILITY_ADDR LIKE #{city} || '%' AND FACILITY_FIELD='yoga' AND TERMS_YN = 'Y'
 		</if>
 		<if test="kinds == 'fila' and county == 'null' and city != 'null'">
 			SELECT LATI_LONG FROM EXERCISE_FACILITY
-			WHERE FACILITY_ADDR LIKE #{city} || '%' AND FACILITY_FIELD='fila'
+			WHERE FACILITY_ADDR LIKE #{city} || '%' AND FACILITY_FIELD='fila' AND TERMS_YN = 'Y'
 		</if>
 		<if test="county == 'null' and city == 'null'">
-			SELECT LATI_LONG FROM EXERCISE_FACILITY
+			SELECT LATI_LONG FROM EXERCISE_FACILITY AND TERMS_YN = 'Y'
 		</if>
 	</select>
 	

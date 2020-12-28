@@ -10,33 +10,32 @@
 
 <link rel="stylesheet" type="text/css" href="/resources/css/basicStyle.css">
 <style>
+	.table-wrap{
+		
+	}
+	
 </style>
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 	
 	<div class="content" style="height:1000px;">
-		<div class="menub" style="height:500px; position: fixed;">
-			<ul>
-				<li><a href="facilityListView.doa">시설정보</a></li>
-				<li><a href="facilityRegistrationView.doa">시설등록</a></li>
-			</ul>
-		</div>
-		<div class="main" style="margin-left: 180px;">
-			<div id="search">
+		<jsp:include page="../common/facilityMenubar.jsp"></jsp:include>
+		<br><br>
+		<div class="main">
+			<div id="search" align="right">
 				<form action="termsYnSearch.doa" method="get">
 					<label><input type="checkbox" value="Y" id="approved" name="termsYn" <c:if test="${termsYn eq 'Y' || termsYn eq 'D'}">checked</c:if>>승인</label>
 					<label><input type="checkbox" value="N" id="waiting" name="termsYn" <c:if test="${termsYn eq 'N' || termsYn eq 'D'}">checked</c:if>>대기</label>
 					<input type="text" placeholder="검색할 아이디를 입력하세요." name="userId" id="userId" value="${userId }">
 					<input type="submit" value="검색" onclick="return termsYnSearch()">
 				</form>
-				
-				
 			</div>
-			<div id="facilityTbl">
-				<table>
+			<br>
+			<div id="facilityTbl" class="table-wrap">
+				<table class="table">
 					<thead>
-						<tr>
+						<tr style="font-size: 15px">
 							<th>시설명</th>
 							<th>분야</th>
 							<th>시설주소</th>

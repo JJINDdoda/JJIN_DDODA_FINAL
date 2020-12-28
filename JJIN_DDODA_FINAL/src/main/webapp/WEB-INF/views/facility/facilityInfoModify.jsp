@@ -82,13 +82,8 @@
 	<!-- content -->	
 	
 	<div class="content" style="height:1000px;">
-		<div class="menub" style="height:500px; position: fixed;">
-			<ul>
-				<li><a href="facilityListView.doa">시설정보</a></li>
-				<li><a href="facilityRegistrationView.doa">시설등록</a></li>
-			</ul>
-		</div>
-		<div class="main" style="margin-left: 180px;">
+		<jsp:include page="../common/facilityMenubar.jsp"></jsp:include>
+		<div class="main">
 			<div class="main-name" style="height: 80px; width: 1200px;">
 				<!-- <img src="../resources/images/facilityMap/facilityRegistor.png" class="facilityImg"> -->
 				<div class="facilityInfo">

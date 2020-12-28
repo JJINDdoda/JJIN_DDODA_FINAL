@@ -172,7 +172,16 @@
                         <ul class="nav navbar-nav navbar-right"> <!-- bootstrap.css의 navbar-right -->
                             <li><a href="/">Home</a></li>                    
                             <li id="calendarr"><a href="calendarView.doa">Calendar</a></li>
-                            <li><a href="#business">Facility</a></li>
+                            <li class="dropdown-wrapper">
+                            	<a href="facilityListView.doa">Facility</a>
+                            	<ul class="dropdown-contents">
+                            		<li><a href="facilityListView.doa">시설찾기</a></li>
+                            		<c:if test="${loginUser.userField eq 'healthCeo'}">
+                            			<li><a href="facilityInfoRegistView.doa">시설등록</a></li>
+                            			<li><a href="myfacilityList.doa">내가 등록한 시설</a></li>
+                            		</c:if>
+                            	</ul>
+                            </li>
                             <li class="dropdown-wrapper">
                             	<a class="dropdown-btn" href="#">Community</a>
                             	<ul class="dropdown-contents">

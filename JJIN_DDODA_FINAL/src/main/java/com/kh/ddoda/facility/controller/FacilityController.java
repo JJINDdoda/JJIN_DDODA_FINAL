@@ -563,14 +563,17 @@ public class FacilityController {
 		String[] carrerDBArr = request.getParameterValues("carrerDB");
 		String[] promiseDBArr = request.getParameterValues("promiseDB");
 		InstructorInfo upInstructorInfo = null;
-		for (int i = 0; i < promiseDBArr.length; i++) {
-			upInstructorInfo = new InstructorInfo();
-			upInstructorInfo.setInstructorName(instructorNameDBArr[i]);
-			upInstructorInfo.setCarrer(carrerDBArr[i]);
-			upInstructorInfo.setPromise(promiseDBArr[i]);
-			upInstructorInfo.setFacilityNo(facilityNo);
-			fService.modifyFacilityInstructor(upInstructorInfo);
+		if(promiseDBArr != null) {
+			for (int i = 0; i < promiseDBArr.length; i++) {
+				upInstructorInfo = new InstructorInfo();
+				upInstructorInfo.setInstructorName(instructorNameDBArr[i]);
+				upInstructorInfo.setCarrer(carrerDBArr[i]);
+				upInstructorInfo.setPromise(promiseDBArr[i]);
+				upInstructorInfo.setFacilityNo(facilityNo);
+				fService.modifyFacilityInstructor(upInstructorInfo);
+			}
 		}
+		
 		
 		String[] instructorRename = new String[instructorPicture.length];
 		saveInstructorFile(instructorPicture, request);
@@ -592,10 +595,10 @@ public class FacilityController {
 			}
 		}
 		if(result > 0) {
-			return "home";
+			return "redirect:myfacilityList.doa";
 		}
 		else {
-			return "home";
+			return "redirect:myfacilityList.doa";
 		}
 		
 	}
