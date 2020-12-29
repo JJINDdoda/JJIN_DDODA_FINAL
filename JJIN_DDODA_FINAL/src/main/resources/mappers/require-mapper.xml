@@ -62,10 +62,10 @@
    		AND RE.REQUIRE_NO = #{requireNo}
    		AND CO.REQUIRE_NO = #{requireNo}
 	</select>
-	<insert id="insertReply">
-		INSERT INTO REQUIRE_COMMENTS
-		VALUES (SEQ_REQUIRE_COMMENTS.NEXTVAL, SYSDATE, NULL, #{rComTitle}, #{rComContents}, #{userId}, (SELECT REQUIRE_NO FROM REQUIRE WHERE REQUIRE_NO = #{requireNo}))
-	</insert>
+<insert id="insertReply">
+      INSERT INTO REQUIRE_COMMENTS
+      VALUES (SEQ_REQUIRE_COMMENTS.NEXTVAL, DEFAULT, NULL, #{rComTitle}, #{rComContents}, (SELECT REQUIRE_NO FROM REQUIRE WHERE REQUIRE_NO = #{requireNo}), #{userId})
+   </insert>
 	<update id="adminRequieStatus">
 		UPDATE REQUIRE
 		SET REQUIRE_YN = 'Y'

@@ -140,9 +140,10 @@ textarea {
 		appearance: none; 
 	}
 	.select-wrapper {
-		width : 20%;
-		text-align:right;
+		width : 50%;
+		text-align:left;
 		float:left;
+		margin-top:10px;
 	}
 	.table-wrap {
 		margin-top : 20px;
@@ -177,27 +178,27 @@ textarea {
 			<div class="main-name">
 				<h2 class="main-name-h2">내가 쓴글</h2>
 			</div>
-			<div class="table-wrap">
-				<div>
+			<div class="select-wrapper">
 				<c:if test="${!empty opendiaryContents }">
-					<a style="color:red;" href="opendiaryContentsList.doa?userId=${loginUser.userId }">공유일기 커뮤니티</a> &nbsp;&nbsp;
+				<a style="color:#f7bf99;" href="opendiaryContentsList.doa?userId=${loginUser.userId }">공유일기 커뮤니티</a> &nbsp;&nbsp;
 				</c:if>
 				<c:if test="${empty opendiaryContents }">
-					<a href="opendiaryContentsList.doa?userId=${loginUser.userId }">공유일기 커뮤니티</a> &nbsp;&nbsp;
+					<a style="color:#424242;" href="opendiaryContentsList.doa?userId=${loginUser.userId }">공유일기 커뮤니티</a> &nbsp;&nbsp;
 				</c:if>
 				<c:if test="${!empty myContentsList }">
-					<a style="color:red;" href="mateContentsList.doa?userId=${loginUser.userId }">메이트 커뮤니티</a> &nbsp;&nbsp;
+					<a style="color:#f7bf99;" href="mateContentsList.doa?userId=${loginUser.userId }">메이트 커뮤니티</a> &nbsp;&nbsp;
 				</c:if>
 				<c:if test="${empty myContentsList }">
-					<a href="mateContentsList.doa?userId=${loginUser.userId }">메이트 커뮤니티</a> &nbsp;&nbsp;
+					<a style="color:#424242;"  href="mateContentsList.doa?userId=${loginUser.userId }">메이트 커뮤니티</a> &nbsp;&nbsp;
 				</c:if>
 				<c:if test="${!empty requireContents }">
-					<a style="color:red;" href="requireContentsList.doa?userId=${loginUser.userId }">문의사항 커뮤니티</a> &nbsp;&nbsp;
+					<a style="color:#f7bf99;" href="requireContentsList.doa?userId=${loginUser.userId }">문의사항 커뮤니티</a> &nbsp;&nbsp;
 				</c:if>
 				<c:if test="${empty requireContents }">
-					<a href="requireContentsList.doa?userId=${loginUser.userId }">문의사항 커뮤니티</a> &nbsp;&nbsp;
+					<a style="color:#424242;"  href="requireContentsList.doa?userId=${loginUser.userId }">문의사항 커뮤니티</a> &nbsp;&nbsp;
 				</c:if>
-				</div>
+			</div>
+			<div class="table-wrap">
 				<table align="center" cellpadding="10" cellspacing="0" width="500" class="table" id="mymateList">
 					<tr>
 						<td width="200">분류</td>

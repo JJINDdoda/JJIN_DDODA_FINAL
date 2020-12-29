@@ -28,6 +28,7 @@ import com.kh.ddoda.mate.domain.MateComment;
 import com.kh.ddoda.mate.domain.Mymate;
 import com.kh.ddoda.mate.service.MateService;
 import com.kh.ddoda.member.domain.Member;
+import com.kh.ddoda.opendiary.domain.DiaryImg;
 
 @Controller
 public class MateController {
@@ -143,7 +144,7 @@ public class MateController {
 			HashMap<String, Object> map =  new HashMap<String, Object>();
 			map.put("pi", pi);
 			map.put("mateComList", mateComList);
-			
+			System.out.println(mateComList);
 			Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 			gson.toJson(map, response.getWriter());
 		}
@@ -234,7 +235,7 @@ public class MateController {
 	//메이트 모집글 수정 화면
 	@RequestMapping(value="mateUpdateView.doa", method=RequestMethod.GET)
 	public ModelAndView mateUpdateView (@RequestParam("mateNo") int mateNo, 
-										@RequestParam("page") Integer page, ModelAndView mv) {
+										@RequestParam(value="page",required=false) Integer page, ModelAndView mv) {
 		mv.addObject("mate",  mService.selectOneMate(mateNo))
 			.addObject("currentPage", page)
 			.setViewName("mate/mateUpdate");
@@ -244,7 +245,7 @@ public class MateController {
 	//메이트 모집글 수정
 	@RequestMapping(value="mateUpdate.doa", method = RequestMethod.POST)
 	public ModelAndView mateUpdate(ModelAndView mv, @ModelAttribute Mate mate,
-									HttpServletRequest request, @RequestParam("page") Integer page) {
+									HttpServletRequest request, @RequestParam(value="page",required=false) Integer page) {
 		int result = mService.updateMate(mate);
 //		HttpSession session = request.getSession();
 //		Member sessionUser = (Member)session.getAttribute("loginUser");

@@ -366,12 +366,13 @@ textarea {
 	} */
 	var sessionId = $("#loginUserId").val();
 	var mateId = $("#mateUser").val();
+	var mateNo = $("#mateNo").val();
 	
 	//--------게시글 수정하기 
 	function askUpdate() {
 		var askUpdate = confirm("수정하시겠습니까?");
 		if(askUpdate) {
-			location.href='${mateUpdateView}';
+			location.href='mateUpdateView.doa?mateNo='+mateNo;
 		} else {
 			return false;
 		}
@@ -380,7 +381,7 @@ textarea {
 	function askDelete() {
 		var askDelete = confirm("정말 삭제하시겠습니까?");
 		if(askDelete) {
-			location.href='${mateDelete}';
+			location.href='mateDelete.doa?mateNo='+mateNo;
 		} else {
 			return false;
 		}
@@ -653,6 +654,7 @@ textarea {
 					$tr.append($mateComContents);
 					$tableBody.append($tr);
 				}
+				
 				console.log(data.pi);
 				console.log(data.pi.currentPage);
 				

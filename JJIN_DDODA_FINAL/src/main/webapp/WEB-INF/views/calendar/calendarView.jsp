@@ -246,7 +246,7 @@
 	        		opendiaryNo = jevents[i]._id;
 	        		console.log(opendiaryNo);
 	        		
-	        	} else {
+	        	} if(jevents[i].start != clickDate) {
 	        		$('.none').css("display","none");
 	        		$('.original').css("display","block");
 	        	}

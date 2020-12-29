@@ -365,12 +365,13 @@ public class OpendiaryController {
 	@RequestMapping(value="opendiaryDelete.doa", method = RequestMethod.GET)
 	public String opendiaryDelete(@RequestParam("opendiaryNo") int opendiaryNo,  HttpServletRequest request, Model model) {
 //		Opendiary opendiary = odService.selectOneOpend(opendiaryNo);
+		int fileresult = odService.deleteAllFile(opendiaryNo);
 		ArrayList<DiaryImg> dimgs = odService.selectDiaryImgList(opendiaryNo);
 		if(!dimgs.isEmpty()) {
 			deleteAllFile(opendiaryNo, request, model);
 		}
 		int opendresult = odService.deleteOpend(opendiaryNo);
-		int fileresult = odService.deleteAllFile(opendiaryNo);
+		
 		if(opendresult > 0 || fileresult > 0) {
 			return "redirect:opendiaryList.doa";
 		} else {
