@@ -193,7 +193,7 @@ textarea {
 					<select class="form-select" aria-label="Default select example" id="sSearchCondition" name="sSearchCondition">
 					  <option>선택하세요</option>
 					  <option value="opendiary" <c:if test="${notice.sSearchCondition == '공유일기' }">selected</c:if>>공유일기</option>
-					  <option value="require" <c:if test="${notice.sSearchCondition == '요청사항' }">selected</c:if>>요청사항</option>
+					  <option value="require" <c:if test="${notice.sSearchCondition == '요구사항' }">selected</c:if>>요구사항</option>
 					  <option value="mate" <c:if test="${notice.sSearchCondition == '메이트' }">selected</c:if>>메이트</option>
 					</select>
 				</td>

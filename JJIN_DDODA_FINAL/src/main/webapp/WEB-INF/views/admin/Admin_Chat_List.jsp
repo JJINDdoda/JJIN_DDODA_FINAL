@@ -152,7 +152,14 @@ textarea {
 					<td align="center" class="mateNo">${chat.mateNo }</td>
 					<td align="center" onclick="location.href='${cDetail}'">${chat.mateTitle }</td>
 					<td align="center">${chat.userId }</td>
-					<td align="center"><button class="chatOpen btn btn-primary">open</button></td>
+					<td align="center">
+						<c:if test="${chat.mymate.mateStatus == 'N' }">
+							<input type="button" class="chatOpen btn btn-primary" value="open">
+						</c:if>
+						<c:if test="${chat.mymate.mateStatus == 'Y' }">
+							<button class="chatOpen btn btn-primary" disabled>confirm</button>
+						</c:if>
+					</td>
 				</tr>
 			</c:forEach>
 			</c:if>
@@ -239,6 +246,8 @@ textarea {
 				data : {"mateNo" : mateNo},
 				success : function(data) {
 					alert("채팅방이 정상적으로 오픈되었습니다.");
+					$(".chatOpen").attr("disabled", true);
+					$(".chatOpen").attr("value", "confirm");
 				}
 			});
 		});

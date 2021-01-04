@@ -35,6 +35,7 @@
 	</resultMap>
 	<resultMap type="Mymate" id="myMateResultMap">
 		<result property="mateNo" column="MATE_NO"/>
+		<result property="mateStatus" column="MATE_STATUS"/>
 	</resultMap>
 	<!-- require -->
 	<resultMap type="com.kh.ddoda.require.domain.Require" id="requireResultMap">

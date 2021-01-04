@@ -43,10 +43,11 @@ public class ChatController {
 		int listCount = cService.getChatListCount();
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
 		ArrayList<Mate> cList = cService.adminChatList(pi);
+		System.out.println(cList);
 		if(!cList.isEmpty()) {
 			mv.addObject("cList", cList).addObject("pi", pi).setViewName("admin/Admin_Chat_List");
 		} else {
-			mv.addObject("msg", "게시글 전체조회 실패!").setViewName("common/errorPage");
+			mv.addObject("cList", cList).addObject("pi", pi).setViewName("admin/Admin_Chat_List");
 		}
 		return mv;
 	}
@@ -56,7 +57,7 @@ public class ChatController {
 	public ModelAndView chatDetail(ModelAndView mv, int mateNo) {
 		Mate mate = cService.adminSelectChat(mateNo);
 		ArrayList<Mymate> mList = cService.adminSelectUser(mateNo);
-		if(mate != null && !mList.isEmpty()) {
+		if(mate != null || !mList.isEmpty()) {
 			mv.addObject("mate", mate).addObject("mList", mList).setViewName("admin/Admin_Chat_Detail");
 		} else {
 			mv.addObject("msg", "게시글 전체조회 실패!").setViewName("common/errorPage");

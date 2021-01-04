@@ -20,7 +20,7 @@
 	<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 	
 	<div class="content" style="height:1000px;">
-		<jsp:include page="../common/facilityMenubar.jsp"></jsp:include>
+		<jsp:include page="../common/admin_menubar.jsp"></jsp:include>
 		<br><br>
 		<div class="main">
 			<div id="search" align="right">

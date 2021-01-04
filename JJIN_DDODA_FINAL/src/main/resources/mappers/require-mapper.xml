@@ -8,15 +8,9 @@
 		<result property="requireModifyDate" column="REQUIRE_MODIFY_DATE"/>
 		<result property="requireContents" column="REQUIRE_CONTENTS"/>
 		<result property="requireYN" column="REQUIRE_YN"/>
-
 		<result property="userId"	column="USERID"/>
 		<result property="originalFilename"	column="REQUIRE_ORIGINALFILENAME"/>
 		<result property="renameFilename"	column="REQUIRE_RENAMEFILENAME"/>
-
-		<result property="userId" column="USERID"/>
-		<result property="originalFilename" column="REQUIRE_ORIGINALFILENAME"/>
-		<result property="renameFilename" column="REQUIRE_RENAMEFILENAME"/>
-
 		<result property="menuName" column="MENU_NAME"/>
 		<result property="rCount"	column="RCOUNT"/>
 	</resultMap>
@@ -62,10 +56,10 @@
    		AND RE.REQUIRE_NO = #{requireNo}
    		AND CO.REQUIRE_NO = #{requireNo}
 	</select>
-<insert id="insertReply">
-      INSERT INTO REQUIRE_COMMENTS
-      VALUES (SEQ_REQUIRE_COMMENTS.NEXTVAL, DEFAULT, NULL, #{rComTitle}, #{rComContents}, (SELECT REQUIRE_NO FROM REQUIRE WHERE REQUIRE_NO = #{requireNo}), #{userId})
-   </insert>
+	<insert id="insertReply">
+		INSERT INTO REQUIRE_COMMENTS
+		VALUES (SEQ_REQUIRE_COMMENTS.NEXTVAL, DEFAULT, NULL, #{rComTitle}, #{rComContents}, (SELECT REQUIRE_NO FROM REQUIRE WHERE REQUIRE_NO = #{requireNo}), #{userId})
+	</insert>
 	<update id="adminRequieStatus">
 		UPDATE REQUIRE
 		SET REQUIRE_YN = 'Y'

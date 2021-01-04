@@ -311,6 +311,9 @@ public class MateController {
 		@ResponseBody
 		@RequestMapping(value="askFinish.doa", method=RequestMethod.GET)
 		public String askFinish(Mymate mymate, int mateNo, HttpSession session) {
+			Member loginUser = (Member)session.getAttribute("loginUser");
+			String userId = loginUser.getUserId();
+			mymate.setUserId(userId);
 			int result = mService.finishMate(mateNo);
 			int result2 = mService.insertMymate(mymate);
 			if(result >0 && result2 > 0) {

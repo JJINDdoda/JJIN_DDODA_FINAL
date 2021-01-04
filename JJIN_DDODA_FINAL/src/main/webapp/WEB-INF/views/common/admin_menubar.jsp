@@ -34,7 +34,11 @@
 					<li><a href="adminChatList.doa" style="color: black;">채팅</a></li>
 				</ul>
 			</li>
-			<li class="dropdowns"><a href="adminFacilityManage.doa">운동시설</a></li>
+			<li class="dropdowns"><a href="adminFacilityManage.doa">운동시설</a>
+				<ul class="dropdown-contents" style="text-align: center;">
+					<li><a href="facilityListView.doa" style="color: black;">시설찾기</a></li>
+				</ul>
+			</li>
 			<li class="dropdowns"><a href="adminCalorieList.doa">음식칼로리</a></li>
 			<li><a href="adminMemberList.doa">회원관리</a></li>
 		</ul>
