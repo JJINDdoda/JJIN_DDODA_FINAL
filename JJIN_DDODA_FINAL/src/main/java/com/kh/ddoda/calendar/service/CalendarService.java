@@ -100,7 +100,7 @@ public interface CalendarService {
 	 * @param memberInfo
 	 * @return
 	 */
-	public MemberInfo selectMyInfoDate(String changeDate);
+	public MemberInfo selectMyInfoDate(HashMap<String, String> dataHash);
 	
 	/**
 	 * 기본정보 변경
@@ -122,6 +122,12 @@ public interface CalendarService {
 	 */
 	public Calorie changeBreakfastFoodName(String foodName);
 	
+	/**
+	 * 다이어리 작성유무
+	 * @param userId
+	 * @return
+	 */
+	public ArrayList<Diary> getDiary(String userId);
 	
 	/**
 	 * 기본정보 작성유무

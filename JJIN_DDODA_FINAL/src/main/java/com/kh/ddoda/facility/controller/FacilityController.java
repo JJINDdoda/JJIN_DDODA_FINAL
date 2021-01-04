@@ -54,6 +54,17 @@ public class FacilityController {
 		return "facility/facilityListView";
 	}
 	
+	
+	
+//	public ArrayList<MapLocation> locationList(){
+//		ArrayList<MapLocation> mapLocation = fService.locationList();
+//		for (int i = 0; i < mapLocation.size(); i++) {
+//			System.out.println(mapLocation.get(i).getCounty());
+//		}
+//		
+//		return mapLocation; // city, county를 리스트로
+//	}
+	
 	//시설 상세조회
 	@RequestMapping(value = "facilityDetail.doa", method = RequestMethod.GET)
 	public String facilityInfoView(int facilityNo, HttpServletRequest request, Model model) {
@@ -73,6 +84,8 @@ public class FacilityController {
 	@RequestMapping(value = "markerList.doa", method = RequestMethod.GET)
 	public void markerList(HttpServletResponse response, String city, String county, String kinds) throws Exception{
 		HashMap<String, String> facilityInfo = new HashMap<String, String>();
+		//city.substring(0, 1);
+		//System.out.println(city.substring(0, 2));
 		System.out.println(city);
 		facilityInfo.put("city", city.substring(0, 2));
 		facilityInfo.put("kinds", kinds);
@@ -87,6 +100,7 @@ public class FacilityController {
 	@RequestMapping(value = "markerPoints.doa", method = RequestMethod.GET)
 	public String markerPoints(String city, String county, String kinds) { // HttpServletResponse response,
 		HashMap<String, String> facilityInfo = new HashMap<String, String>();
+		//System.out.println(city);
 		facilityInfo.put("city", city.substring(0, 2));
 		facilityInfo.put("kinds", kinds);
 		facilityInfo.put("county", county);
@@ -109,32 +123,46 @@ public class FacilityController {
 	@RequestMapping(value = "contentList.doa", method = RequestMethod.GET)
 	public String contentList(String city, String county, String kinds) {
 		HashMap<String, String> facilityInfo = new HashMap<String, String>();
+		//System.out.println(city);
 		facilityInfo.put("city", city.substring(0, 2));
 		facilityInfo.put("kinds", kinds);
 		facilityInfo.put("county", county);
 		String content = "";
 		System.out.println(city + ", " + kinds + ", " + county);
+		//{content: '<div>카카오</div>'}
+		//ArrayList<String> contentList = fService.contentList(facilityInfo);
 		ArrayList<ExerciseFacility> contentList = fService.markerCountyList(facilityInfo);
+		ArrayList<String> facilityPictures = new ArrayList<String>();
+		for (int i = 0; i < contentList.size(); i++) {
+			System.out.println(contentList.get(i).getFacilityNo());
+			String firstPicture = fService.facilityPictureRename(contentList.get(i).getFacilityNo());
+			facilityPictures.add(firstPicture);
+		}
+		
+		for (int i = 0; i < contentList.size(); i++) {
+			System.out.println(facilityPictures.get(i));
+		}
+		
+		//"<a href='facilityDetail.doa?facilityNo=" + data[i].facilityNo+"'>홈페이지</a>"
 		for (int i = 0; i < contentList.size(); i++) {
 			if(i == (contentList.size()-1)) {
 //				content += "{content: '<div" + " class = \"contents\"" + ">" 
 //						+ contentList.get(i).getFacilityName() 
 //						+"<br><a href=\"facilityDetail.doa?facilityNo=" + contentList.get(i).getFacilityNo()+"\">홈페이지</a>"
 //						+ "</div>'}";
-				content += "{content: '<div class=\"wrap\">" + 
+				content += "{content: '<div class=\"contents\">" + 
 						"<div class=\"info\">" + 
 						"<div class=\"title\">" + 
-						"카카오 스페이스닷원" + 
+						contentList.get(i).getFacilityName() + 
 						"<div class=\"close\" onclick=\"closeOverlay()\" title=\"닫기\"></div>" + 
 						"</div>" + 
 						"<div class=\"body\">" + 
 						"<div class=\"img\">" + 
-						"<img src=\"https://cfile181.uf.daum.net/image/250649365602043421936D\" width=\"73\" height=\"70\">" + 
+						"<img src=" + "\"resources/facilityFiles/facilityPicture/" + facilityPictures.get(i) + "\"width=\"73\" height=\"70\">" + 
 						"</div>" + 
 						"<div class=\"desc\">" + 
-						"<div class=\"ellipsis\">제주특별자치도 제주시 첨단로 242</div>" + 
-						"<div class=\"jibun ellipsis\">(우) 63309 (지번) 영평동 2181</div>" + 
-						"<div><a href=\"https://www.kakaocorp.com/main\" target=\"_blank\" class=\"link\">홈페이지</a></div>" + 
+						"<div class=\"ellipsis\">" + contentList.get(i).getFacilityAddr() + "</div>" + 
+						"<div><a href=\"facilityDetail.doa?facilityNo=" + contentList.get(i).getFacilityNo()+"\">홈페이지</a></div>" + 
 						"</div>" + 
 						"</div>" + 
 						"</div>" + 
@@ -145,20 +173,19 @@ public class FacilityController {
 //						+ contentList.get(i).getFacilityName() 
 //						+"<br><a href=\"facilityDetail.doa?facilityNo=" + contentList.get(i).getFacilityNo()+"\">홈페이지</a>"
 //						+ "</div>'},";
-				content += "{content: '<div class=\"wrap\">" + 
+				content += "{content: '<div class=\"contents\">" + 
 						"<div class=\"info\">" + 
 						"<div class=\"title\">" + 
-						"카카오 스페이스닷원" + 
+						contentList.get(i).getFacilityName() + 
 						"<div class=\"close\" onclick=\"closeOverlay()\" title=\"닫기\"></div>" + 
 						"</div>" + 
 						"<div class=\"body\">" + 
 						"<div class=\"img\">" + 
-						"<img src=\"https://cfile181.uf.daum.net/image/250649365602043421936D\" width=\"73\" height=\"70\">" + 
+						"<img src=" + "\"resources/facilityFiles/facilityPicture/" + facilityPictures.get(i) + "\"width=\"73\" height=\"70\">" + 
 						"</div>" + 
 						"<div class=\"desc\">" + 
-						"<div class=\"ellipsis\">제주특별자치도 제주시 첨단로 242</div>" + 
-						"<div class=\"jibun ellipsis\">(우) 63309 (지번) 영평동 2181</div>" + 
-						"<div><a href=\"https://www.kakaocorp.com/main\" target=\"_blank\" class=\"link\">홈페이지</a></div>" + 
+						"<div class=\"ellipsis\">" + contentList.get(i).getFacilityAddr() + "</div>" + 
+						"<div><a href=\"facilityDetail.doa?facilityNo=" + contentList.get(i).getFacilityNo()+"\">홈페이지</a></div>" + 
 						"</div>" + 
 						"</div>" + 
 						"</div>" + 
@@ -217,6 +244,8 @@ public class FacilityController {
 			System.out.println(facilityPictures.get(i).toString());
 		}
 		
+//		System.out.println(picture);
+//		System.out.println(pictureRename);
 		//적은 내용은 시설정보테이블
 		int facilityResult = 0;
 		int pictureResult = 0;
@@ -251,7 +280,7 @@ public class FacilityController {
 	
 	public String[] saveFacilityFile(@RequestParam(name="picturePath", required=false) MultipartFile[] picturePath, HttpServletRequest request) {
 		String root = request.getSession().getServletContext().getRealPath("resources");
-		String savePath = root + "//facilityFiles//facilityPicture";
+		String savePath = root + "\\facilityFiles\\facilityPicture";
 	
 		File folder = new File(savePath);
 	
@@ -267,7 +296,7 @@ public class FacilityController {
 			//원래 파일이름
 			String originPath = picturePath[i].getOriginalFilename();
 			pictureRename[i] = sdf.format(new java.sql.Date(System.currentTimeMillis())) + "_" + i + "." + originPath.substring(originPath.lastIndexOf(".")+1);
-			filePath[i] = folder + "//" + pictureRename[i];
+			filePath[i] = folder + "\\" + pictureRename[i];
 		}
 		for (int j = 0; j < pictureRename.length; j++) {
 			try {
@@ -282,10 +311,10 @@ public class FacilityController {
 	}
 	
 	//시설가격등록 페이지 -> 지우기
-	@RequestMapping(value = "facilityPriceRegistView.doa", method = RequestMethod.GET)
-	public String facilityPriceRegistView() {
-		return "facility/facilityPriceRegist";
-	}
+//	@RequestMapping(value = "facilityPriceRegistView.doa", method = RequestMethod.GET)
+//	public String facilityPriceRegistView() {
+//		return "facility/facilityPriceRegist";
+//	}
 	
 	//시설가격등록 요청
 	@RequestMapping(value = "facilityPriceRegist.doa", method = RequestMethod.POST)
@@ -305,6 +334,7 @@ public class FacilityController {
 			facilityPrice.setBenefits(benefitsArr[i]);
 			resultPrice = fService.facilityPriceRegist(facilityPrice);
 		}
+		//resultTerms = fService.facilityTerms(termsOfUse);
 		if(resultPrice > 0) {
 			return "facility/facilityInstructorRegist";
 		}
@@ -314,10 +344,10 @@ public class FacilityController {
 	}
 	
 	//강사등록페이지 -> 지우기
-	@RequestMapping(value = "facilityInstructorRegistView.doa", method = RequestMethod.GET)
-	public String facilityInstructorRegistView() {
-		return "facility/facilityInstructorRegist";
-	}
+//	@RequestMapping(value = "facilityInstructorRegistView.doa", method = RequestMethod.GET)
+//	public String facilityInstructorRegistView() {
+//		return "facility/facilityInstructorRegist";
+//	}
 	
 	//강사등록 요청
 	@RequestMapping(value = "facilityInstructorRegist.doa", method = RequestMethod.POST)
@@ -325,6 +355,11 @@ public class FacilityController {
 		String[] instructorNameArr = request.getParameterValues("instructorName");
 		String[] carrerArr = request.getParameterValues("carrer");
 		String[] promiseArr = request.getParameterValues("promise");
+//		for (int i = 0; i < promiseArr.length; i++) {
+//			System.out.println(instructorNameArr[i]);
+//			System.out.println(carrerArr[i]);
+//			System.out.println(promiseArr[i]);
+//		}
 		String[] instructorRename = new String[instructorPicture.length];
 		saveInstructorFile(instructorPicture, request);
 		int result = 0;
@@ -344,11 +379,12 @@ public class FacilityController {
 				
 			}
 		}
+		//result = fService.instructorRegist(instructorInfo);
 		if(result > 0) {
-			return "redirect:myfacilityList.doa";
+			return "home";
 		}
 		else {
-			return "redirect:myfacilityList.doa";
+			return "home";
 		}
 		
 	}
@@ -356,7 +392,7 @@ public class FacilityController {
 	public String[] saveInstructorFile(@RequestParam(name="instructorPicture", required = false) MultipartFile[] instructorPicture, HttpServletRequest request) {
 		
 		String root = request.getSession().getServletContext().getRealPath("resources");
-		String savePath = root + "//facilityFiles//instructorPicture";
+		String savePath = root + "\\facilityFiles\\instructorPicture";
 		
 		File folder = new File(savePath);
 		
@@ -370,7 +406,7 @@ public class FacilityController {
 		for (int i = 0; i < instructorPicture.length; i++) {
 			String originPath = instructorPicture[i].getOriginalFilename();
 			instructorRename[i] = sdf.format(new java.sql.Date(System.currentTimeMillis())) + "_" + i + "." + originPath.substring(originPath.lastIndexOf(".")+1);
-			filePath[i] = folder + "//" + instructorRename[i];
+			filePath[i] = folder + "\\" + instructorRename[i];
 		}
 		for (int i = 0; i < instructorPicture.length; i++) {
 			try {
@@ -394,6 +430,7 @@ public class FacilityController {
 		
 		int currentPage = (page != null) ? page : 1;
 		int listCount = fService.getMyFacilityListCount(userId);
+		//int listCount = exerciseFacility.size();
 		System.out.println(currentPage);
 		System.out.println(listCount);
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
@@ -427,12 +464,13 @@ public class FacilityController {
 	public void deleteSelectFile(HttpServletRequest request) {
 		String[] pictureFiles = request.getParameterValues("pictureFiles");
 		
+		//System.out.println(pictureFiles.length);
 		File file;
 		if(pictureFiles != null) {
 			String root = request.getSession().getServletContext().getRealPath("resources");
-			String savePath = root + "//facilityFiles//facilityPicture";
+			String savePath = root + "\\facilityFiles\\facilityPicture";
 			for (int i = 0; i < pictureFiles.length; i++) {
-				file = new File(savePath + "//" + pictureFiles[i]);
+				file = new File(savePath + "\\" + pictureFiles[i]);
 				String pictureRename = pictureFiles[i];
 				if(file.exists()) {
 					fService.deleteFacilityPictureOne(pictureRename);
@@ -507,6 +545,20 @@ public class FacilityController {
 		return path;
 	}
 	
+	//삭제누른 가격들
+//	@RequestMapping(value = "deletePriceSubmit.doa", method = RequestMethod.GET)
+//	public void deletePriceSubmit(HttpServletRequest request) {
+//		String[] deleteMonth = request.getParameterValues("monthArr");
+//		int facilityNo = Integer.parseInt(request.getParameter("facilityNo"));
+//		for (int i = 0; i < deleteMonth.length; i++) {
+//			HashMap<String, Integer> priceHash = new HashMap<String, Integer>();
+//			priceHash.put("months", Integer.parseInt(deleteMonth[i]));
+//			priceHash.put("facilityNo", facilityNo);
+//			
+//			fService.deletePriceSubmit(priceHash);
+//		}
+//	}
+	
 	//시설 가격 수정 하기페이지
 	//시설 가격 삭제, 수정, 추가 세가지가 있어야함
 	//시설가격 삭제는 위에서 진행(deletePriceSubmit)
@@ -546,6 +598,7 @@ public class FacilityController {
 		model.addAttribute("instructorInfo", instructorInfoList);
 		model.addAttribute("facilityNo", facilityNo);
 		return "facility/facilityInstructorModify";
+		//model.addAttribute("facilityPrice", facilityPrice);
 		
 		
 	}
@@ -555,6 +608,21 @@ public class FacilityController {
 	public String instructorInfoModify(Model model, HttpServletRequest request,@RequestParam(name="instructorPicture", required=false) MultipartFile[] instructorPicture) {
 		int facilityNo = Integer.parseInt(request.getParameter("facilityNo"));
 		
+//		String[] RenamePictures = request.getParameterValues("instructorRename");
+//		File file;
+//		if(RenamePictures != null) {
+//			String root = request.getSession().getServletContext().getRealPath("resources");
+//			String savePath = root + "\\facilityFiles\\instructorPicture";
+//			for (int i = 0; i < RenamePictures.length; i++) {
+//				file = new File(savePath + "\\" + RenamePictures[i]);
+//				if(file.exists()) {
+//					file.delete();
+//				}
+//			}
+//		}
+//		
+//		fService.deleteFacilityInstructorOne(facilityNo);
+		
 		String[] instructorNameArr = request.getParameterValues("instructorName");
 		String[] carrerArr = request.getParameterValues("carrer");
 		String[] promiseArr = request.getParameterValues("promise");
@@ -563,17 +631,14 @@ public class FacilityController {
 		String[] carrerDBArr = request.getParameterValues("carrerDB");
 		String[] promiseDBArr = request.getParameterValues("promiseDB");
 		InstructorInfo upInstructorInfo = null;
-		if(promiseDBArr != null) {
-			for (int i = 0; i < promiseDBArr.length; i++) {
-				upInstructorInfo = new InstructorInfo();
-				upInstructorInfo.setInstructorName(instructorNameDBArr[i]);
-				upInstructorInfo.setCarrer(carrerDBArr[i]);
-				upInstructorInfo.setPromise(promiseDBArr[i]);
-				upInstructorInfo.setFacilityNo(facilityNo);
-				fService.modifyFacilityInstructor(upInstructorInfo);
-			}
+		for (int i = 0; i < promiseDBArr.length; i++) {
+			upInstructorInfo = new InstructorInfo();
+			upInstructorInfo.setInstructorName(instructorNameDBArr[i]);
+			upInstructorInfo.setCarrer(carrerDBArr[i]);
+			upInstructorInfo.setPromise(promiseDBArr[i]);
+			upInstructorInfo.setFacilityNo(facilityNo);
+			fService.modifyFacilityInstructor(upInstructorInfo);
 		}
-		
 		
 		String[] instructorRename = new String[instructorPicture.length];
 		saveInstructorFile(instructorPicture, request);
@@ -595,10 +660,10 @@ public class FacilityController {
 			}
 		}
 		if(result > 0) {
-			return "redirect:myfacilityList.doa";
+			return "home";
 		}
 		else {
-			return "redirect:myfacilityList.doa";
+			return "home";
 		}
 		
 	}
@@ -609,10 +674,10 @@ public class FacilityController {
 		File file;
 		if(RenamePictures != null) {
 			String root = request.getSession().getServletContext().getRealPath("resources");
-			String savePath = root + "//facilityFiles//instructorPicture";
+			String savePath = root + "\\facilityFiles\\instructorPicture";
 			for (int i = 0; i < RenamePictures.length; i++) {
 				System.out.println(RenamePictures[i]);
-				file = new File(savePath + "//" + RenamePictures[i]);
+				file = new File(savePath + "\\" + RenamePictures[i]);
 				String instructorRename = RenamePictures[i];
 				if(file.exists()) {
 					System.out.println(instructorRename);
@@ -638,10 +703,10 @@ public class FacilityController {
 		File file;
 		if(faciltiyPciture != null) {
 			String root = request.getSession().getServletContext().getRealPath("resources");
-			String savePath = root + "//facilityFiles//facilityPicture";
+			String savePath = root + "\\facilityFiles\\facilityPicture";
 			for (int i = 0; i < faciltiyPciture.size(); i++) {
 				String pictureRename = faciltiyPciture.get(i).getPictureRename();
-				file = new File(savePath + "//" + pictureRename);
+				file = new File(savePath + "\\" + pictureRename);
 				//System.out.println(pictureRename);
 				if(file.exists()) {
 					System.out.println(pictureRename);
@@ -654,10 +719,10 @@ public class FacilityController {
 		ArrayList<InstructorInfo> instructorInfo = fService.instructorInfo(facilityNo);
 		if(instructorInfo != null) {
 			String root = request.getSession().getServletContext().getRealPath("resources");
-			String savePath = root + "//facilityFiles//instructorPicture";
+			String savePath = root + "\\facilityFiles\\instructorPicture";
 			for (int i = 0; i < instructorInfo.size(); i++) {
 				String instructorRename = instructorInfo.get(i).getInstructorRename();
-				file = new File(savePath + "//" + instructorRename);
+				file = new File(savePath + "\\" + instructorRename);
 				if(file.exists()) {
 					System.out.println(instructorRename);
 					file.delete();
@@ -694,6 +759,9 @@ public class FacilityController {
 		String[] termsYnArr = request.getParameterValues("termsYn");
 		HashMap<String, String> termsYnHash = new HashMap<String, String>();
 		
+//		for (int i = 0; i < termsYnArr.length; i++) {
+//			System.out.println(termsYnArr[i]);
+//		}
 		
 		if(userId != "" && userId != null) {
 			termsYnHash.put("userId", userId);
@@ -744,6 +812,45 @@ public class FacilityController {
 		else {
 			return "common/errorPage";
 		}
+		//userId, termsYn을 받아옴
+		
+		/*String userId = request.getParameter("userId");
+		String[] termsYnArr = request.getParameterValues("termsYn");
+		HashMap<String, String> termsYnHash = new HashMap<String, String>();
+		if(userId != null) {
+			termsYnHash.put("userId", userId);
+			System.out.println("userId : " + userId);
+		}
+		else {
+			termsYnHash.put("userId", "none");
+			System.out.println("none");
+		}
+		
+		if(termsYnArr.length == 1) {
+			termsYnHash.put("termsYn", termsYnArr[0]);
+		}
+		else {//두개 다 선택했을 때
+			termsYnHash.put("termsYn", "dup");
+			System.out.println("dup");
+		}
+		
+		int currentPage = (page != null) ? page : 1;
+		int listCount = fService.termsYnSearchCount(termsYnHash); // 페이지 갯수 구하기
+		System.out.println(listCount);
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+		//리스트 가져오기
+		ArrayList<ExerciseFacility> exerciseFacility = fService.termsYnSearch(pi, termsYnHash);
+		
+		
+		if(result > 0) {
+			model.addAttribute("userId", userId);
+			model.addAttribute("pi", pi);
+			model.addAttribute("exerciseFacility", exerciseFacility);
+			return "facility/adminFacilityManage";
+		}
+		else {
+			return "common/errorPage";
+		}*/
 		
 	}
 	
@@ -760,6 +867,45 @@ public class FacilityController {
 			return "common/errorPage";
 		}
 		
+		//userId, termsYn을 받아옴
+		
+		/*String userId = request.getParameter("userId");
+		String[] termsYnArr = request.getParameterValues("termsYn");
+		HashMap<String, String> termsYnHash = new HashMap<String, String>();
+		if(userId != null) {
+			termsYnHash.put("userId", userId);
+			System.out.println("userId : " + userId);
+		}
+		else {
+			termsYnHash.put("userId", "none");
+			System.out.println("none");
+		}
+		
+		if(termsYnArr.length == 1) {
+			termsYnHash.put("termsYn", termsYnArr[0]);
+		}
+		else {//두개 다 선택했을 때
+			termsYnHash.put("termsYn", "dup");
+			System.out.println("dup");
+		}
+		
+		int currentPage = (page != null) ? page : 1;
+		int listCount = fService.termsYnSearchCount(termsYnHash); // 페이지 갯수 구하기
+		System.out.println(listCount);
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+		//리스트 가져오기
+		ArrayList<ExerciseFacility> exerciseFacility = fService.termsYnSearch(pi, termsYnHash);
+		
+		
+		if(result > 0) {
+			model.addAttribute("userId", userId);
+			model.addAttribute("pi", pi);
+			model.addAttribute("exerciseFacility", exerciseFacility);
+			return "facility/adminFacilityManage";
+		}
+		else {
+			return "common/errorPage";
+		}*/
 	}
 	
 }

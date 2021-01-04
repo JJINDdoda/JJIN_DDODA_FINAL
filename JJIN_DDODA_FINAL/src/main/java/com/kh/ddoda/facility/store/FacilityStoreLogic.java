@@ -55,6 +55,7 @@ public class FacilityStoreLogic implements FacilityStore {
 
 	@Override
 	public ArrayList<FacilityPicture> facilityPicture(int facilityNo) {
+		System.out.println(facilityNo);
 		return (ArrayList)sqlSession.selectList("FacilityMapper.facilityPicture", facilityNo);
 	}
 
@@ -167,6 +168,7 @@ public class FacilityStoreLogic implements FacilityStore {
 
 	@Override
 	public int deleteMyFacility(int facilityNo) {
+		System.out.println(facilityNo);
 		return sqlSession.delete("FacilityMapper.deleteMyFacility", facilityNo);
 	}
 
@@ -207,6 +209,11 @@ public class FacilityStoreLogic implements FacilityStore {
 	@Override
 	public int rejectClick(int facilityNo) {
 		return sqlSession.update("FacilityMapper.rejectClick", facilityNo);
+	}
+
+	@Override
+	public String facilityPictureRename(int facilityNo) {
+		return sqlSession.selectOne("FacilityMapper.facilityPictureRename", facilityNo);
 	}
 
 }

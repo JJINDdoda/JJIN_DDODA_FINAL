@@ -58,6 +58,13 @@ public interface FacilityStore {
 	public ArrayList<FacilityPicture> facilityPicture(int facilityNo);
 	
 	/**
+	 * 시설 내 사진 하나 가져오기
+	 * @param facilityNo
+	 * @return
+	 */
+	public String facilityPictureRename(int facilityNo);
+	
+	/**
 	 * 강사정보 가져오기
 	 * @param facilityNo
 	 * @return

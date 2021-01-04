@@ -459,9 +459,14 @@ public class CalendarController {
 		//클릭한 날짜의 데이터 가져오기
 		@ResponseBody
 		@RequestMapping(value = "selectMyInfoDate.doa", method = RequestMethod.GET)
-		public MemberInfo selectMyInfoDate(HttpServletRequest request) {
+		public MemberInfo selectMyInfoDate(HttpServletRequest request, HttpSession session) {
 			String changeDate = request.getParameter("clickDate");
-			MemberInfo memberInfo = cService.selectMyInfoDate(changeDate);
+			Member loginUser = (Member) session.getAttribute("loginUser");
+			String userId = loginUser.getUserId();
+			HashMap<String, String> dataHash = new HashMap<String, String>();
+			dataHash.put("changeDate", changeDate);
+			dataHash.put("userId", userId);
+			MemberInfo memberInfo = cService.selectMyInfoDate(dataHash);
 			if(memberInfo == null) {
 				System.out.println("null");
 			}
@@ -520,44 +525,47 @@ public class CalendarController {
 			for (int i = 0; i < myDietKinds.size(); i++) {
 				String meal = myDietKinds.get(i).getMydietmeal();
 				System.out.println(myDietKinds.get(i).getMydietmeal());
-				int mydietNo = 0;
+				int breakfastmydietNo = 0;
+				int lunchmydietNo = 0;
+				int dinnermydietNo = 0;
 				if(meal.equals("아침")) {
-					mydietNo = myDietKinds.get(i).getMydietNo();
-					System.out.println(mydietNo);
+					breakfastmydietNo = myDietKinds.get(i).getMydietNo();
+					System.out.println("칼로리번호 : " + breakfastmydietNo);
+					System.out.println("식사종류" + meal);
 					//아침
 					//HashMap<String, String> myCalorieHash = new HashMap<String, String>();
 					//myCalorieHash.put("userId", userId);
 					//myCalorieHash.put("changeDate", changeDate);
 					//myCalorieHash.put("mydietMeal", "아침");
 					//myCalorieHash.put("mydietNo", mydietNo);
-					breakFastmyCalorie = cService.myCalorieGetDate(mydietNo);
+					breakFastmyCalorie = cService.myCalorieGetDate(breakfastmydietNo);
 					int breakfastTotal = myDietKinds.get(i).getMydietConsumption();
-					model.addAttribute("mydietNo", mydietNo);
+					model.addAttribute("breakfastmydietNo", breakfastmydietNo);
 					model.addAttribute("breakfastTotal", breakfastTotal);
 					//model.addAttribute("breakfastMyDiet", myDietKinds);
-					System.out.println("아침");
 				}
 				else if(meal.equals("점심")) {
 					//점심
 					//model.addAttribute("lunchMyDiet", lunchMyDiet);
-					mydietNo = myDietKinds.get(i).getMydietNo(); // 해당 diet식별번호 가져오기
-					System.out.println(mydietNo);
-					lunchmyCalorie = cService.myCalorieGetDate(mydietNo); // dietNo에 해당하는 값 가져오기
+					lunchmydietNo = myDietKinds.get(i).getMydietNo(); // 해당 diet식별번호 가져오기
+					System.out.println("칼로리번호 : " + lunchmydietNo);
+					System.out.println("식사종류" + meal);
+					lunchmyCalorie = cService.myCalorieGetDate(lunchmydietNo); // dietNo에 해당하는 값 가져오기
+					System.out.println(lunchmyCalorie.toString());
 					int lunchTotal = myDietKinds.get(i).getMydietConsumption(); // 점심 전체 칼로리 가져오기
-					model.addAttribute("mydietNo", mydietNo);
+					model.addAttribute("lunchmydietNo", lunchmydietNo);
 					model.addAttribute("lunchTotal", lunchTotal);
-					System.out.println("점심");
 				}
 				else if(meal.equals("저녁")) {
 					//저녁
 					//model.addAttribute("dinnertMyDiet", dinnertMyDiet);
-					mydietNo = myDietKinds.get(i).getMydietNo(); // 해당 diet식별번호 가져오기
-					System.out.println(mydietNo);
-					dinnermyCalorie = cService.myCalorieGetDate(mydietNo); // dietNo에 해당하는 값 가져오기
+					dinnermydietNo = myDietKinds.get(i).getMydietNo(); // 해당 diet식별번호 가져오기
+					System.out.println("칼로리번호 : " + dinnermydietNo);
+					System.out.println("식사종류" + meal);
+					dinnermyCalorie = cService.myCalorieGetDate(dinnermydietNo); // dietNo에 해당하는 값 가져오기
 					int dinnerTotal = myDietKinds.get(i).getMydietConsumption(); // 점심 전체 칼로리 가져오기
-					model.addAttribute("mydietNo", mydietNo);
+					model.addAttribute("dinnermydietNo", dinnermydietNo);
 					model.addAttribute("dinnerTotal", dinnerTotal);
-					System.out.println("저녁");
 				}
 				else {
 					System.out.println("??");
@@ -578,9 +586,9 @@ public class CalendarController {
 		@RequestMapping(value = "changeFoodName.doa", method = RequestMethod.GET)
 		public Calorie changeBreakfastFoodName(HttpServletRequest request) {
 			String foodName = request.getParameter("foodName");
-			System.out.println(foodName);
+//			System.out.println(foodName);
 			Calorie Calorie = cService.changeBreakfastFoodName(foodName);
-			System.out.println(Calorie.toString());
+//			System.out.println(Calorie.toString());
 			return Calorie;
 		}
 		
@@ -642,7 +650,7 @@ public class CalendarController {
 		@RequestMapping(value = "updateBreakFastInfo.doa", method = RequestMethod.GET)
 		public String updateBreakfastInfo(HttpServletRequest request, HttpSession session, Model model) {
 			int mydietNo = Integer.parseInt(request.getParameter("mydietNo"));
-			System.out.println(mydietNo);
+			System.out.println("아침업데이트 : " + mydietNo);
 			cService.deleteBreakfastInfo(mydietNo);
 			
 			
@@ -655,6 +663,7 @@ public class CalendarController {
 			String[] unit = request.getParameterValues("unit");
 			//String breakfastTotalCalorie = request.getParameter("breakfastTotalCalorie");
 			String changeDate = request.getParameter("changeDate");
+			System.out.println("식사종류(아침이여야해) : " + mealKinds);
 			
 			MyDiet mydiet = new MyDiet();
 			MyCalorie mycalorie = new MyCalorie();
@@ -665,11 +674,12 @@ public class CalendarController {
 			for (int i = 0; i < unit.length; i++) {
 				mydietConsumption += Integer.parseInt(kcal[i]);
 			}
-			System.out.println(mydietConsumption);
-			mydiet.setMydietmeal(mealKinds);
-			mydiet.setMydietConsumption(mydietConsumption);
-			mydiet.setMydietDate(changeDate);
-			mydiet.setUerId(userId);
+			System.out.println("아침총열량 : " + mydietConsumption);
+			mydiet.setMydietNo(mydietNo);
+			mydiet.setMydietmeal(mealKinds); //식사종류
+			mydiet.setMydietConsumption(mydietConsumption); // 총 열량
+			mydiet.setMydietDate(changeDate); // 날짜
+			mydiet.setUerId(userId); // 사용자Id
 			mydiet.setMydietConsumption(mydietConsumption);
 			System.out.println(mydiet.toString());
 			dietResult = cService.inputMydiet(mydiet);
@@ -679,11 +689,12 @@ public class CalendarController {
 				mycalorie.setKcal(Integer.parseInt(kcal[i]));
 				mycalorie.setFoodAmount(Integer.parseInt(foodAmount[i]));
 				mycalorie.setUnit(unit[i]);
+				mycalorie.setMydietNo(mydietNo);
 				System.out.println(mycalorie.toString());
 				calorieResult = cService.inputMyCalorie(mycalorie);
 			}
 			if(dietResult > 0 && calorieResult > 0) {
-				return "redirect:calendarView.doa";
+				return "redirect:calorieInput.doa";
 			}
 			else {
 				return "common/errorPage";
@@ -693,7 +704,7 @@ public class CalendarController {
 		//아침 delete
 		@RequestMapping(value = "deleteMyDietInfo.doa", method = RequestMethod.GET)
 		public String deleteBreakfastInfo(HttpServletRequest request, Model model) {
-			int mydietNo = Integer.parseInt(request.getParameter("mydietNo"));
+			int mydietNo = Integer.parseInt(request.getParameter("breakfastmydietNo"));
 			System.out.println(mydietNo);
 			int result = cService.deleteBreakfastInfo(mydietNo);
 			if(result > 0) {
@@ -760,6 +771,7 @@ public class CalendarController {
 		public String updateLunchInfo(HttpServletRequest request, HttpSession session) {
 			int mydietNo = Integer.parseInt(request.getParameter("mydietNo"));
 			System.out.println(mydietNo);
+			System.out.println("점심업데이트 : " + mydietNo);
 			cService.deleteBreakfastInfo(mydietNo);
 			
 			
@@ -772,6 +784,7 @@ public class CalendarController {
 			String[] unit = request.getParameterValues("unit");
 			//String breakfastTotalCalorie = request.getParameter("breakfastTotalCalorie");
 			String changeDate = request.getParameter("changeDate");
+			System.out.println("식사종류(점심이여야해) : " + mealKinds);
 			
 			MyDiet mydiet = new MyDiet();
 			MyCalorie mycalorie = new MyCalorie();
@@ -782,7 +795,8 @@ public class CalendarController {
 			for (int i = 0; i < unit.length; i++) {
 				mydietConsumption += Integer.parseInt(kcal[i]);
 			}
-			System.out.println(mydietConsumption);
+			System.out.println("점심총열량 : " + mydietConsumption);
+			mydiet.setMydietNo(mydietNo);
 			mydiet.setMydietmeal(mealKinds);
 			mydiet.setMydietConsumption(mydietConsumption);
 			mydiet.setMydietDate(changeDate);
@@ -796,6 +810,7 @@ public class CalendarController {
 				mycalorie.setKcal(Integer.parseInt(kcal[i]));
 				mycalorie.setFoodAmount(Integer.parseInt(foodAmount[i]));
 				mycalorie.setUnit(unit[i]);
+				mycalorie.setMydietNo(mydietNo);
 				System.out.println(mycalorie.toString());
 				calorieResult = cService.inputMyCalorie(mycalorie);
 			}
@@ -807,107 +822,137 @@ public class CalendarController {
 			}
 		}
 		
-		//저녁 insert
-		@RequestMapping(value = "inputDinnerInfo.doa", method = RequestMethod.POST)
-		public String inputDinnerInfo(HttpServletRequest request, Model model, HttpSession session) {
-			Member loginUser = (Member) session.getAttribute("loginUser");
-			String userId = loginUser.getUserId();
-			String mealKinds = request.getParameter("mealKinds");
-			String[] foodName = request.getParameterValues("dinnerFoodName");
-			String[] kcal = request.getParameterValues("kcal");
-			String[] foodAmount = request.getParameterValues("foodAmount");
-			String[] unit = request.getParameterValues("unit");
-			//String breakfastTotalCalorie = request.getParameter("breakfastTotalCalorie");
-			String changeDate = request.getParameter("changeDate");
-			
-			MyDiet mydiet = new MyDiet();
-			MyCalorie mycalorie = new MyCalorie();
-			int dietResult = 0;
-			int calorieResult = 0;
-			
-			int mydietConsumption = 0;
-			for (int i = 0; i < unit.length; i++) {
-				mydietConsumption += Integer.parseInt(kcal[i]);
+		//점심 delete
+			@RequestMapping(value = "deleteLunchMyDietInfo.doa", method = RequestMethod.GET)
+			public String deleteLunchMyDietInfo(HttpServletRequest request, Model model) {
+				int mydietNo = Integer.parseInt(request.getParameter("lunchmydietNo"));
+				System.out.println(mydietNo);
+				int result = cService.deleteBreakfastInfo(mydietNo);
+				if(result > 0) {
+					return "redirect:calendarView.doa";
+				}
+				else {
+					return "common/errorPage";
+				}
 			}
-			System.out.println(mydietConsumption);
-			mydiet.setMydietmeal(mealKinds);
-			mydiet.setMydietConsumption(mydietConsumption);
-			mydiet.setMydietDate(changeDate);
-			mydiet.setUerId(userId);
-			mydiet.setMydietConsumption(mydietConsumption);
-			System.out.println(mydiet.toString());
-			dietResult = cService.inputMydiet(mydiet);
-			
-			for (int i = 0; i < foodAmount.length; i++) {
-				mycalorie.setFoodName(foodName[i]);
-				mycalorie.setKcal(Integer.parseInt(kcal[i]));
-				mycalorie.setFoodAmount(Integer.parseInt(foodAmount[i]));
-				mycalorie.setUnit(unit[i]);
-				System.out.println(mycalorie.toString());
-				calorieResult = cService.inputMyCalorie(mycalorie);
-			}
-			
-			if(dietResult > 0 && calorieResult > 0) {
-				model.addAttribute("changeDate", changeDate);
-				return "redirect:calendarView.doa";
-			}
-			else {
-				return "common/errorPage";
-			}
-		}
 		
-		//저녁 update
-		@RequestMapping(value = "updateDinnerInfo.doa", method = RequestMethod.GET)
-		public String updateDinnerInfo(HttpServletRequest request, HttpSession session) {
-			int mydietNo = Integer.parseInt(request.getParameter("mydietNo"));
-			System.out.println(mydietNo);
-			cService.deleteBreakfastInfo(mydietNo);
-			
-			
-			Member loginUser = (Member) session.getAttribute("loginUser");
-			String userId = loginUser.getUserId();
-			String mealKinds = request.getParameter("mealKinds");
-			String[] foodName = request.getParameterValues("dinnerFoodName");
-			String[] kcal = request.getParameterValues("kcal");
-			String[] foodAmount = request.getParameterValues("foodAmount");
-			String[] unit = request.getParameterValues("unit");
-			//String breakfastTotalCalorie = request.getParameter("breakfastTotalCalorie");
-			String changeDate = request.getParameter("changeDate");
-			
-			MyDiet mydiet = new MyDiet();
-			MyCalorie mycalorie = new MyCalorie();
-			int dietResult = 0;
-			int calorieResult = 0;
-			
-			int mydietConsumption = 0;
-			for (int i = 0; i < unit.length; i++) {
-				mydietConsumption += Integer.parseInt(kcal[i]);
+			//저녁 insert
+			@RequestMapping(value = "inputDinnerInfo.doa", method = RequestMethod.POST)
+			public String inputDinnerInfo(HttpServletRequest request, Model model, HttpSession session) {
+				Member loginUser = (Member) session.getAttribute("loginUser");
+				String userId = loginUser.getUserId();
+				String mealKinds = request.getParameter("mealKinds");
+				String[] foodName = request.getParameterValues("dinnerFoodName");
+				String[] kcal = request.getParameterValues("kcal");
+				String[] foodAmount = request.getParameterValues("foodAmount");
+				String[] unit = request.getParameterValues("unit");
+				//String breakfastTotalCalorie = request.getParameter("breakfastTotalCalorie");
+				String changeDate = request.getParameter("changeDate");
+				
+				MyDiet mydiet = new MyDiet();
+				MyCalorie mycalorie = new MyCalorie();
+				int dietResult = 0;
+				int calorieResult = 0;
+				
+				int mydietConsumption = 0;
+				for (int i = 0; i < unit.length; i++) {
+					mydietConsumption += Integer.parseInt(kcal[i]);
+				}
+				System.out.println(mydietConsumption);
+				mydiet.setMydietmeal(mealKinds);
+				mydiet.setMydietConsumption(mydietConsumption);
+				mydiet.setMydietDate(changeDate);
+				mydiet.setUerId(userId);
+				mydiet.setMydietConsumption(mydietConsumption);
+				System.out.println(mydiet.toString());
+				dietResult = cService.inputMydiet(mydiet);
+				
+				for (int i = 0; i < foodAmount.length; i++) {
+					mycalorie.setFoodName(foodName[i]);
+					mycalorie.setKcal(Integer.parseInt(kcal[i]));
+					mycalorie.setFoodAmount(Integer.parseInt(foodAmount[i]));
+					mycalorie.setUnit(unit[i]);
+					System.out.println(mycalorie.toString());
+					calorieResult = cService.inputMyCalorie(mycalorie);
+				}
+				
+				if(dietResult > 0 && calorieResult > 0) {
+					model.addAttribute("changeDate", changeDate);
+					return "redirect:calendarView.doa";
+				}
+				else {
+					return "common/errorPage";
+				}
 			}
-			System.out.println(mydietConsumption);
-			mydiet.setMydietmeal(mealKinds);
-			mydiet.setMydietConsumption(mydietConsumption);
-			mydiet.setMydietDate(changeDate);
-			mydiet.setUerId(userId);
-			mydiet.setMydietConsumption(mydietConsumption);
-			System.out.println(mydiet.toString());
-			dietResult = cService.inputMydiet(mydiet);
 			
-			for (int i = 0; i < foodAmount.length; i++) {
-				mycalorie.setFoodName(foodName[i]);
-				mycalorie.setKcal(Integer.parseInt(kcal[i]));
-				mycalorie.setFoodAmount(Integer.parseInt(foodAmount[i]));
-				mycalorie.setUnit(unit[i]);
-				System.out.println(mycalorie.toString());
-				calorieResult = cService.inputMyCalorie(mycalorie);
+			//저녁 update
+			@RequestMapping(value = "updateDinnerInfo.doa", method = RequestMethod.GET)
+			public String updateDinnerInfo(HttpServletRequest request, HttpSession session) {
+				int mydietNo = Integer.parseInt(request.getParameter("mydietNo"));
+				System.out.println(mydietNo);
+				cService.deleteBreakfastInfo(mydietNo);
+				
+				
+				Member loginUser = (Member) session.getAttribute("loginUser");
+				String userId = loginUser.getUserId();
+				String mealKinds = request.getParameter("mealKinds");
+				String[] foodName = request.getParameterValues("dinnerFoodName");
+				String[] kcal = request.getParameterValues("kcal");
+				String[] foodAmount = request.getParameterValues("foodAmount");
+				String[] unit = request.getParameterValues("unit");
+				//String breakfastTotalCalorie = request.getParameter("breakfastTotalCalorie");
+				String changeDate = request.getParameter("changeDate");
+				
+				MyDiet mydiet = new MyDiet();
+				MyCalorie mycalorie = new MyCalorie();
+				int dietResult = 0;
+				int calorieResult = 0;
+				
+				int mydietConsumption = 0;
+				for (int i = 0; i < unit.length; i++) {
+					mydietConsumption += Integer.parseInt(kcal[i]);
+				}
+				System.out.println(mydietConsumption);
+				mydiet.setMydietNo(mydietNo);
+				mydiet.setMydietmeal(mealKinds);
+				mydiet.setMydietConsumption(mydietConsumption);
+				mydiet.setMydietDate(changeDate);
+				mydiet.setUerId(userId);
+				mydiet.setMydietConsumption(mydietConsumption);
+				System.out.println(mydiet.toString());
+				dietResult = cService.inputMydiet(mydiet);
+				
+				for (int i = 0; i < foodAmount.length; i++) {
+					mycalorie.setFoodName(foodName[i]);
+					mycalorie.setKcal(Integer.parseInt(kcal[i]));
+					mycalorie.setFoodAmount(Integer.parseInt(foodAmount[i]));
+					mycalorie.setUnit(unit[i]);
+					mycalorie.setMydietNo(mydietNo);
+					System.out.println(mycalorie.toString());
+					calorieResult = cService.inputMyCalorie(mycalorie);
+				}
+				if(dietResult > 0 && calorieResult > 0) {
+					return "redirect:calendarView.doa";
+				}
+				else {
+					return "common/errorPage";
+				}
 			}
-			if(dietResult > 0 && calorieResult > 0) {
-				return "redirect:calendarView.doa";
-			}
-			else {
-				return "common/errorPage";
-			}
-		}
-		
+			
+			//저녁 delete
+					@RequestMapping(value = "deleteDinnerMyDietInfo.doa", method = RequestMethod.GET)
+					public String deleteDinnerMyDietInfo(HttpServletRequest request, Model model) {
+						int mydietNo = Integer.parseInt(request.getParameter("dinnermydietNo"));
+						System.out.println(mydietNo);
+						int result = cService.deleteBreakfastInfo(mydietNo);
+						if(result > 0) {
+							return "redirect:calendarView.doa";
+						}
+						else {
+							return "common/errorPage";
+						}
+					}
+
 		
 	
 }

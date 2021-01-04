@@ -24,6 +24,25 @@ public class FacilityServiceImpl implements FacilityService {
 		
 	}
 	
+//	@Override
+//	public ArrayList<MapLocation> locationList() {
+//		return fStore.locationList();
+//	}
+
+//	@Override
+//	public ArrayList<MapLocation> mapLocation(MapLocation mapLocation) {
+//		return fStore.mapLocation(mapLocation);
+//	}
+//
+//	@Override
+//	public ArrayList<ExerciseFacility> searchCity() {
+//		return fStore.searchCity();
+//	}
+//
+//	@Override
+//	public ArrayList<ExerciseFacility> searchCounty(String areaName) {
+//		return fStore.searchCounty(areaName);
+//	}
 
 	@Override
 	public ExerciseFacility facilityInfo(int facilityNo) {
@@ -40,6 +59,10 @@ public class FacilityServiceImpl implements FacilityService {
 		return fStore.instructorInfo(facilityNo);
 	}
 
+//	@Override
+//	public ArrayList<String> markerListAll(HashMap<String, String> facilityInfo) {
+//		return fStore.markerListAll(facilityInfo);
+//	}
 
 	@Override
 	public ArrayList<ExerciseFacility> markerCountyList(HashMap<String, String> facilityInfo) {
@@ -105,6 +128,11 @@ public class FacilityServiceImpl implements FacilityService {
 		return fStore.contentList(facilityInfo);
 	}
 
+//	@Override
+//	public int deletePriceSubmit(HashMap<String, Integer> priceHash) {
+//		return fStore.deletePriceSubmit(priceHash);
+//	}
+
 	@Override
 	public int deletePrices(int facilityNo) {
 		return fStore.deletePrices(facilityNo);
@@ -168,6 +196,11 @@ public class FacilityServiceImpl implements FacilityService {
 	@Override
 	public int rejectClick(int facilityNo) {
 		return fStore.rejectClick(facilityNo);
+	}
+
+	@Override
+	public String facilityPictureRename(int facilityNo) {
+		return fStore.facilityPictureRename(facilityNo);
 	}
 
 }

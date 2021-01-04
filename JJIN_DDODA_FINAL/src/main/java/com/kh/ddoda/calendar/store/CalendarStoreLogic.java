@@ -89,8 +89,8 @@ public class CalendarStoreLogic implements CalendarStore{
 	}
 
 	@Override
-	public MemberInfo selectMyInfoDate(String changeDate) {
-		return sqlSession.selectOne("CalendarMapper.selectMyInfoDate", changeDate);
+	public MemberInfo selectMyInfoDate(HashMap<String, String> dataHash) {
+		return sqlSession.selectOne("CalendarMapper.selectMyInfoDate", dataHash);
 	}
 
 	@Override
@@ -106,6 +106,11 @@ public class CalendarStoreLogic implements CalendarStore{
 	@Override
 	public Calorie changeBreakfastFoodName(String foodName) {
 		return sqlSession.selectOne("CalendarMapper.changeBreakfastFoodName", foodName);
+	}
+
+	@Override
+	public ArrayList<Diary> getDiary(String userId) {
+		return (ArrayList)sqlSession.selectList("CalendarMapper.getDiary", userId);
 	}
 
 	@Override
@@ -143,7 +148,7 @@ public class CalendarStoreLogic implements CalendarStore{
 		sqlSession.delete("CalendarMapper.deleteBreakfastMyCalorie", mydietNo);
 		return sqlSession.delete("CalendarMapper.deleteBreakfastMyDiet", mydietNo);
 	}
-	
+
 
 
 }

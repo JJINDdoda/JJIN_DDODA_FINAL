@@ -173,7 +173,7 @@
 			<c:if test="${!empty breakFastmyCalorie }">
 				<form action="updateBreakFastInfo.doa" method="get" id="breakfastForm">
 					<input type="hidden" value="${changeDate }" name="changeDate">
-					<input type="hidden" value="${mydietNo }" name="mydietNo" id="mydietNo">
+					<input type="hidden" value="${breakfastmydietNo }" name="mydietNo" id="breakfastmydietNo">
 					<input type="hidden" value="아침" name="mealKinds">
 					<div id="breakfastWrapping">
 						<div id="breakfastCalorie" class="mealInput">
@@ -297,7 +297,7 @@
 			<c:if test="${!empty lunchmyCalorie }">
 				<form action="updateLunchInfo.doa" method="get" id="lunchForm">
 					<input type="hidden" value="${changeDate }" name="changeDate">
-					<input type="hidden" value="${mydietNo }" name="mydietNo" id="mydietNo">
+					<input type="hidden" value="${lunchmydietNo }" name="mydietNo" id="lunchmydietNo">
 					<input type="hidden" value="점심" name="mealKinds">
 					<div id="lunchWrapping">
 						<div id="lunchCalorie" class="mealInput">
@@ -352,7 +352,7 @@
 						</div>
 						<div id="lunchSubmitBtn">
 							<input type="submit" id="lunchBtn" value="수정하기">
-							<input type="button" id="lunchDeleteBtn" value="삭제하기" onclick="return breakfastDelete()">
+							<input type="button" id="lunchDeleteBtn" value="삭제하기" onclick="return lunchDelete()">
 						</div>
 					</div>
 				</form>
@@ -428,7 +428,7 @@
 			<c:if test="${!empty dinnermyCalorie }">
 				<form action="updateDinnerInfo.doa" method="get" id="dinnerForm">
 					<input type="hidden" value="${changeDate }" name="changeDate">
-					<input type="hidden" value="${mydietNo }" name="mydietNo" id="mydietNo">
+					<input type="hidden" value="${dinnermydietNo }" name="mydietNo" id="dinnermydietNo">
 					<input type="hidden" value="저녁" name="mealKinds">
 					<div id="dinnerWrapping">
 						<div id="dinnerCalorie" class="mealInput">
@@ -489,7 +489,7 @@
 						</div>
 						<div id="dinnerSubmitBtn">
 							<input type="submit" id="dinnerBtn" value="수정하기">
-							<input type="button" id="dinnerDeleteBtn" value="삭제하기" onclick="return breakfastDelete()">
+							<input type="button" id="dinnerDeleteBtn" value="삭제하기" onclick="return dinnerDelete()">
 						</div>
 					</div>
 				</form>
@@ -830,12 +830,37 @@
 			$('#dinnerTotalCalorie').val(dinnerTotalCalorie);
 		}
 
-		//삭제
+		//아침 삭제
 		function breakfastDelete(){
 			var deleteConfirm = confirm('정말 삭제하시겠습니까?');
 			if(deleteConfirm){
-				var mydietNo = $('#mydietNo').val();
-				location.href='deleteMyDietInfo.doa?mydietNo='+mydietNo;//삭제로직으로 이동
+				var breakfastmydietNo = $('#breakfastmydietNo').val();
+				location.href='deleteMyDietInfo.doa?breakfastmydietNo='+breakfastmydietNo;//삭제로직으로 이동
+			}
+			else{
+				return false;
+			}
+		}
+		
+		//점심 삭제
+		function lunchDelete(){
+			var deleteConfirm = confirm('정말 삭제하시겠습니까?');
+			if(deleteConfirm){
+				var lunchmydietNo = $('#lunchmydietNo').val();
+				console.log(lunchmydietNo);
+				location.href='deleteLunchMyDietInfo.doa?lunchmydietNo='+lunchmydietNo;//삭제로직으로 이동
+			}
+			else{
+				return false;
+			}
+		}
+		
+		//저녁 삭제
+		function dinnerDelete(){
+			var deleteConfirm = confirm('정말 삭제하시겠습니까?');
+			if(deleteConfirm){
+				var dinnermydietNo = $('#dinnermydietNo').val();
+				location.href='deleteDinnerMyDietInfo.doa?dinnermydietNo='+dinnermydietNo;//삭제로직으로 이동
 			}
 			else{
 				return false;

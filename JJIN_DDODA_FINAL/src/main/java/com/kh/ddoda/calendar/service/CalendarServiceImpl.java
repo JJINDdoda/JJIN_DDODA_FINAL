@@ -87,8 +87,8 @@ public class CalendarServiceImpl implements CalendarService{
 	}
 
 	@Override
-	public MemberInfo selectMyInfoDate(String changeDate) {
-		return cStore.selectMyInfoDate(changeDate);
+	public MemberInfo selectMyInfoDate(HashMap<String, String> dataHash) {
+		return cStore.selectMyInfoDate(dataHash);
 	}
 
 	@Override
@@ -104,6 +104,11 @@ public class CalendarServiceImpl implements CalendarService{
 	@Override
 	public Calorie changeBreakfastFoodName(String foodName) {
 		return cStore.changeBreakfastFoodName(foodName);
+	}
+
+	@Override
+	public ArrayList<Diary> getDiary(String userId) {
+		return cStore.getDiary(userId);
 	}
 
 	@Override
