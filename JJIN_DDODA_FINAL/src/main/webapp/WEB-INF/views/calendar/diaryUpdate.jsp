@@ -247,7 +247,7 @@ textarea {
                     <c:choose>
                     	<c:when test="${diaryImg.imgMainYn == 'Y' }">
 							<div style="width:100px;height:100px;">
-							<img src="/resources/diaryUploadFiles/${diaryImg.userId }/${diaryImg.imgRenamePath}" height="100" style=" border:5px solid #f7bf99; ">
+							<img src="/resources/opendiaryUploadFiles/${diaryImg.userId }/${diaryImg.opendiaryNo}/${diaryImg.imgRenamePath}" height="100" style=" border:5px solid #f7bf99; ">
 							</div>
 							<div class="fileBtn">
 								<div style="margin-bottom:0px;height:40px;width:75%;float:left;"><p>${diaryImg.imgPath}
@@ -259,7 +259,7 @@ textarea {
 						</c:when>
 						<c:when test="${diaryImg.imgMainYn == 'N' }">
 							<div style="width:100px;height:100px;">
-							<img src="/resources/diaryUploadFiles/${diaryImg.userId }/${diaryImg.imgRenamePath}" height="100"></div>
+							<img src="/resources/opendiaryUploadFiles/${diaryImg.userId }/${diaryImg.opendiaryNo}/${diaryImg.imgRenamePath}" height="100"></div>
 							<div class="fileBtn">
 								<div style="margin-bottom:0px;height:40px;width:100%;float:left;"><p>${diaryImg.imgPath}</p>
 								</div>

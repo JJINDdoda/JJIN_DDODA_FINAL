@@ -149,6 +149,7 @@
     <script src="resources/fullcalendar-4.3.1/packages/rrule/main.js"></script>
     <script src="resources/fullcalendar-4.3.1/packages/list/main.js"></script>
     <script src="resources/fullcalendar-4.3.1/packages/list/main.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
     
     <script>
 
@@ -161,20 +162,20 @@
     
     console.log(today);
     var opendiaryNo;
-  document.addEventListener('DOMContentLoaded', function() {
+    
+    document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
     var userId = $('#userId').val();
-    
     var jevents = [${events}];
 
     var calendar = new FullCalendar.Calendar(calendarEl, {
       plugins: [ 'interaction', 'dayGrid' ],
       //defaultDate: '2020-12-12',   달력 로드될 때,기본으로 표기하는 값 미지정 시 현재 날짜 
       //navLinks : true,   달력상의 날짜를 클릭할 수 있는지 여부, 클릭 시 일/주달력으로 넘어감 boolean 
-      editable: true,   //boolean, 이벤트드래그, 리사이징 등의 편집 여부를 설정함
+      /* editable: true,  */  //boolean, 이벤트드래그, 리사이징 등의 편집 여부를 설정함
       eventLimit: true, // boolean, 달력에 셀크기보다 많은 이벤트 존재 시 +more로 표기함
-      selectable: true,
-      droppable: true,
+     /*  selectable: true,
+      droppable: true, */
       
      
        /* ****************
@@ -184,17 +185,19 @@
          $.ajax({
            type: "get",
            url: "diaryList.doa",
-           data: {
-             "userId" : userId
-           },
+           data: {"userId" : userId},
            dataType : "json",
            success: function (data) {
+        	 jevents = [${events}];
              if(data !=null) {
                 $.each(data, function(index, element) {
+                	
+                	var startdate = moment(element.opendiaryDate).format('YYYY-MM-DD');
+                	
                    jevents.push({
                       _id : element.opendiaryNo,
-                      title : '<일기> '+element.opendiaryTitle,
-                      start : element.opendiaryDate,
+                      title : '<일기> '+ element.opendiaryTitle,
+                      start : startdate,
                       description : element.opendiaryContents,
                       end : element.opendiaryDate,
                       backgroundColor: "#7bb8b3",
@@ -202,6 +205,7 @@
                       imageurl : "/resources/diaryUploadFiles/"+userId+"/"+element.mainImagePath
                    });
                });
+                
              }
             successCallback(jevents);
            }
@@ -211,7 +215,7 @@
       dateClick: function(info) {
 	        clickDate = info.dateStr;
 	        $('#changeDate').val(clickDate);
-	        console.log(clickDate);
+	        /* console.log(clickDate); */
 	        document.getElementById("contextMenu").style.display = 'block';
 	        $.ajax({
 	        	url : "selectMyInfoDate.doa", //날짜에 대한 기본정보를 가져옴
@@ -235,23 +239,19 @@
 	        		}
 	        	}
 	        });
-	        
-	        for(var i = 0 ; i < jevents.length; i++){
-	        	if(jevents[i].start == clickDate) {
-	        		console.log(jevents[i]);
-	        		$('.none').css("display","block");
-	        		$('.original').css("display","none");
-	        		//$("#detail").attr("href", "myDiaryDetail.doa");
-	        		/* $('#detail').prop('href', 'myDiaryDetail.doa'); */
-	        		opendiaryNo = jevents[i]._id;
-	        		console.log(opendiaryNo);
-	        		
-	        	} if(jevents[i].start != clickDate) {
-	        		$('.none').css("display","none");
-	        		$('.original').css("display","block");
-	        	}
+	       
+	        $('.none').css("display","none");
+        	$('.original').css("display","block");
+	         for(var i = 0 ; i < jevents.length; i++){
+	        	if( jevents[i]._id != null && jevents[i].start == clickDate) {
+		        	$('.none').css("display","block");
+		        	$('.original').css("display","none");
+		        	opendiaryNo = jevents[i]._id;
+		         } 
 	        }
+	        
 	    },
+	  
      locale : 'ko'
     });
   //날짜 클릭시 카테고리 선택메뉴
@@ -272,25 +272,7 @@
       $contextMenu.removeClass("contextOpened");
       $contextMenu.hide();
     });
-  //날짜 클릭시 카테고리 선택메뉴
-    /* var $contextMenu_detail = $("#contextMenu_detail");
-     
-     /* console.log(opendiaryNo); */
-    /* $contextMenu_detail.on("click", "a", function (e) {
-      e.preventDefault();
-
-         if ($(this).data().role !== 'close' ) {
-            updateEvent(opendiaryNo, $(this).html());
-         } 
-           $contextMenu_detail.removeClass("contextOpened");
-           $contextMenu_detail.hide();
-    });
-
-    $('body').on('click', function () {
-      $contextMenu_detail.removeClass("contextOpened");
-      $contextMenu_detail.hide();
-    });
-    */
+  
     calendar.render();
     
   }); 
@@ -301,14 +283,9 @@
   
   function insertEvent(htmls) {
      if(htmls =='일기작성'){
-        location.href="diaryView.doa?date="+today;
+        location.href="diaryView.doa?date="+clickDate;
      } 
   }
-  /* function updateEvent(opendiaryNo,html) {
-     if(html == '일기작성'){
-        location.href="myDiaryDetail.doa?opendiaryNo="+opendiaryNo;
-     }
-  } */
  
   
 //기본정보입력 div띄워주기

@@ -112,13 +112,12 @@ public class CalendarController {
 		diaryresult = cService.insertDiary(opendiary); //opendiary 테이블에 form 내용 넣기
 		int folderNo = opendiary.getOpendiaryNo();
 		String menuName = opendiary.getOpenYn();
-		System.out.println("menuName"+menuName);
 		
 		HashMap<String, Object> imgupdate = new HashMap<String, Object>();
 		for(int i = 0 ; i < fileImgs.length ; i ++) {
 			if ( !fileImgs[i].getOriginalFilename().equals("")) {
 				dimg = new DiaryImg();
-				imgRenamePath = saveFileName( request, fileImgs[i], session, i);
+				imgRenamePath = saveFileName( request, fileImgs[i], session, i, folderNo);
 				if (imgMainYn == i) {
 					dimg.setUserId(userId);
 					dimg.setImgRenamePath(imgRenamePath);
@@ -132,7 +131,6 @@ public class CalendarController {
 					imgupdate.put("imgRenamePath", imgRenamePath);
 					imgupdate.put("opendiaryNo", folderNo);
 					cService.updateMyDiaryImage(imgupdate);
-					System.out.println("dimg:"+dimg);
 				} else {
 					dimg.setUserId(userId);
 					dimg.setImgRenamePath(imgRenamePath);
@@ -143,11 +141,9 @@ public class CalendarController {
 						}else {
 							dimg.setMenuName("마이일기");
 						}
-					System.out.println("dimg:"+dimg);
 				}
 				//이미지 객체?리스트에 넣어준다.
 				dimgs.add(dimg);
-//				System.out.println(dimgs);
 			}
 		}
 		for(int i = 0; i < dimgs.size(); i++) {
@@ -174,22 +170,19 @@ public class CalendarController {
 	}
 	//파일 저장하기
 	public String saveFileName(HttpServletRequest request, @RequestParam(name="fileImg", required= false) MultipartFile fileImg, 
-			HttpSession session, int i){
+			HttpSession session, int i, int folderNo){
 		//파일 저장 saveFile 
 		Member loginUser = (Member) session.getAttribute("loginUser");
 		String userId = loginUser.getUserId();
-//		int opendiaryNo = opendiary.getOpendiaryNo();
 		
 		//폴더 경로 생성 
 		String root = request.getSession().getServletContext().getRealPath("resources");
-		String savePath = root + "//diaryUploadFiles//"+userId ;
+		String savePath = root + "//opendiaryUploadFiles//"+userId +"//"+folderNo;
 		
 		File folder = new File(savePath); //폴더 만들기
 		if( ! folder.exists()) {
 			folder.mkdirs();
-			System.out.println("폴더가 생성되었습니다");
 		}
-		System.out.println("이미 있는 폴더"+savePath);
 		
 		//이미지 파일 명 생성 yyyymmddhhmmss_0.jpg
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
@@ -198,10 +191,8 @@ public class CalendarController {
 				+ imgOriginName.substring(imgOriginName.lastIndexOf(".")+1);
 		
 		String filePath = folder+ "//" + imgRename ;
-//		System.out.println("saveFileName에서의 folderNo : "+ folderNo + "filePath : "+filePath);
 		try {
 			fileImg.transferTo(new File(filePath)); //try ~ catch 해줘야 함
-			System.out.println("파일만들어따"+filePath);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -249,7 +240,7 @@ public class CalendarController {
 		}
 		return mv;
 	}
-	//공유일기 수정하기
+	//마이일기 수정하기
 	@RequestMapping(value="myDiaryModify.doa",method=RequestMethod.POST)
 	public ModelAndView mydiaryModify(ModelAndView mv, @ModelAttribute Opendiary opendiary, 
 			@RequestParam(name="imgMainYn", required=false) Integer imgMainYn,
@@ -266,7 +257,7 @@ public class CalendarController {
 		int diaryresult = 0; // opendiary 테이블에 넣은거 성공? 
 		int pictureresult = 0; // diary_img 테이블에 넣은거 성공?
 		diaryresult = cService.modifyDiary(opendiary);
-		System.out.println("숴정콘트롤러 : "+diaryresult);
+//		System.out.println("숴정콘트롤러 : "+diaryresult);
 		String menuName = opendiary.getOpenYn();
 		System.out.println("menuName"+menuName);
 		
@@ -276,7 +267,7 @@ public class CalendarController {
 			for(int i = 0 ; i < reloadFile.length ; i ++) {
 				if ( !reloadFile[i].getOriginalFilename().equals("")) {
 					dimg = new DiaryImg();
-					imgRenamePath = saveFileName( request, reloadFile[i], session, i);
+					imgRenamePath = saveFileName( request, reloadFile[i], session, i, folderNo);
 					if(imgMainYn != null) {
 						if (imgMainYn == i) {
 							dimg.setUserId(userId);
@@ -330,7 +321,7 @@ public class CalendarController {
 		return mv;
 	}
 	
-	//공유일기 수정할 때 파일 삭제 : DB데이터 삭제 -> DB 데이터 삭제 성공 시 저장된 img 파일 삭제 -> success 반
+	//마이일기 수정할 때 파일 삭제 : DB데이터 삭제 -> DB 데이터 삭제 성공 시 저장된 img 파일 삭제 -> success 반
 		@ResponseBody
 		@RequestMapping(value="deleteDiaryFile.doa", method=RequestMethod.GET)
 		public String deleteFile(@RequestParam("opendiaryNo") int opendiaryNo, 
@@ -361,7 +352,7 @@ public class CalendarController {
 			int folderNo = opendiaryNo;
 			//폴더 경로 생성 
 			String root = request.getSession().getServletContext().getRealPath("resources");
-			String savePath = root + "//diaryUploadFiles//"+userId ;
+			String savePath = root + "//opendiaryUploadFiles//"+userId +"//"+folderNo;
 			File file = new File(savePath +"//"+ imgRenamePath); //폴더 만들기
 			if( file.exists()) {
 				file.delete();
@@ -404,8 +395,8 @@ public class CalendarController {
 		if(!dimgs.isEmpty()) {
 			deleteAllFile(opendiaryNo, request, model);
 		}
-		int diaryresult = cService.deleteDiary(opendiaryNo);
 		int fileresult = cService.deleteAllFile(opendiaryNo);
+		int diaryresult = cService.deleteDiary(opendiaryNo);
 		if(diaryresult > 0 || fileresult >0) {
 			return "redirect:calendarView.doa";
 		} else {
@@ -422,7 +413,7 @@ public class CalendarController {
 		int folderNo = opendiaryNo;
 		//폴더 경로 생성 
 		String root = request.getSession().getServletContext().getRealPath("resources");
-		String savePath = root + "//diaryUploadFiles//"+userId +"//"+folderNo;
+		String savePath = root + "//opendiaryUploadFiles//"+userId +"//"+folderNo;
 		File file = new File(savePath); //폴더 만들기
 		if( file.exists()) {
 			//폴더 하위에 파일이 존재할 경우 지워지지 않는다. 하위파일 지우는 코드 필요! 

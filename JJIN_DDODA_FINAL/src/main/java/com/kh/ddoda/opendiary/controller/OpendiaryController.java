@@ -104,12 +104,8 @@ public class OpendiaryController {
 		int diaryresult = 0; // opendiary 테이블에 넣은거 성공? 
 		int pictureresult = 0; // diary_img 테이블에 넣은거 성공?
 		int imgresult = 0; //opendiary imgRenamePath 업테이트 성공?
-//		System.out.println("컨트롤러 opendiarymainFile : "+ opendiary.getMainImagePath());
 		diaryresult = odService.insertOpend(opendiary); //opendiary 테이블에 form 내용 넣기
 		int folderNo  = opendiary.getOpendiaryNo();
-//		System.out.println("컨트롤러 : "+ folderNo);
-//		System.out.println("imgMainYn : " + imgMainYn);
-//		System.out.println("insert.doa에서의 folderNo : "+ folderNo);
 		HashMap<String, Object> imgupdate = new HashMap<String, Object>();
 		
 		for(int i = 0 ; i < fileImgs.length ; i ++) {
@@ -134,7 +130,6 @@ public class OpendiaryController {
 				}
 				//이미지 객체?리스트에 넣어준다.
 				dimgs.add(dimg);
-//				System.out.println(dimgs);
 			}
 		}
 		
@@ -144,7 +139,6 @@ public class OpendiaryController {
 			parameters.put("imgPath", dimgs.get(i).getImgPath());
 			parameters.put("imgRenamePath", dimgs.get(i).getImgRenamePath());
 			parameters.put("menuName", dimgs.get(i).getMenuName());
-//			System.out.println(parameters);
 			pictureresult = odService.insertfileImg(parameters); //diary_img 테이블에 img 넣기
 		}
 		if(diaryresult > 0 || pictureresult > 0) {
@@ -160,12 +154,10 @@ public class OpendiaryController {
 		//파일 저장 saveFile 
 		Member loginUser = (Member) session.getAttribute("loginUser");
 		String userId = loginUser.getUserId();
-//		int opendiaryNo = opendiary.getOpendiaryNo();
 		
 		//폴더 경로 생성 
 		String root = request.getSession().getServletContext().getRealPath("resources");
 		String savePath = root + "//opendiaryUploadFiles//"+userId +"//"+folderNo;
-		System.out.println("saveFileName에서의 savePath : "+ savePath);
 		File folder = new File(savePath); //폴더 만들기
 		if( ! folder.exists()) {
 			folder.mkdirs();

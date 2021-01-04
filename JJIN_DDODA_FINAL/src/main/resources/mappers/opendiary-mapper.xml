@@ -160,7 +160,7 @@
 	<!-- 마이 일기 작성 -->
 	<insert id="insertMyDiary"  parameterType="Opendiary">
 		INSERT INTO OPENDIARY VALUES(SEQ_OPENDIARY.NEXTVAL,
-		#{opendiaryTitle}, #{opendiaryContents}, SYSDATE, 
+		#{opendiaryTitle}, #{opendiaryContents}, #{opendiaryDate}, 
 		SYSDATE, DEFAULT, '마이일기', #{userId}, #{mainImagePath}, #{openYn})
 		<selectKey keyProperty="opendiaryNo" resultType="int" order="AFTER">
 			SELECT SEQ_OPENDIARY.CURRVAL FROM DUAL
@@ -186,7 +186,7 @@
 	<!-- 마이 일기 업데이트 -->
 	<update id="modifyMyDiary">
 		UPDATE OPENDIARY SET OPENDIARY_TITLE = #{opendiaryTitle}, OPENDIARY_CONTENTS = #{opendiaryContents},
-		OPENDIARY_MODIFY_DATE = SYSDATE WHERE OPENDIARY_NO = #{opendiaryNo}
+		OPENDIARY_MODIFY_DATE = SYSDATE, OPENYN = #{openYn}  WHERE OPENDIARY_NO = #{opendiaryNo}
 	</update>
 	<!-- 마이일기 삭제 -->
 	<delete id="deleteMyDiary">

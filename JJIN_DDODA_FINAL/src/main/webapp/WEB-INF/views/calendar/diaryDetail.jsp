@@ -282,7 +282,7 @@ opacity: 0;
 			</c:url>
 			<c:if test="${ loginUser.userId eq opendiary.userId }">
 				<button type="button" class="btn btn-primary" onclick="location.href='${myDiaryModify}'">수정하기</button>
-				<button type="button" class="btn btn-primary" onclick="askquestion()">삭제하기</button>
+				<button type="button" class="btn btn-primary" onclick="location.href='${myDiaryDelete}'">삭제하기</button>
 			</c:if>
 			<button type="button" class="btn btn-primary" onclick="location.href='${calendarView}'">달력화면</button>
 		</div>
@@ -293,13 +293,20 @@ opacity: 0;
 				<tr >
 				<td style="width:300px;height:310px;"rowspan="4">
 					<div class="containers">
+						<c:if test="${ !empty diaryImg }">
 							<c:forEach items="${diaryImg }" var="diaryImg" varStatus="status">
-								<div class="mySlides">
-									<img src="/resources/diaryUploadFiles/${diaryImg.userId }/${diaryImg.imgRenamePath}" style="width:100%;height:100%;">
-								</div>
+									<div class="mySlides">
+										<img src="/resources/opendiaryUploadFiles/${diaryImg.userId }/${diaryImg.opendiaryNo}/${diaryImg.imgRenamePath}" style="width:100%;height:100%;">
+									</div>
 							</c:forEach>
-							<a class="prevv" onclick="plusSlides(-1)"> &#10094;</a>
-							<a class="nextt" onclick="plusSlides(1)"> &#10095;</a>
+						</c:if>
+						<c:if test="${ empty diaryImg }">
+							<div class="noimg" style="padding-top : 29%;font-weight:bolder;font-size:1.3em;">
+							이미지가 없습니다.
+							</div>
+						</c:if>
+						<a class="prevv" onclick="plusSlides(-1)"> &#10094;</a>
+						<a class="nextt" onclick="plusSlides(1)"> &#10095;</a>
 					</div>
 				</td>
 				</tr>
