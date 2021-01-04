@@ -226,7 +226,7 @@ textarea {
 
 	<!-- content -->	
 	
-	<div class="content" style="height:1000px;">
+	<div class="content" style="height:1300px;">
 		<jsp:include page="../common/facilityMenubar.jsp"></jsp:include>
 		<div class="main">
 			<div class="main-name" style="height: 80px; width: 1200px;">
