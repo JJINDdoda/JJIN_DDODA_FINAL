@@ -468,21 +468,27 @@ opacity: 0;
 									$tr.append($userId);
 									$tr.append($mateComDate);
 									$tr.append($mateComContents);
-								} else if(sessionId != "" && sessionId == opendComId) {
-									$btn = $("<td class='btndelete' style='border-top:none;width:6%;'>").append("<button type='button' onclick='openComReplyDelete("+ data.opendiaryComList[i].openComNo +")'>삭제</button>");
-									$tr.append($userId);
-									$tr.append($mateComDate);
-									$tr.append($mateComContents);
-									$tr.append($btn);
-									
-									if(sessionId != ""){
+								} else { 
+									if(sessionId == opendComId) {
+										console.log("로그인했는대?? ");
+										$btn = $("<td class='btndelete' style='border-top:none;width:6%;'>").append("<button type='button' onclick='openComReplyDelete("+ data.opendiaryComList[i].openComNo +")'>삭제</button>");
 										$modifyCom = $("<td class='addReply' style='border-top:none;width:6%;'>")
 										.append("<button type='button' id='mateComReply' onclick='openComReplyView(this," +data.opendiaryComList[i].openComNo+ ")'>답글</button>");
-										
+										$tr.append($userId);
+										$tr.append($mateComDate);
+										$tr.append($mateComContents);
+										$tr.append($btn);
 										$tr.append($modifyCom);
-										
-									} 
-								}  
+									}else {
+										console.log("로그인했는대??아이디의 댓글이 없 ");
+										$modifyCom = $("<td class='addReply' style='border-top:none;width:6%;'>")
+										.append("<button type='button' id='mateComReply' onclick='openComReplyView(this," +data.opendiaryComList[i].openComNo+ ")'>답글</button>");
+										$tr.append($userId);
+										$tr.append($mateComDate);
+										$tr.append($mateComContents);
+										$tr.append($modifyCom);
+									}				
+								}
 								$tableBody.append($tr);
 							
 							//대댓글리스

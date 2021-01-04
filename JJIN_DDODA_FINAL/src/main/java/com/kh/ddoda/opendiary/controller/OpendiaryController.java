@@ -433,6 +433,7 @@ public class OpendiaryController {
 		
 		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 		gson.toJson(map, response.getWriter());
+		System.out.println("댓글 리스트 : "+ opendiaryComList);
 		System.out.println("오픈다이어리 댓글 리스트" +pi +","+currentPage);
 	}
 	

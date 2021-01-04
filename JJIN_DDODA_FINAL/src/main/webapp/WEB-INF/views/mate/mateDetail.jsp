@@ -483,6 +483,7 @@ textarea {
 		               e.preventDefault();
 		               askFinish(data);
 		        });
+				
 			}
 			
 		});
@@ -512,6 +513,12 @@ textarea {
 			alert("최소정원 이상의 참여자가 필요합니다.");
 		}
 	}
+	//--------메이트 게시판 채팅장 오픈하기
+	/* $("#openChat").on("click", function(e) {
+		$.ajax({
+			
+		})
+	} */
 	
 	//--------댓글등록
 	$(function() {
@@ -584,21 +591,27 @@ textarea {
 							$tr.append($userId);
 							$tr.append($mateComDate);
 							$tr.append($mateComContents);
-						} else if(sessionId != "" && sessionId == mateComId) {
-							$btn = $("<td class='btndelete'>").append("<button type='button' style='width:40px;' onclick='mateComDelete("+ data.mateComList[i].mateComNo +")'>삭제</button>");
-							$tr.append($userId);
-							$tr.append($mateComDate);
-							$tr.append($mateComContents);
-							$tr.append($btn);
-							
-							if(sessionId != ""){
+						} else {
+							if(sessionId == mateComId){
+								console.log("삭제할수있");	
 								$modifyCom = $("<td class='addReply'>")
 								.append("<button type='button' id='mateComReply' style='width:40px;' onclick='mateComReplyView(this," +data.mateComList[i].mateComNo+ ")'>답글</button>");
-								
+								$btn = $("<td class='btndelete'>").append("<button type='button' style='width:40px;' onclick='mateComDelete("+ data.mateComList[i].mateComNo +")'>삭제</button>");
+								$tr.append($userId);
+								$tr.append($mateComDate);
+								$tr.append($mateComContents);
+								$tr.append($btn);
 								$tr.append($modifyCom);
-								
-							} 
-						}  
+							}else {
+								console.log("삭제할수 없 ");
+								$modifyCom = $("<td class='addReply'>")
+								.append("<button type='button' id='mateComReply' style='width:40px;' onclick='mateComReplyView(this," +data.mateComList[i].mateComNo+ ")'>답글</button>");
+								$tr.append($userId);
+								$tr.append($mateComDate);
+								$tr.append($mateComContents);
+								$tr.append($modifyCom);
+							}					
+						}
 						$tableBody.append($tr);
 						
 						$.ajax({
@@ -636,11 +649,14 @@ textarea {
 											.append("<button type='button' id='mateComReply'  style='width:40px;' onclick='mateComeReplyDelete("+element[j].mateComNo+")'>삭제</button>");
 											$trr.append($replyDelete);
 										} else {
-											$replyContents = $("<td width='100' colspan='3'>").text(decodeURIComponent(element[j].mateComContents));
+											$modifyCom = $("<td class='addReply'>")
+											.append("<button type='button' id='mateComReply' style='width:40px;' onclick='mateComReplyView(this," +data.mateComList[i].mateComNo+ ")'>답글</button>");
+											$replyContents = $("<td width='50' colspan='2'>").text(decodeURIComponent(element[j].mateComContents));
 											$replyDate = $("<td>").text(element[j].mateComDate);
 											$trr.append($replyUserId);
 											$trr.append($replyContents);
 											$trr.append($replyDate);
+											$trr.append($modifyCom);
 										}
 										$tr.after($trr);
 									}

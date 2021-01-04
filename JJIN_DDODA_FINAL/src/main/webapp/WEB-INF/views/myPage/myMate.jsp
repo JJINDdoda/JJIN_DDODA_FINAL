@@ -202,7 +202,7 @@ textarea {
 								<c:if test="${mateAttendList.mymate.mateStatus == 'N' }">
 									<button onclick="beforeOpen()">오픈 전</button>
 								</c:if>
-								<c:if test="${mateAttendList.mymate.mateStatus == 'Y' }">
+								<c:if test="${mateAttendList.mymate.mateStatus == 'Y'}">
 									<button id="mymateOut" onclick="window.open('chatInsert.doa?mateNo=${mateAttendList.mateNo}&userId=${loginUser.userId }', '채팅방 입장', 'width=430px, height=650px, location=no, status=no, scrollbars=yes');">채팅방 입장</button>
 								</c:if>
 							</td>
