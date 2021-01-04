@@ -50,7 +50,7 @@
 	
 	<select id="selectMyInfoDate" resultMap="memberInfoResultMap">
 		SELECT * FROM MEMBERINFO
-		WHERE CHANGE_DATE = #{changeDate}
+		WHERE CHANGE_DATE = #{changeDate} AND USERID = #{userId}
 	</select>
 	
 	<update id="updateChangeMyInfo">
@@ -68,9 +68,6 @@
 		WHERE FOODNAME=#{foodName}
 	</select>
 	
-	<select id="getDiary" resultMap="diaryResultMap">
-		
-	</select>
 	
 	<select id="getMyInfo" resultMap="memberInfoResultMap">
 		SELECT BMI, CHANGE_DATE FROM MEMBERINFO
@@ -112,4 +109,8 @@
 		WHERE MYDIET_NO=#{mydietNo}
 	</delete>
 	
+	<select id="memberInfoChart" resultMap="memberInfoResultMap">
+		SELECT * FROM MEMBERINFO
+		WHERE USERID=#{userId} ORDER BY MYDIET_DATE
+	</select>
 </mapper>
