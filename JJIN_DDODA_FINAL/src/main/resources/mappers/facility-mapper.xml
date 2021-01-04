@@ -43,30 +43,30 @@
 	<select id="markerList" resultMap="facilityResultMap">
 		<if test="kinds == 'health' and county != 'null' and city != 'null'">
 			SELECT * FROM EXERCISE_FACILITY
-			WHERE FACILITY_ADDR LIKE #{city} || '%' || #{county} || '%' AND FACILITY_FIELD='health' AND TERMS_YN = 'Y'
+			WHERE FACILITY_ADDR LIKE #{city} || '%' || #{county} || '%' AND FACILITY_FIELD='health'
 		</if>
 		<if test="kinds == 'yoga' and county != 'null' and city != 'null'">
 			SELECT * FROM EXERCISE_FACILITY
-			WHERE FACILITY_ADDR LIKE #{city} || '%' || #{county} || '%' AND FACILITY_FIELD='yoga' AND TERMS_YN = 'Y'
+			WHERE FACILITY_ADDR LIKE #{city} || '%' || #{county} || '%' AND FACILITY_FIELD='yoga'
 		</if>
 		<if test="kinds == 'fila' and county != 'null' and city != 'null'">
 			SELECT * FROM EXERCISE_FACILITY
-			WHERE FACILITY_ADDR LIKE #{city} || '%' || #{county} || '%' AND FACILITY_FIELD='fila' AND TERMS_YN = 'Y'
+			WHERE FACILITY_ADDR LIKE #{city} || '%' || #{county} || '%' AND FACILITY_FIELD='fila'
 		</if>
 		<if test="kinds == 'health' and county == 'null' and city != 'null'">
 			SELECT * FROM EXERCISE_FACILITY
-			WHERE FACILITY_ADDR LIKE #{city} || '%' AND FACILITY_FIELD='health' AND TERMS_YN = 'Y'
+			WHERE FACILITY_ADDR LIKE #{city} || '%' AND FACILITY_FIELD='health'
 		</if>
 		<if test="kinds == 'yoga' and county == 'null' and city != 'null'">
 			SELECT * FROM EXERCISE_FACILITY
-			WHERE FACILITY_ADDR LIKE #{city} || '%' AND FACILITY_FIELD='yoga' AND TERMS_YN = 'Y'
+			WHERE FACILITY_ADDR LIKE #{city} || '%' AND FACILITY_FIELD='yoga'
 		</if>
 		<if test="kinds == 'fila' and county == 'null' and city != 'null'">
 			SELECT * FROM EXERCISE_FACILITY
-			WHERE FACILITY_ADDR LIKE #{city} || '%' AND FACILITY_FIELD='fila' AND TERMS_YN = 'Y'
+			WHERE FACILITY_ADDR LIKE #{city} || '%' AND FACILITY_FIELD='fila'
 		</if>
 		<if test="county == 'null' and city == 'null'">
-			SELECT * FROM EXERCISE_FACILITY AND TERMS_YN = 'Y'
+			SELECT * FROM EXERCISE_FACILITY
 		</if>
 		
 	</select>
@@ -74,30 +74,30 @@
 	<select id="markerPoints" resultType="String">
 		<if test="kinds == 'health' and county != 'null' and city != 'null'">
 			SELECT LATI_LONG FROM EXERCISE_FACILITY
-			WHERE FACILITY_ADDR LIKE #{city} || '%' || #{county} || '%' AND FACILITY_FIELD='health' AND TERMS_YN = 'Y'
+			WHERE FACILITY_ADDR LIKE #{city} || '%' || #{county} || '%' AND FACILITY_FIELD='health'
 		</if>
 		<if test="kinds == 'yoga' and county != 'null' and city != 'null'">
 			SELECT LATI_LONG FROM EXERCISE_FACILITY
-			WHERE FACILITY_ADDR LIKE #{city} || '%' || #{county} || '%' AND FACILITY_FIELD='yoga' AND TERMS_YN = 'Y'
+			WHERE FACILITY_ADDR LIKE #{city} || '%' || #{county} || '%' AND FACILITY_FIELD='yoga'
 		</if>
 		<if test="kinds == 'fila' and county != 'null' and city != 'null'">
 			SELECT LATI_LONG FROM EXERCISE_FACILITY
-			WHERE FACILITY_ADDR LIKE #{city} || '%' || #{county} || '%' AND FACILITY_FIELD='fila' AND TERMS_YN = 'Y'
+			WHERE FACILITY_ADDR LIKE #{city} || '%' || #{county} || '%' AND FACILITY_FIELD='fila'
 		</if>
 		<if test="kinds == 'health' and county == 'null' and city != 'null'">
 			SELECT LATI_LONG FROM EXERCISE_FACILITY
-			WHERE FACILITY_ADDR LIKE #{city} || '%' AND FACILITY_FIELD='health' AND TERMS_YN = 'Y'
+			WHERE FACILITY_ADDR LIKE #{city} || '%' AND FACILITY_FIELD='health'
 		</if>
 		<if test="kinds == 'yoga' and county == 'null' and city != 'null'">
 			SELECT LATI_LONG FROM EXERCISE_FACILITY
-			WHERE FACILITY_ADDR LIKE #{city} || '%' AND FACILITY_FIELD='yoga' AND TERMS_YN = 'Y'
+			WHERE FACILITY_ADDR LIKE #{city} || '%' AND FACILITY_FIELD='yoga'
 		</if>
 		<if test="kinds == 'fila' and county == 'null' and city != 'null'">
 			SELECT LATI_LONG FROM EXERCISE_FACILITY
-			WHERE FACILITY_ADDR LIKE #{city} || '%' AND FACILITY_FIELD='fila' AND TERMS_YN = 'Y'
+			WHERE FACILITY_ADDR LIKE #{city} || '%' AND FACILITY_FIELD='fila'
 		</if>
 		<if test="county == 'null' and city == 'null'">
-			SELECT LATI_LONG FROM EXERCISE_FACILITY AND TERMS_YN = 'Y'
+			SELECT LATI_LONG FROM EXERCISE_FACILITY
 		</if>
 	</select>
 	
@@ -124,6 +124,12 @@
 	
 	<select id="facilityPicture" resultMap="PictureResultMap">
 		SELECT * FROM FACILITY_PICTURE WHERE FACILITY_NO = #{facilityNo}
+	</select>
+	
+	<select id="facilityPictureRename" resultType="String">
+		SELECT PICTURE_RENAME FROM
+		(SELECT PICTURE_RENAME FROM FACILITY_PICTURE WHERE FACILITY_NO = #{facilityNo} ORDER BY PICTURE_RENAME ASC)
+		WHERE ROWNUM = 1
 	</select>
 	
 	<select id="facilityList" resultMap="facilityResultMap">

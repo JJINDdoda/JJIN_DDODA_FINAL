@@ -12,6 +12,30 @@ import com.kh.ddoda.facility.domain.InstructorInfo;
 public interface FacilityService {
 	
 	/**
+	 * 시, 구 받아오기(ok)
+	 * @return
+	 */
+	//public ArrayList<MapLocation> locationList();
+	
+	/**
+	 * 구 구역 나누기
+	 * @return
+	 */
+	//public ArrayList<MapLocation> mapLocation(MapLocation mapLocation);
+	
+	/**
+	 * 시로 검색
+	 * @return
+	 */
+	//public ArrayList<ExerciseFacility> searchCity();
+	
+	/**
+	 * 구로 검색
+	 * @return
+	 */
+	//public ArrayList<ExerciseFacility> searchCounty(String areaName);
+	
+	/**
 	 * 내가 등록한 시설목록
 	 * @param userId
 	 * @return
@@ -33,6 +57,13 @@ public interface FacilityService {
 	public ArrayList<FacilityPicture> facilityPicture(int facilityNo);
 	
 	/**
+	 * 시설 내 사진 하나 가져오기
+	 * @param facilityNo
+	 * @return
+	 */
+	public String facilityPictureRename(int facilityNo);
+	
+	/**
 	 * 강사정보 가져오기
 	 * @param facilityNo
 	 * @return
@@ -46,6 +77,11 @@ public interface FacilityService {
 	 */
 	public ArrayList<FacilityPrice> facilityPriceInfo(int facilityNo);
 
+	/**
+	 * 시설 위치 전체 출력
+	 * @return
+	 */
+	//public ArrayList<String> markerListAll(HashMap<String, String> facilityInfo);
 	
 	/**
 	 * 구 단위 시설 출력(ok)
@@ -86,6 +122,13 @@ public interface FacilityService {
 	public int facilityPriceRegist(FacilityPrice facilityPrice);
 	
 	/**
+	 * 이용약관 넣기
+	 * @param termsOfUse
+	 * @return
+	 */
+	//public int facilityTerms(String termsOfUse);
+	
+	/**
 	 * 강사정보 등록하기
 	 * @return
 	 */
@@ -109,6 +152,20 @@ public interface FacilityService {
 	 * @return
 	 */
 	public int deleteFacilityPictureOne(String pictureRename);
+	
+	/**
+	 * 가격 하나 삭제
+	 * @param months
+	 * @return
+	 */
+	//public int deletePriceSubmit(HashMap<String, Integer> priceHash);
+	
+	/**
+	 * 시설가격 추가하기
+	 * @param facilitlyPrice
+	 * @return
+	 */
+	//public int updateFacilityPrice(FacilityPrice facilitlyPrice);
 	
 	/**
 	 * 가격지우기
