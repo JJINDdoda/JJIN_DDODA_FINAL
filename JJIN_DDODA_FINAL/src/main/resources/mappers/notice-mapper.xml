@@ -35,7 +35,7 @@
 				SELECT MATE_NO as sNoticeNo, MATE_TITLE as sNoticeTitle, USERID, MATE_CONTENTS as sNoticeContents, MATE_DATE as sNoticeDate, MENU_NAME as sSearchCondition FROM MATE
 				WHERE MATE_NO = #{noticeNo}
 			</when>
-			<when test="menuName == '요청사항'">
+			<when test="menuName == '요구사항'">
 				SELECT REQUIRE_NO as sNoticeNo, REQUIRE_TITLE as sNoticeTitle, USERID, REQUIRE_CONTENTS as sNoticeContents, REQUIRE_DATE as sNoticeDate, MENU_NAME as sSearchCondition FROM REQUIRE
 				WHERE REQUIRE_NO = #{noticeNo}
 			</when>
@@ -44,7 +44,7 @@
 	<insert id="insertNotice">
 		<choose>
 			<when test="sSearchCondition.toString() == 'opendiary'">
-				INSERT INTO OPENDIARY VALUES (SEQ_OPENDIARY.NEXTVAL, #{sNoticeTitle}, #{sNoticeContents}, SYSDATE, NULL, DEFAULT, DEFAULT, #{userId})
+				INSERT INTO OPENDIARY VALUES (SEQ_OPENDIARY.NEXTVAL, #{sNoticeTitle}, #{sNoticeContents}, SYSDATE, NULL, DEFAULT, DEFAULT, #{userId}, NULL, DEFAULT)
 			</when>
 			<when test="sSearchCondition.toString() == 'require'">
 				INSERT INTO REQUIRE VALUES (SEQ_REQUIRE.NEXTVAL, #{sNoticeTitle}, SYSDATE, NULL, #{sNoticeContents}, DEFAULT, NULL, NULL, DEFAULT, #{userId}, DEFAULT)

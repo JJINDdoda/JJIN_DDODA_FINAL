@@ -38,13 +38,15 @@ public class RequireController {
 		int listCount = rService.getRequireListCount();
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
 		ArrayList<Require> rList = rService.adminSelectList(pi);
+		System.out.println(rList);
 		if(!rList.isEmpty()) {
 			mv.addObject("rList", rList);
 			mv.addObject("pi", pi);
 			mv.setViewName("admin/Admin_community_Require");
 		} else {
-			mv.addObject("msg", "게시글 전체조회 실패!");
-			mv.addObject("common/errorPage");
+			mv.addObject("rList", rList);
+			mv.addObject("pi", pi);
+			mv.setViewName("admin/Admin_community_Require");
 		}
 		return mv;
 	}

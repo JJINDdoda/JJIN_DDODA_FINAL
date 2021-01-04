@@ -1,6 +1,5 @@
 package com.kh.ddoda.member.controller;
 
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
@@ -17,7 +16,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -189,7 +187,7 @@ public class MemberController {
 	      int result = service.deleteMember(userId);
 	      if (result > 0) {
 	         session.invalidate();
-	         return "home";
+	         return "../../index";
 	      } else {
 	         model.addAttribute("msg", "회원탈퇴에 실패하였습니다.");
 	         return "common/errorPage";
@@ -208,7 +206,7 @@ public class MemberController {
           if(!mList.isEmpty()) {
              mv.addObject("mList", mList).addObject("pi", pi).setViewName("admin/Admin_Member_List");
           } else {
-             mv.addObject("msg", "회원 전체조회 실패!").setViewName("common/errorPage");
+        	  mv.addObject("mList", mList).addObject("pi", pi).setViewName("admin/Admin_Member_List");
           }
           return mv;
        }

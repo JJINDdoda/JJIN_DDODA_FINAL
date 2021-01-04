@@ -48,7 +48,7 @@
                 return;
             }
             //웹소켓 객체 만드는 코드
-            ws=new WebSocket("ws://192.168.219.188:2432/echo.doa");
+            ws=new WebSocket("ws://localhost:2624/echo.doa");
             
             ws.onopen=function(event){
                 if(event.data===undefined) return;

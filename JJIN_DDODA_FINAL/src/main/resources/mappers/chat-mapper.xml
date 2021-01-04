@@ -18,6 +18,7 @@
 		<result property="menuName" column="MENU_NAME"/>
 		<result property="userId"	column="USERID"/>
 		<result property="category" column="MATE_CATEGORY"/>
+		<collection property="mymate" resultMap="myMateResultMap"/>
 	</resultMap>
 	<resultMap type="Mymate" id="myMateResultMap">
 		<result property="mateNo" column="MATE_NO"/>
@@ -32,9 +33,13 @@
 		WHERE MATE_END = 'N'
 	</select>
 	<select id="adminChatList" resultMap="mateResultMap">
-		SELECT * FROM MATE 
+		<!-- SELECT * FROM MATE 
 		WHERE MATE_END = 'Y'
-		ORDER BY MATE_DATE
+		ORDER BY MATE_DATE -->
+		SELECT * FROM MATE A LEFT OUTER JOIN MYMATE B
+		ON A.USERID = B.USERID
+		WHERE A.MATE_END = 'Y'
+		ORDER BY A.MATE_DATE
 	</select>
 	<select id="adminSelectChat" resultMap="mateResultMap">
 		SELECT * FROM MATE
@@ -50,7 +55,7 @@
 	</update>
 	<insert id="insertChat">
 		INSERT INTO CHAT
-		VALUES (#{messageinput}, #{userId}, #{mateNo}, SEQ_CHAT.NEXTVAL)
+		VALUES (#{messageinput}, #{userId}, #{mateNo})
 	</insert>
 	<select id="selectChatInsert" resultMap="myMateResultMap" parameterType="Hashmap">
 		SELECT * FROM MYMATE

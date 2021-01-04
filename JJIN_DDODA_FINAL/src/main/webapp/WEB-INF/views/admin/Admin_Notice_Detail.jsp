@@ -158,7 +158,6 @@ textarea {
 					<c:param name="menuName" value="${notice.menuName }"/>
 				</c:url>
 					<div style="text-align: right; width: 100%;">
-						<button type="button" class="btn btn-primary" onClick="location.href='${nUpdate }'">수정하기</button>
 						<button type="button" class="btn btn-primary"  onClick="location.href='${nDelete }'">삭제하기</button>
 						<a href="${noticeList }" class="btn btn-primary">목록으로</a>
 					</div>

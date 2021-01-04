@@ -35,7 +35,8 @@ public class NoticeController {
 		if(!nList.isEmpty()) {
 			mv.addObject("nList", nList).addObject("pi", pi).setViewName("admin/Admin_community_Notice");
 		} else {
-			mv.addObject("msg", "공지사항 전체조회 실패!").setViewName("common/errorPage");
+			/* mv.addObject("msg", "공지사항 전체조회 실패!").setViewName("common/errorPage"); */
+			mv.addObject("nList", nList).addObject("pi", pi).setViewName("admin/Admin_community_Notice");
 		}
 		return mv;
 	}
@@ -44,6 +45,7 @@ public class NoticeController {
 	@RequestMapping(value="noticeRequireDetail.doa", method=RequestMethod.GET)
 	public ModelAndView noticeRequireDetail(ModelAndView mv, Notice notice) {
 		SelectNotice nList = nService.selectNotice(notice);
+		System.out.println(nList);
 		if(nList != null) {
 			mv.addObject("nList", nList).setViewName("admin/Admin_Notice_Detail");
 		} else {

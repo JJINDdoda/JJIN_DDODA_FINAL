@@ -30,8 +30,7 @@ public class CalorieController {
 		if(!cList.isEmpty()) {
 			mv.addObject("cList", cList).addObject("pi", pi).setViewName("admin/Admin_Calorie_List");
 		} else {
-			mv.addObject("msg", "게시글 상세조회 실패!");
-			mv.setViewName("common/errorPage");
+			mv.addObject("cList", cList).addObject("pi", pi).setViewName("admin/Admin_Calorie_List");
 		}
 		return mv;
 	}
