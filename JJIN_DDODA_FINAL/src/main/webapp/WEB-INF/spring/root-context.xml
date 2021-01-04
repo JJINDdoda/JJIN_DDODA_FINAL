@@ -11,8 +11,8 @@
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
 		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
 		<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"/>
-		<property name="username" value="DDODA"/>
-		<property name="password" value="DDODA"/>
+		<property name="username" value="DODA"/>
+		<property name="password" value="DODA"/>
 	</bean>
 	
 	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionFactoryBean">

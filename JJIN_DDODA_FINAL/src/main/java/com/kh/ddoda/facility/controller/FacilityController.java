@@ -381,10 +381,10 @@ public class FacilityController {
 		}
 		//result = fService.instructorRegist(instructorInfo);
 		if(result > 0) {
-			return "home";
+			return "redirect:myfacilityList.doa";
 		}
 		else {
-			return "home";
+			return "redirect:myfacilityList.doa";
 		}
 		
 	}
@@ -660,10 +660,10 @@ public class FacilityController {
 			}
 		}
 		if(result > 0) {
-			return "home";
+			return "redirect:myfacilityList.doa";
 		}
 		else {
-			return "home";
+			return "redirect:myfacilityList.doa";
 		}
 		
 	}
