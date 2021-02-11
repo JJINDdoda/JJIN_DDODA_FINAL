@@ -1,4 +1,4 @@
-<img src="./WebContent/img/MainPageImg/gunduen.png" width="200">
+<img src="./resources/assets/mainlogo.jpg" width="200">
 
 # Ddoda
 #### Description 
