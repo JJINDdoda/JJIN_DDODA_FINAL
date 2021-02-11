@@ -1,6 +1,4 @@
-<img src="./resources/assets/mainlogo.jpg" width="200">
-
-# Ddoda
+# :runner: Ddoda
 #### Description 
 > 다이어트, 운동 관련 커뮤니티를 형성하고 의지를 북돋아 줄 수 있는 어플리케이션
 
