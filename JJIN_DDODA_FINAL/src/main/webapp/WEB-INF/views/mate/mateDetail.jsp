@@ -291,7 +291,7 @@ textarea {
 		</c:if>
 			<table align="center" id="mymateTb" style="width:100%;margin-left:0px;margin-right:0px;margin-bottom:15px;">
 				<thead>
-					<tr><td style="text-align:left;"><b>[ 참여자 리스트 ]</b></td></tr>
+					<tr><td style="text-align:left;"><b>[ 참여중인 유 ]</b></td></tr>
 				</thead>
 				<tbody>
 					<tr>
